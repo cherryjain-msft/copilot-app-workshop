@@ -19,19 +19,36 @@ Deck, demo guides and demo assets for a beginner-to-intermediate session on the 
 
 Start with the **[prep checklist](demos/00-prep-checklist.md)**. It covers admin policies, connectors, Jira and Figma setup, and backup branches.
 
+## Hands-on workshop
+
+`workshop/` is a customer-facing, self-paced lab in the [First Steps: Copilot Workshops](https://awesome-copilot.github.com/learning-hub/copilot-workshops/first-steps/copilot-app/) format, updated with [Virtual Universe '26](https://github.com/octodemo/virtual-universe-26) content. It has 11 lessons (about 2 hours): the Copilot app, Projects, connectors, canvases, Copilot Fusion, the Jira Sprint Workbench, Jira + Figma to PR (FORD-101), Agent Merge and Automations. It tracks progress and keeps notes in your browser, and has presenter notes and light and dark themes.
+
+Open `workshop/index.html` in a browser, or serve it:
+
+```powershell
+cd workshop
+python -m http.server 8080   # http://localhost:8080
+```
+
+The workshop uses two project customizations that load automatically in the Copilot app:
+
+- `.github/skills/jira-to-pr/`: the `/jira-to-pr <KEY>` skill (Jira + Figma → plan → tests → browser check → PR).
+- `.github/extensions/jira-sprint-workbench/`: the Jira Sprint Workbench canvases (`npm test` inside that folder runs its tests).
+
 ## What's in the repo
 
 ```text
 deck/            Slide deck (Ford-GitHub-Copilot-Whats-New.pptx) and its generator (build-deck.js)
 demos/           Step-by-step guide for each demo, with fallbacks
 qa/              Likely questions and answers
+workshop/        Hands-on workshop site (static HTML, CSS and JS)
 app/             Dealer service booking app used in the Jira + Figma demo (Node.js, no dependencies)
 demo-assets/
   jira/          FORD-101 story and a backlog CSV to import into Jira
   figma/         Mock design (PNG), design spec, and the script that draws the mock
   excel/         Synthetic warranty claims workbook, finished analysis, and generator
   automations/   Prompts and settings for four automations
-.github/         Copilot repo instructions and the PR checklist used by the automation
+.github/         Copilot repo instructions, the PR checklist, the jira-to-pr skill and the Jira Sprint Workbench extension
 ```
 
 ## Prerequisites

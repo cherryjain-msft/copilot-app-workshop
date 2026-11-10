@@ -1,0 +1,12 @@
+{
+  "name": "jira-sprint-workbench",
+  "version": "1.1.0",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "description": "Jira sprint dashboard plus a per-story workbench: analyze, plan GitHub issues, run the Copilot coding agent, check test coverage, and review the PR.",
+  "main": "extension.mjs",
+  "scripts": {
+    "test": "node --test tests/dashboard.test.mjs tests/jira-client.test.mjs tests/start-copilot.test.mjs tests/workbench.test.mjs"
+  }
+}
