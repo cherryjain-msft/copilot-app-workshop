@@ -23,7 +23,9 @@ Start with the **[prep checklist](demos/00-prep-checklist.md)**. It covers admin
 
 `workshop/` is a customer-facing, self-paced lab in the [First Steps: Copilot Workshops](https://awesome-copilot.github.com/learning-hub/copilot-workshops/first-steps/copilot-app/) format, updated with [Virtual Universe '26](https://github.com/octodemo/virtual-universe-26) content. It has 11 lessons (about 2 hours): the Copilot app, Projects, connectors, canvases, Copilot Fusion, the Jira Sprint Workbench, Jira + Figma to PR (FORD-101), Agent Merge and Automations. It tracks progress and keeps notes in your browser, and has presenter notes and light and dark themes.
 
-Open `workshop/index.html` in a browser, or serve it:
+**One story, one delivery path:** lesson 6 runs Workbench analysis and planning to create one implementation issue with the Jira + Figma context. Lesson 7 continues with cloud implementation, coverage and review on that issue's PR; allow extra time for the coding agent. Lessons 8–9 reuse that PR. The live automation is a read-only sprint digest; the standalone `jira-to-pr` automation is saved as an inactive template for a different, unstarted story, not run again on FORD-101.
+
+Open [workshop/index.html](workshop/index.html) in a browser, or serve it:
 
 ```powershell
 cd workshop
@@ -32,7 +34,7 @@ python -m http.server 8080   # http://localhost:8080
 
 The workshop uses two project customizations that load automatically in the Copilot app:
 
-- `.github/skills/jira-to-pr/`: the `/jira-to-pr <KEY>` skill (Jira + Figma → plan → tests → browser check → PR).
+- `.github/skills/jira-to-pr/`: the `/jira-to-pr <KEY>` skill, an alternative for future unstarted stories (existing-work check → Jira + Figma → approved plan → tests → preview → one PR). It stops if it finds an existing delivery.
 - `.github/extensions/jira-sprint-workbench/`: the Jira Sprint Workbench canvases (`npm test` inside that folder runs its tests).
 
 ## What's in the repo
