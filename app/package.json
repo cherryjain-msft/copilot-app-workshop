@@ -1,0 +1,14 @@
+{
+  "name": "dealer-service-booking",
+  "version": "1.0.0",
+  "description": "Sample dealer service booking app used for the GitHub Copilot demo (fictional, no external dependencies).",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

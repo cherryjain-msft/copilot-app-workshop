@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dealer Service Booking</title>
+  <style>
+    :root { --navy: #003478; --blue: #1f6feb; --ink: #0f172a; --muted: #64748b; --border: #e2e8f0; --bg: #f8fafc; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Segoe UI", system-ui, sans-serif; color: var(--ink); background: var(--bg); }
+    header { background: var(--navy); color: #fff; padding: 18px 32px; }
+    header h1 { margin: 0; font-size: 22px; font-weight: 600; }
+    header p { margin: 4px 0 0; color: #cbd5e1; font-size: 14px; }
+    main { max-width: 760px; margin: 28px auto; padding: 0 20px; }
+    .card { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 24px; box-shadow: 0 1px 3px rgba(15, 23, 42, .06); }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    label { display: block; font-size: 13px; font-weight: 600; margin: 14px 0 6px; }
+    input, select { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; font: inherit; }
+    .slots { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; margin-top: 8px; }
+    .slot { padding: 10px; border: 1px solid var(--border); border-radius: 6px; background: #fff; cursor: pointer; text-align: center; font: inherit; }
+    .slot small { display: block; color: var(--muted); font-size: 11px; }
+    .slot[aria-pressed="true"] { border-color: var(--blue); background: #eff6ff; }
+    .slot:disabled { opacity: .45; cursor: not-allowed; }
+    button.primary { margin-top: 20px; width: 100%; padding: 12px; border: 0; border-radius: 6px; background: var(--blue); color: #fff; font: inherit; font-weight: 600; cursor: pointer; }
+    button.primary:disabled { background: #94a3b8; cursor: not-allowed; }
+    #message { margin-top: 14px; font-size: 14px; }
+    .ok { color: #15803d; } .err { color: #b91c1c; }
+    .muted { color: var(--muted); font-size: 13px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Dealer Service Booking</h1>
+    <p>Book a service appointment at your local dealer (demo app · fictional data)</p>
+  </header>
+  <main>
+    <form class="card" id="booking-form" novalidate>
+      <div class="row">
+        <div>
+          <label for="customerName">Your name</label>
+          <input id="customerName" name="customerName" autocomplete="name" required />
+        </div>
+        <div>
+          <label for="vehicleType">Vehicle type</label>
+          <select id="vehicleType" name="vehicleType">
+            <option>Gas</option>
+            <option>Hybrid</option>
+            <option>EV</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label for="service">Service</label>
+          <select id="service" name="service"></select>
+        </div>
+        <div>
+          <label for="date">Date</label>
+          <input id="date" name="date" type="date" required />
+        </div>
+      </div>
+
+      <label>Available times</label>
+      <div class="slots" id="slots"><span class="muted">Pick a date to see times.</span></div>
+
+      <button class="primary" id="submit" type="submit" disabled>Book appointment</button>
+      <div id="message" role="status" aria-live="polite"></div>
+    </form>
+  </main>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    let selectedTime = null;
+
+    async function api(url, options) {
+      const res = await fetch(url, options);
+      const body = await res.json();
+      if (!res.ok) throw new Error(body.error || "Request failed");
+      return body;
+    }
+
+    async function loadServices() {
+      const services = await api(`/api/services?vehicleType=${$("vehicleType").value}`);
+      $("service").innerHTML = services
+        .map((s) => `<option value="${s.id}">${s.name} · ${s.durationMin} min</option>`)
+        .join("");
+    }
+
+    async function loadSlots() {
+      selectedTime = null;
+      updateSubmit();
+      const date = $("date").value;
+      if (!date) return;
+      const data = await api(`/api/slots?date=${date}&vehicleType=${$("vehicleType").value}`);
+      if (!data.open) {
+        $("slots").innerHTML = '<span class="muted">Closed on Sundays — please pick another day.</span>';
+        return;
+      }
+      $("slots").innerHTML = "";
+      for (const slot of data.slots) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "slot";
+        btn.disabled = !slot.available;
+        btn.setAttribute("aria-pressed", "false");
+        btn.innerHTML = `${slot.time}<small>${slot.remaining} bays left</small>`;
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".slot").forEach((b) => b.setAttribute("aria-pressed", "false"));
+          btn.setAttribute("aria-pressed", "true");
+          selectedTime = slot.time;
+          updateSubmit();
+        });
+        $("slots").appendChild(btn);
+      }
+    }
+
+    function updateSubmit() {
+      $("submit").disabled = !selectedTime;
+    }
+
+    $("vehicleType").addEventListener("change", async () => { await loadServices(); await loadSlots(); });
+    $("date").addEventListener("change", loadSlots);
+
+    $("booking-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const msg = $("message");
+      try {
+        const booking = await api("/api/bookings", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            customerName: $("customerName").value,
+            vehicleType: $("vehicleType").value,
+            service: $("service").value,
+            date: $("date").value,
+            time: selectedTime,
+          }),
+        });
+        msg.className = "ok";
+        msg.textContent = `Booked! Confirmation #${booking.id} — ${booking.date} at ${booking.time}.`;
+        await loadSlots();
+      } catch (err) {
+        msg.className = "err";
+        msg.textContent = err.message;
+      }
+    });
+
+    $("date").valueAsDate = new Date(Date.now() + 86400000);
+    loadServices().then(loadSlots);
+  </script>
+</body>
+</html>

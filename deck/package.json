@@ -1,0 +1,21 @@
+{
+  "name": "ford-copilot-deck",
+  "version": "1.0.0",
+  "description": "Generates the Ford GitHub Copilot what's-new slide deck with pptxgenjs.",
+  "private": true,
+  "main": "build-deck.js",
+  "scripts": {
+    "build": "node build-deck.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "UNLICENSED",
+  "type": "commonjs",
+  "dependencies": {
+    "pptxgenjs": "^4.0.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-icons": "^5.7.0",
+    "sharp": "^0.35.5"
+  }
+}
