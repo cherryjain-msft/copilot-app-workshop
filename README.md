@@ -1,6 +1,6 @@
-# Ford × GitHub Copilot: what's new
+# Copilot app workshop
 
-Deck, demo guides and demo assets for a beginner-to-intermediate session on the latest GitHub Copilot features.
+Reusable deck, hands-on workshop, demo guides and demo assets for a beginner-to-intermediate customer session on the latest GitHub Copilot features. The current sample customer theme is Ford.
 
 > **All data and stories in this repo are made up for the demo.** The warranty data, Jira backlog, Figma mock and booking app are not real Ford systems or data.
 
