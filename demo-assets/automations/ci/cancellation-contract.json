@@ -4,6 +4,6 @@
     "responseFields": ["cancelDeadline", "canCancel", "cancellationReason"]
   },
   "portal": {
-    "requiredFields": ["cancelDeadline", "canCancel", "cancellationReason"]
+    "requiredFields": ["cancelableUntil", "canCancel", "cancellationReason"]
   }
 }
