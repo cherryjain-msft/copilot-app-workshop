@@ -218,7 +218,9 @@ a:hover { text-decoration: underline; }
 .content {
   padding: 40px clamp(20px, 5vw, 64px) 80px;
   max-width: 980px;
+  min-width: 0;
   width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .lesson[hidden] { display: none; }
@@ -297,6 +299,16 @@ th { background: var(--bg-soft); font-weight: 600; }
   font-size: 16px;
 }
 .objectives ul { margin: 0; }
+
+details {
+  margin: 16px 0;
+  padding: 10px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elev);
+}
+summary { cursor: pointer; font-weight: 600; }
+details[open] > summary { margin-bottom: 8px; }
 
 /* Prompt / code blocks */
 .prompt {
@@ -381,7 +393,7 @@ th { background: var(--bg-soft); font-weight: 600; }
 }
 [data-theme="dark"] .presenter { border-color: var(--accent-strong); }
 .presenter::before {
-  content: "🎤 Presenter notes";
+  content: "💡 Learning tips";
   display: block;
   font-weight: 700;
   font-size: 13px;
@@ -670,7 +682,7 @@ body.show-presenter .presenter { display: block; }
 }
 
 @media (max-width: 820px) {
-  .layout { grid-template-columns: 1fr; }
+  .layout { grid-template-columns: minmax(0, 1fr); }
   .menu-toggle { display: inline-flex; }
   .route {
     position: fixed;
@@ -689,6 +701,8 @@ body.show-presenter .presenter { display: block; }
 }
 
 @media (max-width: 520px) {
+  .site-header { gap: 6px; padding: 0 8px; }
+  .progress-pill { font-size: 12px; padding: 4px 6px; }
   .header-label { display: none; }
 }
 
@@ -696,6 +710,9 @@ body.show-presenter .presenter { display: block; }
   .site-header, .route, .lesson-actions, .copy-btn, .notes { display: none !important; }
   .layout { display: block; }
   .lesson[hidden] { display: block !important; page-break-before: always; }
+  .tabpanel[hidden] { display: block !important; }
+  .tablist { display: none; }
+  .prompt pre { white-space: pre-wrap; overflow-wrap: anywhere; }
   .presenter { display: block; }
 }
 

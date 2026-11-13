@@ -1,6 +1,6 @@
 # Figma frame spec · "Booking – EV charging bay"
 
-This is the design for Jira story **FORD-101**. Copilot reads it through the **Figma connector** during the demo.
+This is the design for Jira story **FORD-101** (use the actual imported Jira key). Read the live frame through the **Figma connector** when available; otherwise use this specification and the committed PNG as the explicitly labeled design fallback.
 
 ![Mock of the Booking – EV charging bay frame](booking-ev-slot.png)
 
@@ -65,9 +65,6 @@ Font: Segoe UI (Figma fallback: Inter).
 
 Sample data shown in the mock (chargers left per hour, 08:00–16:00): `2, 1, 2, 0, 2, 1, 2, 0, 2`. Bays left: `4, 3, 4, 2, 4, 4, 3, 1, 4`.
 
-## Regenerate the PNG
+## Maintained design asset
 
-```powershell
-cd deck; npm install; cd ..
-node demo-assets/figma/render-mock.js
-```
+The committed PNG is the ready-to-use demo mock; no generator or deck dependencies are required. If the design changes, update this specification and export a replacement PNG from the Figma frame. The sample date and confirmation number are illustrative; use a future non-Sunday date in the live demo.

@@ -23,5 +23,5 @@ This repo supports a GitHub Copilot demo session for Ford. The code target is `a
 
 ## Out of scope
 
-- Don't touch `deck/` or `demo-assets/` when you implement app stories.
+- Don't touch `workshop/` or `demo-assets/` when you implement app stories.
 - Don't add databases, frameworks or authentication. This is a demo app.

@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Learning guide browser checks</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="content">
+    <h1>Learning guide browser checks</h1>
+    <p>Serve the repository over localhost, then run these dependency-free checks. They use a temporary iframe and restore every storage key they touch. Do not edit lesson notes in another tab during the run.</p>
+    <button class="btn btn-primary" id="run" type="button">Run checks</button>
+    <p id="status" role="status">Not run.</p>
+    <ol id="results"></ol>
+    <a href="index.html">Back to the learning guide</a>
+  </main>
+  <script>
+    'use strict';
+    const run = document.getElementById('run');
+    const status = document.getElementById('status');
+    const results = document.getElementById('results');
+
+    run.addEventListener('click', async () => {
+      run.disabled = true;
+      results.replaceChildren();
+      status.textContent = 'Running…';
+      const ids = ['projects', 'automations', 'workbench', 'parallelism', 'fusion', 'agent-merge', 'stacked-prs'];
+      const key = name => `ford-copilot-workshop:${name}`;
+      const keys = ['done', 'done:playbook', 'notes:lesson-2', ...ids.map(id => `notes:${id}`)].map(key);
+      const backup = new Map();
+      const frame = document.createElement('iframe');
+      frame.title = 'Isolated learning guide under test';
+      frame.style.cssText = 'position:fixed;left:-10000px;top:0;width:1280px;height:900px;border:0';
+      const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+      const check = (condition, name) => {
+        if (!condition) throw new Error(name);
+        const row = document.createElement('li');
+        row.textContent = `PASS: ${name}`;
+        results.append(row);
+      };
+      const load = () => new Promise((resolve, reject) => {
+        const timer = setTimeout(() => reject(new Error('Learning guide load timed out')), 5000);
+        frame.onload = () => { clearTimeout(timer); resolve(); };
+        frame.onerror = () => { clearTimeout(timer); reject(new Error('Learning guide could not load')); };
+        frame.src = `index.html?verify=${Date.now()}#fusion`;
+      });
+
+      try {
+        for (const name of keys) backup.set(name, localStorage.getItem(name));
+        localStorage.setItem(key('done'), JSON.stringify(['lesson-2']));
+        localStorage.removeItem(key('done:playbook'));
+        localStorage.setItem(key('notes:lesson-2'), JSON.stringify('Legacy notes preserved'));
+        document.body.append(frame);
+        await load();
+        let doc = frame.contentDocument;
+        check(doc.querySelector('#progress-text').textContent === '0 / 7 complete', 'Old lesson progress does not complete new topics');
+        check(!doc.querySelector('#fusion').hidden && doc.querySelector('#projects').hidden, 'Direct links show the correct section');
+        const note = doc.querySelector('#notes-fusion');
+        note.value = 'Measured comparison exercise';
+        note.dispatchEvent(new frame.contentWindow.Event('input', { bubbles: true }));
+        await wait(500);
+        doc.querySelector('#fusion .complete-btn').click();
+        check(JSON.parse(localStorage.getItem(key('done:playbook'))).includes('fusion'), 'New completion uses its own key');
+        await load();
+        doc = frame.contentDocument;
+        check(doc.querySelector('#notes-fusion').value === 'Measured comparison exercise', 'Topic notes survive reload');
+        check(doc.querySelector('#fusion .complete-btn').getAttribute('aria-pressed') === 'true', 'Completion survives reload');
+        frame.contentWindow.location.hash = 'parallelism';
+        await wait(40);
+        const tabs = doc.querySelectorAll('[role=tab]');
+        tabs[0].dispatchEvent(new frame.contentWindow.KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+        check(tabs[1].getAttribute('aria-selected') === 'true' && !doc.getElementById(tabs[1].getAttribute('aria-controls')).hidden, 'Keyboard selects the second parallel-task prompt');
+        check(frame.contentWindow.location.hash === '#parallelism', 'Tab arrows do not navigate away');
+        let copied = '';
+        Object.defineProperty(frame.contentWindow.navigator, 'clipboard', {
+          configurable: true, value: { writeText: async text => { copied = text; } }
+        });
+        const block = doc.querySelectorAll('#parallelism .tabpanel .prompt')[1];
+        block.querySelector('.copy-btn').click();
+        await wait(30);
+        check(copied === block.querySelector('pre').textContent.trim(), 'Copy sends the exact prompt without changing the system clipboard');
+        frame.contentWindow.confirm = () => true;
+        doc.querySelector('#reset-lab').click();
+        check(localStorage.getItem(key('done')) === JSON.stringify(['lesson-2']) && localStorage.getItem(key('notes:lesson-2')) === JSON.stringify('Legacy notes preserved'), 'Reset preserves old notes and progress');
+        check(!localStorage.getItem(key('done:playbook')) && !localStorage.getItem(key('notes:fusion')), 'Reset clears current-edition progress and notes');
+        check(!doc.querySelector('#preflight, a[href="#preflight"]'), 'Removed presenter checklist is absent from the guide and navigation');
+        frame.contentWindow.location.hash = 'stacked-prs';
+        await wait(40);
+        doc.querySelector('#stacked-prs .lesson-actions .btn-primary').click();
+        await wait(40);
+        check(!doc.querySelector('#overview').hidden, 'The final lesson returns directly to the learning path');
+        for (const width of [1280, 375]) {
+          frame.style.width = `${width}px`;
+          await wait(50);
+          for (const id of ['overview', ...ids]) {
+            frame.contentWindow.location.hash = id;
+            await wait(30);
+            check(doc.documentElement.scrollWidth <= frame.contentWindow.innerWidth + 1, `No page overflow at ${width}px: ${id}`);
+          }
+        }
+        const printRules = [...doc.styleSheets].flatMap(sheet => [...sheet.cssRules])
+          .filter(rule => rule.conditionText === 'print')
+          .map(rule => [...rule.cssRules].map(item => item.cssText).join('\n')).join('\n');
+        const style = doc.createElement('style');
+        style.textContent = printRules;
+        doc.head.append(style);
+        check([...doc.querySelectorAll('.lesson, .tabpanel')].every(el => frame.contentWindow.getComputedStyle(el).display !== 'none'), 'Print shows every section and both parallel prompts');
+        status.textContent = `${results.children.length} checks passed.`;
+      } catch (error) {
+        status.textContent = `FAILED: ${error.message}`;
+        console.error(error);
+      } finally {
+        for (const [name, value] of backup) {
+          if (value === null) localStorage.removeItem(name);
+          else localStorage.setItem(name, value);
+        }
+        frame.remove();
+        run.disabled = false;
+        window.scrollTo(0, 0);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -39,6 +39,6 @@ Use a local repository session with GitHub access and the Atlassian connector si
 - Never merge, approve or close a pull request, and never move the story to **Done**. A person reviews and merges.
 - If the story or design is unclear, ask the reviewer, or comment your questions on the Jira story. Don't guess.
 - Put the Jira key in the PR title, for example `FORD-101: Reserve an EV charging bay`.
-- Don't change `deck/` or `demo-assets/`.
+- Don't change `workshop/` or `demo-assets/`.
 - Never put secrets, tokens or internal URLs in code, commits, PRs or Jira comments.
 - Do not automatically retry after an uncertain issue, assignment, PR or comment write. Read the live state first and report ambiguity instead of duplicating the action.

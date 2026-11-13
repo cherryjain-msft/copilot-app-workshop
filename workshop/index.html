@@ -3,1101 +3,451 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Copilot app workshop · Ford</title>
-  <meta name="description" content="Hands-on workshop: take a Jira story and a Figma design to a reviewed pull request with the GitHub Copilot app, connectors, Copilot Fusion, Projects and Automations.">
+  <title>GitHub Copilot App learning guide</title>
+  <meta name="description" content="Self-guided lessons on Projects, Automations, Jira Workbench, parallel worktrees and Copilot Fusion, with optional exercises for Agent Merge and stacked pull requests.">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
-
   <header class="site-header">
     <button id="menu-toggle" class="btn btn-icon menu-toggle" type="button" aria-expanded="false" aria-controls="route" aria-label="Show lessons">☰</button>
-    <a class="brand" href="#overview">
-      <img src="assets/favicon.svg" alt="">
-      <span>Copilot app workshop <small>· Ford</small></span>
-    </a>
+    <a class="brand" href="#overview"><img src="assets/favicon.svg" alt=""><span>Copilot App <small>Learning guide</small></span></a>
     <div class="header-spacer"></div>
     <div class="progress-pill" title="Lessons you've marked complete">
       <div class="progress-bar" aria-hidden="true"><span id="progress-fill"></span></div>
-      <span id="progress-text" aria-live="polite">0 / 11 complete</span>
+      <span id="progress-text" aria-live="polite">0 / 7 complete</span>
     </div>
-    <button id="presenter-toggle" class="btn" type="button" aria-pressed="false" title="Show or hide presenter talking points">🎤 <span class="header-label">Presenter notes</span></button>
+    <button id="presenter-toggle" class="btn" type="button" aria-pressed="false" aria-label="Show or hide learning tips">💡 <span class="header-label">Learning tips</span></button>
     <button id="theme-toggle" class="btn btn-icon" type="button" aria-label="Switch theme">🌙</button>
   </header>
-
   <div class="layout">
-    <nav id="route" class="route" aria-label="Workshop lessons">
-      <h2>Your route</h2>
+    <nav id="route" class="route" aria-label="Learning path">
+      <h2>Lessons</h2>
       <ol id="route-list"></ol>
-      <div class="route-footer">
-        <button id="reset-lab" class="btn" type="button">↺ Reset this lab</button>
-      </div>
+      <div class="route-footer"><button id="reset-lab" class="btn" type="button">↺ Reset progress</button></div>
     </nav>
-
     <main id="main" class="content">
-
-      <!-- ============ OVERVIEW ============ -->
-      <section class="lesson" id="overview" data-title="Overview">
-        <div class="hero">
-          <div>
-            <span class="eyebrow">Hands-on workshop · about 2 hours + agent time</span>
-            <h1>From Jira story to reviewed pull request with the <span class="grad">GitHub Copilot app</span></h1>
-            <p class="lead">Use one desktop app to read a Jira story and a Figma design, steer the plan with Copilot Fusion, deliver it through your Jira Sprint Workbench, and keep it moving with Projects and Automations.</p>
-            <div class="hero-actions">
-              <a class="btn btn-primary btn-lg" href="#lesson-0">Start the lab →</a>
-              <a class="btn btn-lg" href="#lessons">See the lessons</a>
-            </div>
-          </div>
-
-          <div class="app-mock" role="img" aria-label="Illustration of the Copilot app with the Ford Dealer Service Booking project and the Jira Sprint Workbench canvas showing story FORD-101 at the implement stage">
-            <div class="titlebar"><i class="dot"></i><i class="dot"></i><i class="dot"></i><span>GitHub Copilot</span></div>
-            <div class="body">
-              <div class="side">
-                <div class="grp">Projects</div>
-                <div class="item active">Ford Dealer Service Booking</div>
-                <div class="grp">Sessions</div>
-                <div class="item"><span class="badge busy"></span>FORD-101 EV charging</div>
-                <div class="item"><span class="badge input"></span>Fusion comparison</div>
-                <div class="item"><span class="badge"></span>Explain the repo</div>
-                <div class="grp">Automations</div>
-                <div class="item">PR standards check</div>
-                <div class="item">Sprint digest</div>
-              </div>
-              <div class="canvas">
-                <div class="canvas-title"><span>Jira Sprint Workbench</span><span class="pill blue">FORD sprint</span></div>
-                <div class="stats">
-                  <div class="stat"><b>8</b><small>Total scope</small></div>
-                  <div class="stat"><b>1</b><small>Done</small></div>
-                  <div class="stat"><b>2</b><small>In progress</small></div>
-                  <div class="stat"><b>1</b><small>Needs attention</small></div>
-                </div>
-                <div class="card">
-                  <div><span class="k">FORD-101</span> · <span class="pill amber">In Progress</span></div>
-                  <div class="t">Reserve an EV charging bay during service</div>
-                  <div class="stages">
-                    <div class="stage done"><i>✓</i>Analyze with codebase</div>
-                    <div class="stage done"><i>✓</i>Plan &amp; create GitHub issues</div>
-                    <div class="stage run"><i>●</i>Implement with Copilot coding agent</div>
-                    <div class="stage"><i>○</i>Test cases &amp; coverage</div>
-                    <div class="stage"><i>○</i>Pull request &amp; code review</div>
-                  </div>
-                  <div class="mini-btns"><span>Open workbench</span><span class="primary">Open session</span></div>
-                </div>
-              </div>
-            </div>
-          </div>
+      <section class="lesson" id="overview" data-title="Learning path">
+        <span class="eyebrow">Self-guided workshop</span>
+        <h1>Learn the GitHub Copilot app.<br>One feature at a time.</h1>
+        <p class="lead">Learn when to use Projects, Automations, Jira Workbench, parallel worktrees and Copilot Fusion. Follow the examples with a fictional Dealer Service Booking app, try the copy-ready prompts, and check what happened before moving on. A pull request (PR) is how you propose code changes for review.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#projects">Start with Projects →</a>
+          <a class="btn" href="https://microsoft-my.sharepoint.com/:p:/r/personal/cherryjain_microsoft_com/_layouts/15/Doc.aspx?sourcedoc=%7B775DAA7D-D4E1-4931-8BDE-D81C8CAB76D9%7D&amp;file=Ignite%20Watch%20Party%20-%20GitHub%20Copilot%20App%20and%20Fusion%20Demo.pptx&amp;action=edit" target="_blank" rel="noopener noreferrer">Optional workshop slides ↗</a>
         </div>
+        <div class="callout note"><span class="callout-title">Before you try the exercises</span><p>You can read every lesson without signing in. Hands-on exercises need the Copilot app, the relevant feature enabled for your account, and access to the repositories you use. Local app exercises need Node.js 20+ and Git. The Jira lesson explains its additional connector requirements. Use your own practice copies for changes to shared repositories. The slides are optional and require separately granted Microsoft sign-in and file access.</p></div>
+        <h2>How to use this guide</h2>
+        <ol>
+          <li>Read what the feature does and when it helps, then try the steps in your own environment.</li>
+          <li>Review each prompt before sending it. Replace sample repository names and Jira keys where indicated.</li>
+          <li>Compare your result with the expected outcome. Use the notes below each lesson for questions and key takeaways, then mark the lesson complete.</li>
+        </ol>
+        <p>If a feature or repository is unavailable, you can still study its explanation, diagram and example output. Reading an example is different from running the exercise.</p>
+        <h2>Your learning path</h2>
+        <p>The times below are rough guides, not deadlines. Setup and agent execution take additional time. Work at your own pace and treat the last two lessons as optional extensions.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Order</th><th>Lesson</th><th>Suggested time</th><th>Expected outcome</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td><a href="#projects">Projects + use cases</a></td><td>7 min + agent time</td><td>One prompt across three repositories → a cited findings table.</td></tr>
+              <tr><td>2</td><td><a href="#automations">Automations</a></td><td>8 min</td><td>A personal schedule and a shared, event-triggered PR report.</td></tr>
+              <tr><td>3</td><td><a href="#workbench">Jira Workbench: story to PR</a></td><td>15 min + agent time</td><td>One story → one implementation issue → one reviewed PR.</td></tr>
+              <tr><td>4</td><td><a href="#parallelism">Parallel sessions + worktrees</a></td><td>7 min</td><td>Different paths and branches; independent diffs.</td></tr>
+              <tr><td>5</td><td><a href="#fusion">Copilot Fusion comparison</a></td><td>10 min</td><td>Same task and context; inspect actual model use and output.</td></tr>
+              <tr><td>Optional A</td><td><a href="#agent-merge">Agent Merge</a></td><td>5 min</td><td>Feedback, checks and conflict controls; merging stays off.</td></tr>
+              <tr><td>Optional B</td><td><a href="#stacked-prs">Stacked pull requests</a></td><td>5 min</td><td>Small dependent PRs, correct bases and focused diffs.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="flow" aria-label="How the features fit together">
+          <div class="step">Projects<small>Investigate across repos</small></div><span class="arrow" aria-hidden="true">→</span>
+          <div class="step">Automations<small>Repeat a bounded task</small></div><span class="arrow" aria-hidden="true">→</span>
+          <div class="step">Workbench<small>Deliver one story</small></div><span class="arrow" aria-hidden="true">→</span>
+          <div class="step">Worktrees<small>Isolate parallel work</small></div><span class="arrow" aria-hidden="true">→</span>
+          <div class="step">Fusion<small>Route and orchestrate models</small></div>
+        </div>
+        <div class="callout important"><span class="callout-title">One story, one owner</span><p>The Workbench exercise owns the EV story: automations report on it, while parallel sessions and Fusion use separate tasks without implementing it again. Projects uses a separate, fictional cross-repository problem. If work already exists, resume it rather than creating a duplicate. Reading this guide or copying a prompt does not launch agents, automations, PRs or merges.</p></div>
+        <h2>How the features fit together</h2>
+        <p>A Project coordinates a goal across repositories and reference files. An automation repeats a saved task. The custom Jira Workbench guides one story toward a reviewed PR. Worktrees give independent sessions separate working copies, while Fusion chooses models within a task. Human review remains important throughout.</p>
+        <div class="presenter"><p>Turn on <strong>Learning tips</strong> for extra explanations and alternatives when an exercise is unavailable. Arrow keys move between lessons unless you are typing in a field. <strong>Copy</strong> copies a prompt; it does not run it. Your notes and completion are stored only in this browser.</p></div>
+        <div class="credits"><h2>Context and credits</h2><p>The Dealer Service Booking app, the three <code>dealer-*</code> companion repositories and their Library files, the Jira backlog and the Figma design are fictional demo material, not Ford production systems. The existing workshop format is adapted from <a href="https://awesome-copilot.github.com/learning-hub/copilot-workshops/first-steps/copilot-app/">First Steps: Copilot Workshops</a> (MIT) and the <a href="https://github.com/octodemo/virtual-universe-26">Universe '26 cookbooks</a>. Workbench attribution and Apache-2.0 notices remain in its extension folder.</p></div>
+      </section>
 
-        <h2 id="what-you-use">What you'll use</h2>
+      <section class="lesson" id="projects" data-num="1" data-title="Projects + use cases" data-time="7 min + agent time" hidden>
+        <span class="eyebrow">Core lesson · 1 of 5</span>
+        <h1>One problem, three repositories</h1>
+        <p class="lead">A session works on one task in one checkout. A Project holds a longer-running goal: the repositories involved, the files that define what’s correct, and the sessions it starts. In this lesson, you’ll investigate a question that no single repository can answer.</p>
+        <h2>When a Project helps</h2>
         <div class="cards">
-          <div class="card-feature">
-            <div class="ico" aria-hidden="true">🖥️</div>
-            <h3>Copilot app</h3>
-            <p>A desktop command center for agents. Run many sessions in parallel, each in its own worktree, locally or in the cloud.</p>
-          </div>
-          <div class="card-feature">
-            <div class="ico" aria-hidden="true">🔌</div>
-            <h3>Connectors</h3>
-            <p>MCP servers for Jira and Figma. Copilot reads stories and designs with your own permissions.</p>
-          </div>
-          <div class="card-feature">
-            <div class="ico" aria-hidden="true">⚡</div>
-            <h3>Copilot Fusion</h3>
-            <p>Pick an effort level, not a model. Fusion routes, drafts and critiques across models for you.</p>
-          </div>
-          <div class="card-feature">
-            <div class="ico" aria-hidden="true">🗂️</div>
-            <h3>Projects &amp; Automations</h3>
-            <p>Keep a goal, its sessions and files together, and let agents run on a schedule or on GitHub events.</p>
-          </div>
+          <div class="card-feature"><h3>Cross-repo investigation <span class="pill blue">Try this first</span></h3><p>Trace one customer problem through the API, front end and help content that share it.</p></div>
+          <div class="card-feature"><h3>Coordinated change</h3><p>Agree on one fix, then start a session per repository in the right order and follow them from <strong>Overview</strong>.</p></div>
+          <div class="card-feature"><h3>Policy or pricing rollout</h3><p>Check every customer-facing surface against an approved brief, before and after launch.</p></div>
+          <div class="card-feature"><h3>Research before code</h3><p>Repositories are optional. Group customer feedback in the Library by theme before anyone changes code.</p></div>
         </div>
-
-        <h2>The story you'll ship</h2>
-        <p>Ford dealers want EV owners to reserve a charging bay while their car is serviced. The story is <strong>FORD-101 · Reserve an EV charging bay during service</strong>, and the design is the Figma frame <strong>"Booking – EV charging bay"</strong>. You'll take it all the way to a reviewed pull request.</p>
-        <div class="flow" aria-label="Workflow">
-          <div class="step">Jira story<small>FORD-101</small></div><span class="arrow" aria-hidden="true">→</span>
-          <div class="step">Figma frame<small>layout &amp; colors</small></div><span class="arrow" aria-hidden="true">→</span>
-          <div class="step">Workbench plan<small>Fusion + your approval</small></div><span class="arrow" aria-hidden="true">→</span>
-          <div class="step">Code + tests<small>cloud coding agent</small></div><span class="arrow" aria-hidden="true">→</span>
-          <div class="step">Browser preview<small>the PR's checkout</small></div><span class="arrow" aria-hidden="true">→</span>
-          <div class="step">One pull request<small>review &amp; follow-up</small></div><span class="arrow" aria-hidden="true">→</span>
-          <div class="step">Jira updated<small>PR link</small></div>
-        </div>
-
-        <div class="callout important">
-          <span class="callout-title">One story, one delivery path</span>
-          <p><strong>FORD-101 is implemented once.</strong> Lesson 6 uses Workbench stages 1–2 to analyze and create one GitHub implementation issue. Lesson 7 continues with stages 3–5 on that issue and its pull request. Lessons 8–9 reuse the same PR; they do not start the story again.</p>
-          <p>The standalone <code>jira-to-pr</code> skill is an alternative for a future, unstarted story, not an extra step for FORD-101. The live automation demo is a read-only sprint digest.</p>
-        </div>
-
-        <h2 id="lessons">Lessons</h2>
-        <div class="table-wrap">
-          <table class="lessons-table">
-            <thead><tr><th>#</th><th>Lesson</th><th>What you'll do</th><th>Time</th></tr></thead>
-            <tbody>
-              <tr><td>0</td><td><a href="#lesson-0">Prerequisites</a></td><td>Install the app, add the repo, check policies, Jira and Figma.</td><td>10 min</td></tr>
-              <tr><td>1</td><td><a href="#lesson-1">Meet the Copilot app</a></td><td>Tour the app, run a local session and a cloud session in parallel.</td><td>10 min</td></tr>
-              <tr><td>2</td><td><a href="#lesson-2">Start a new Project</a></td><td>Create a Project for the FORD sprint with a goal, files and a schedule.</td><td>10 min</td></tr>
-              <tr><td>3</td><td><a href="#lesson-3">Connect Jira and Figma</a></td><td>Add the Atlassian and Figma connectors and read the story and the design.</td><td>15 min</td></tr>
-              <tr><td>4</td><td><a href="#lesson-4">Canvases</a></td><td>Preview the app in the Browser canvas and build your own canvas.</td><td>10 min</td></tr>
-              <tr><td>5</td><td><a href="#lesson-5">Copilot Fusion</a></td><td>Compare Standard, High and Max on real review work.</td><td>10 min</td></tr>
-              <tr><td>6</td><td><a href="#lesson-6">The Jira Sprint Workbench</a></td><td>Analyze, steer the Jira + Figma plan and create one implementation issue.</td><td>15 min</td></tr>
-              <tr><td>7</td><td><a href="#lesson-7">Jira + Figma to pull request</a></td><td>Continue the Workbench flow: implement, test and review the same PR.</td><td>20 min + agent time</td></tr>
-              <tr><td>8</td><td><a href="#lesson-8">Review loop and Agent Merge</a></td><td>Address findings on that PR and inspect Agent Merge controls.</td><td>10 min</td></tr>
-              <tr><td>9</td><td><a href="#lesson-9">Automations</a></td><td>Run a read-only digest, check the existing PR and save a future-story template.</td><td>15 min</td></tr>
-              <tr><td>10</td><td><a href="#lesson-10">Review and next steps</a></td><td>Recap what you built and plan the rollout.</td><td>5 min</td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="callout tip">
-          <span class="callout-title">Tip</span>
-          <p>Use <kbd>←</kbd> and <kbd>→</kbd> to move between lessons. Mark each lesson complete as you go and jot notes at the bottom of every lesson. Everything is saved in this browser only.</p>
-        </div>
-
-        <div class="presenter">
-          <p>Open with the "why": Ford teams already plan in Jira and design in Figma. Today you'll see one app that reads both, builds the feature, and keeps a person in the review loop at every step.</p>
-          <p>Universe '26 tagline to reuse: <em>"Built for trying things. Keep a person in the review loop."</em></p>
-        </div>
-
-        <div class="credits">
-          <h2>Credits</h2>
-          <p>The lesson format is adapted from <a href="https://awesome-copilot.github.com/learning-hub/copilot-workshops/first-steps/copilot-app/">First Steps | Copilot Workshops</a> by James Montemagno in the Awesome Copilot Learning Hub (MIT). Exercises follow the <a href="https://github.com/octodemo/virtual-universe-26">GitHub Universe '26 hands-on cookbooks</a>. The Jira Sprint Workbench extension is Apache-2.0 and based on the Atlassian Labs <code>jira-sprint-dashboard-canvas</code>.</p>
-        </div>
-      </section>
-
-      <!-- ============ LESSON 0 ============ -->
-      <section class="lesson" id="lesson-0" data-num="0" data-title="Prerequisites" data-time="10 min" hidden>
-        <span class="eyebrow">Lesson 0 of 10</span>
-        <h1>Lesson 0 - Prerequisites</h1>
-        <div class="lesson-meta"><span class="chip">⏱ 10 min</span><span class="chip blue">Setup</span></div>
-        <p class="lead">Get the app, the repository and the connected tools ready before the workshop starts.</p>
-
-        <div class="objectives">
-          <h2>In this lesson, you will:</h2>
-          <ul>
-            <li>install and sign in to the GitHub Copilot app.</li>
-            <li>add the Ford Dealer Service Booking repository.</li>
-            <li>check that the sample app's tests pass.</li>
-            <li>confirm the admin policies, the Jira project and the Figma file.</li>
-          </ul>
-        </div>
-
-        <h2>Install and sign in</h2>
+        <h2>Practice scenario</h2>
+        <div class="callout note"><span class="callout-title">Same question, three answers</span><p>A fictional dealer service platform adopted a new cancellation policy on October 1, 2026: customers can cancel online until 2 hours before the appointment, only while it’s booked, and there are no fees. Support tickets show that customers still get different answers, because the API, the customer portal and the help center were each last updated under a different policy.</p></div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Add to the Project</th><th>What it is</th><th>Role in the prompt</th></tr></thead>
+          <tbody>
+            <tr><td>Repository</td><td><a href="https://github.com/cherryjain-msft/dealer-appointments-api">dealer-appointments-api</a></td><td>Stores appointments and decides whether one can be canceled</td></tr>
+            <tr><td>Repository</td><td><a href="https://github.com/cherryjain-msft/dealer-customer-portal">dealer-customer-portal</a></td><td>Customer page that lists appointments and cancels them through the API</td></tr>
+            <tr><td>Repository</td><td><a href="https://github.com/cherryjain-msft/dealer-help-center">dealer-help-center</a></td><td>Customer help articles</td></tr>
+            <tr><td>Library</td><td><a href="../demo-assets/projects/library/product-brief-service-cancellation.md">Product brief</a> and <a href="../demo-assets/projects/library/appointment-status-glossary.md">status glossary</a></td><td>Source of truth</td></tr>
+            <tr><td>Library</td><td><a href="../demo-assets/projects/library/support-tickets.md">Support tickets</a></td><td>Evidence: eight tickets from October 13 to November 10, 2026</td></tr>
+          </tbody>
+        </table></div>
+        <p>The three repositories are private, so running this exercise requires read access or authorized copies in your own account. If you do not have access, study the brief, tickets and answer key instead. Setup details and the full answer key are in the <a href="../demo-assets/projects/README.md">Projects exercise kit</a>.</p>
+        <h2>Try it</h2>
         <ol>
-          <li>Follow the <a href="https://docs.github.com/en/copilot/get-started/quickstart-copilot-app">Copilot app quickstart</a> to download the app for macOS, Windows or Linux.</li>
-          <li>Open the app and sign in with your GitHub account.</li>
+          <li>In the sidebar, click <strong>+</strong> next to <strong>Projects</strong>. The <strong>New project</strong> page opens.</li>
+          <li>Under <strong>Which repositories should this Project use?</strong>, search for each repository by owner and name, then click <strong>Add repositories</strong>.</li>
+          <li>Before you send anything, open the <strong>Library</strong> tab at the top of the right-hand panel. Click <strong>Add → Add folder…</strong> and choose <code>demo-assets\projects\library</code>, or add its three files with <strong>Add file…</strong>.</li>
+          <li>Paste the prompt below and send it. Point out that it names the sources of truth and the evidence.</li>
         </ol>
-        <div class="callout note">
-          <span class="callout-title">Note</span>
-          <p>On Copilot Business or Enterprise, an admin must enable the <span class="ui">GitHub Copilot app</span> policy for your organization before you can sign in.</p>
-        </div>
-
-        <h2>Add the repository</h2>
-        <ol>
-          <li>Add the <code>copilot-app-workshop</code> repository to the app. You can clone it from GitHub or point at a folder you already have on disk.</li>
-          <li>Make sure you're on <code>main</code> with a clean working tree.</li>
-        </ol>
-
-        <h2>Check your setup</h2>
-        <p>Start a session on the repository and run these commands from chat. A leading <code>!</code> runs a shell command without asking the agent.</p>
-        <div class="prompt" data-label="Shell"><pre>!node --version</pre></div>
-        <p>You should see <code>v20</code> or later.</p>
-        <div class="prompt" data-label="Shell"><pre>!npm test --prefix app</pre></div>
-        <p>You should see <strong>15 passing</strong> tests and none failing.</p>
-
-        <h2>Confirm admin settings</h2>
-        <p>Ask your GitHub admin to check these settings before the workshop.</p>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Setting</th><th>Why you need it</th><th>Lessons</th></tr></thead>
-            <tbody>
-              <tr><td>GitHub Copilot app policy</td><td>Lets people sign in to the app.</td><td>All</td></tr>
-              <tr><td>MCP servers in Copilot, with Atlassian and Figma on the allowlist</td><td>Lets Copilot read Jira and Figma.</td><td>3, 6, 7, 9</td></tr>
-              <tr><td>Copilot Fusion and the models it uses</td><td>Fusion only uses models allowed by policy.</td><td>5, 7</td></tr>
-              <tr><td>Copilot cloud agent</td><td>Runs cloud sessions, the Workbench implement stage and cloud automations.</td><td>1, 7, 9</td></tr>
-              <tr><td>Repository is private or internal</td><td>Required for cloud automations.</td><td>9</td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <h2>Prepare Jira and Figma</h2>
-        <ol>
-          <li><strong>Jira:</strong> create a Scrum project with the key <code>FORD</code> and start a sprint. Import <code>demo-assets/jira/backlog.csv</code> with Jira's CSV importer and add the stories to the sprint.</li>
-          <li><strong>Figma:</strong> create a file named <code>Ford Dealer Service Booking</code> with a frame named exactly <code>Booking – EV charging bay</code> (with an en dash). Build it from <code>demo-assets/figma/booking-ev-slot-spec.md</code> and <code>booking-ev-slot.png</code>.</li>
-        </ol>
-        <div class="callout warning">
-          <span class="callout-title">Warning</span>
-          <p>A new Jira project numbers its issues from <code>FORD-1</code>. This lab says <code>FORD-101</code>. Wherever you see it, use the key Jira gave the EV charging story.</p>
-        </div>
-        <div class="callout tip">
-          <span class="callout-title">Tip</span>
-          <p>No Figma access? Use the design files in <code>demo-assets/figma/</code>. The live Workbench needs Jira, and its implementation stage needs the cloud agent. If either is unavailable, use a walkthrough of a prepared run, clearly labeled as recorded evidence, rather than starting a second delivery path.</p>
-        </div>
-
-        <div class="presenter">
-          <p>Do a full dry run the day before on a separate demo story. For a live FORD-101 run, first check for existing issues, PRs and Workbench results. If a rehearsal already delivered it, resume or show that result instead of recreating it. Keep a prepared PR and screenshots as clearly labeled backup evidence; a backup does not exist until you prepare it.</p>
-        </div>
-
-        <h2>Summary and next steps</h2>
-        <p>You installed the app, added the repo, confirmed that the tests pass and prepared Jira and Figma. Next, you'll take a tour of the app and run your first sessions.</p>
-        <p><a href="#lesson-1">Continue to Lesson 1 →</a></p>
-      </section>
-
-      <!-- ============ LESSON 1 ============ -->
-      <section class="lesson" id="lesson-1" data-num="1" data-title="Meet the Copilot app" data-time="10 min" hidden>
-        <span class="eyebrow">Lesson 1 of 10</span>
-        <h1>Lesson 1 - Meet the Copilot app</h1>
-        <div class="lesson-meta"><span class="chip">⏱ 10 min</span><span class="chip blue">Copilot app</span></div>
-        <p class="lead">Tour the desktop command center for agents, then run two sessions side by side.</p>
-
-        <div class="objectives">
-          <h2>In this lesson, you will:</h2>
-          <ul>
-            <li>find your way around the sidebar and the session view.</li>
-            <li>start a local session and choose a mode.</li>
-            <li>run a second session in the cloud at the same time.</li>
-          </ul>
-        </div>
-
-        <h2>Take the tour</h2>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Area</th><th>What it's for</th></tr></thead>
-            <tbody>
-              <tr><td><span class="ui">Sessions</span></td><td>Each session is one agent on one task. Local sessions get their own git worktree and branch, so agents don't trip over each other.</td></tr>
-              <tr><td><span class="ui">Projects</span></td><td>Group sessions, files and automations around one goal. You'll create one in lesson 2.</td></tr>
-              <tr><td><span class="ui">Chats</span></td><td>Conversations that don't need a repository checkout.</td></tr>
-              <tr><td><span class="ui">Automations</span></td><td>Agents that run on a schedule, on GitHub events or on demand. See lesson 9.</td></tr>
-              <tr><td><span class="ui">Customize</span></td><td>Connectors (MCP servers), skills, custom agents and canvases.</td></tr>
-              <tr><td>Right-side panel</td><td>The session's <span class="ui">Changes</span>, the plan, the pull request and any open canvases.</td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <h2>Start your first session</h2>
-        <ol>
-          <li>Start a new session on the repository.</li>
-          <li>Keep it <strong>local</strong> with a <strong>new worktree</strong>.</li>
-          <li>Set the mode to <span class="ui">Interactive</span> and the model to <span class="ui">Auto</span>.</li>
-          <li>Send this prompt:
-            <div class="prompt"><pre>Explain this repository in five bullets for a new developer, then list the API endpoints.</pre></div>
-          </li>
-          <li>When it finishes, run:
-            <div class="prompt" data-label="Shell"><pre>!git status</pre></div>
-          </li>
-        </ol>
-        <p>You should see a short summary that lists <code>GET /api/services</code>, <code>GET /api/slots</code> and <code>POST /api/bookings</code>, and <code>git status</code> should show the session's own branch.</p>
-
-        <h2>Choose a mode</h2>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Mode</th><th>What it does</th><th>Use it for</th></tr></thead>
-            <tbody>
-              <tr><td><span class="ui">Interactive</span></td><td>Works with you step by step and asks before risky actions.</td><td>Exploring and learning a codebase.</td></tr>
-              <tr><td><span class="ui">Plan</span></td><td>Writes a plan first. You edit and approve it before any code changes.</td><td>Features like FORD-101.</td></tr>
-              <tr><td><span class="ui">Autopilot</span></td><td>Keeps going until the task is done without stopping for approval.</td><td>Well-scoped tasks and automations.</td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <h2>Run a cloud session in parallel</h2>
-        <ol>
-          <li>While the first session runs, start a second session and choose <strong>cloud</strong> as the place it runs.</li>
-          <li>Send this prompt:
-            <div class="prompt"><pre>Add JSDoc comments to every exported function in app/src/bookings.js. Don't change any behavior.</pre></div>
-          </li>
-          <li>Watch both sessions in the sidebar. Each one shows whether it's working, waiting for you or done.</li>
-        </ol>
-        <div class="callout note">
-          <span class="callout-title">Note</span>
-          <p>Cloud sessions keep running when your laptop is closed, but they do not automatically inherit connectors you signed in to in the app. Keep Jira and Figma reads in the local delivery session. In lessons 6–7, put the approved requirements and design details in the GitHub issue before handing it to the cloud coding agent.</p>
-        </div>
-
-        <div class="presenter">
-          <p>"One app, many agents, each in its own worktree. You stay the reviewer."</p>
-          <p>The Copilot app has been generally available since June 17, 2026, on macOS, Windows and Linux.</p>
-        </div>
-
-        <h2>Summary and next steps</h2>
-        <p>You toured the app, ran a local session in its own worktree and started a cloud session in parallel. Next, you'll set up a Project for the FORD sprint.</p>
-        <p><a href="#lesson-2">Continue to Lesson 2 →</a></p>
-      </section>
-
-      <!-- ============ LESSON 2 ============ -->
-      <section class="lesson" id="lesson-2" data-num="2" data-title="Start a new Project" data-time="10 min" hidden>
-        <span class="eyebrow">Lesson 2 of 10</span>
-        <h1>Lesson 2 - Start a new Project</h1>
-        <div class="lesson-meta"><span class="chip">⏱ 10 min</span><span class="chip blue">Projects</span><span class="chip">Public preview</span></div>
-        <p class="lead">A Project keeps a goal, its sessions, its files and its automations in one place. Set one up for the FORD sprint.</p>
-
-        <div class="objectives">
-          <h2>In this lesson, you will:</h2>
-          <ul>
-            <li>create a Project for the Dealer Service Booking repository.</li>
-            <li>give the Project a goal and a first task.</li>
-            <li>add the Jira story and the Figma spec to the Project library.</li>
-            <li>schedule a weekly Project automation.</li>
-          </ul>
-        </div>
-
-        <h2>Create the Project</h2>
-        <ol>
-          <li>In the sidebar, select <span class="ui">+</span> next to <span class="ui">Projects</span>, then <span class="ui">New project</span>.</li>
-          <li>When asked <em>"Which repositories should this Project use?"</em>, select <span class="ui">Add repositories</span> and choose this repository.</li>
-          <li>Name the Project <code>Ford Dealer Service Booking</code> and describe the goal:
-            <div class="prompt"><pre>Goal: deliver the FORD sprint for the Dealer Service Booking app.
-The workshop will deliver FORD-101 (Reserve an EV charging bay) through the Jira Sprint Workbench in lessons 6–7.
-Use one session per story, follow .github/pr-checklist.md, and put the Jira key in every pull request title.
-
-For now, only read demo-assets/jira/backlog.csv and suggest an order for the backlog, with one line of reasoning per story. Do not implement stories, start delivery sessions, or create issues or pull requests yet.</pre></div>
-          </li>
-        </ol>
-
-        <h2>Add files to the library</h2>
-        <ol>
-          <li>Open the Project <span class="ui">Library</span> and select <span class="ui">Add</span> → <span class="ui">Add file…</span>.</li>
-          <li>Add <code>demo-assets/jira/FORD-101.md</code>, <code>demo-assets/figma/booking-ev-slot-spec.md</code> and <code>demo-assets/figma/booking-ev-slot.png</code>.</li>
-          <li>Under <span class="ui">All Files</span>, <span class="ui">User</span> shows what you added and <span class="ui">Agent</span> shows files that sessions create.</li>
-        </ol>
-
-        <h2>Watch the overview</h2>
-        <p>The Project overview groups sessions by what they need from you.</p>
-        <div class="mock" role="img" aria-label="Illustration of the Project overview with four groups: Needs input, Working, Open and Done">
-          <div class="mock-head">Ford Dealer Service Booking <small>Overview</small></div>
-          <div class="mock-body">
-            <div class="mock-row"><span>Backlog order for the FORD sprint</span><span class="pill purple">Needs input</span></div>
-            <div class="mock-row"><span>FORD-101 · Reserved for the Workbench lab</span><span class="pill blue">Open</span></div>
-            <div class="mock-row"><span>JSDoc for bookings.js</span><span class="pill blue">Open</span></div>
-            <div class="mock-row"><span>Explain this repository</span><span class="pill green">Done</span></div>
-          </div>
-        </div>
-        <p>Open any session and use <span class="ui">Steer this session</span> to send it guidance without leaving the Project.</p>
-
-        <h2>Schedule a Project automation</h2>
-        <ol>
-          <li>Open the Project's <span class="ui">Automations</span> tab and add an automation with this prompt:
-            <div class="prompt"><pre>Every Monday at 9 AM, summarize the open FORD stories, the sessions and pull requests linked to each one, and anything that's blocked. Keep it under 10 bullets.</pre></div>
-          </li>
-          <li>Use the <span class="ui">⋯</span> menu on the automation to <span class="ui">Pause</span>, <span class="ui">Edit schedule…</span> or <span class="ui">Delete…</span> it.</li>
-        </ol>
-        <div class="callout note">
-          <span class="callout-title">Note</span>
-          <p>Projects are in public preview, so labels can change. See <a href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/working-with-projects">Working with Projects</a>.</p>
-        </div>
-
-        <div class="presenter">
-          <p>Projects turn "a pile of chats" into a workstream: one goal, the files it needs, the sessions doing the work and the schedule that keeps it moving.</p>
-        </div>
-
-        <h2>Summary and next steps</h2>
-        <p>You created a Project with a goal, library files and a weekly automation. Next, you'll connect Jira and Figma so Copilot can read the real story and design.</p>
-        <p><a href="#lesson-3">Continue to Lesson 3 →</a></p>
-      </section>
-
-      <!-- ============ LESSON 3 ============ -->
-      <section class="lesson" id="lesson-3" data-num="3" data-title="Connect Jira and Figma" data-time="15 min" hidden>
-        <span class="eyebrow">Lesson 3 of 10</span>
-        <h1>Lesson 3 - Connect Jira and Figma</h1>
-        <div class="lesson-meta"><span class="chip">⏱ 15 min</span><span class="chip blue">Connectors</span><span class="chip">Local session</span></div>
-        <p class="lead">Connectors are MCP servers that bring your tools into Copilot. Add Atlassian and Figma, then read the story and the design from chat.</p>
-
-        <div class="objectives">
-          <h2>In this lesson, you will:</h2>
-          <ul>
-            <li>add the Atlassian and Figma connectors.</li>
-            <li>read the active FORD sprint from chat.</li>
-            <li>compare the Figma frame with the current booking page.</li>
-            <li>keep the story and design context for the Workbench flow in lessons 6–7.</li>
-          </ul>
-        </div>
-
-        <h2>Add the connectors</h2>
-        <p>Open <span class="ui">Customize</span> → <span class="ui">MCP</span> and browse the GitHub-verified servers (public preview).</p>
-        <div class="tabs">
-          <div class="tablist">
-            <button>Atlassian</button>
-            <button>Figma</button>
-            <button>Context7 (optional)</button>
-          </div>
-          <div class="tabpanel">
-            <ol>
-              <li>Find <strong>Atlassian</strong> and add it.</li>
-              <li>Sign in with your Atlassian account and approve access to your Jira site.</li>
-              <li>Copilot can now search and read issues, and, after asking you, create issues, comment and change status.</li>
-            </ol>
-          </div>
-          <div class="tabpanel" hidden>
-            <ol>
-              <li>Find <strong>Figma</strong> and add it.</li>
-              <li>Sign in with your Figma account.</li>
-              <li>Copilot can now read frames: layer names, colors and text.</li>
-            </ol>
-          </div>
-          <div class="tabpanel" hidden>
-            <p>Context7 gives Copilot up-to-date library docs. Find a ready-made agent for it:</p>
-            <div class="prompt"><pre>/agentfinder find the Context7 Expert custom agent in github/awesome-copilot</pre></div>
-            <p>Then open <span class="ui">Customize</span>, search for <strong>Context7</strong>, select <span class="ui">Add server</span> and use the <span class="ui">HTTP</span> tab.</p>
-          </div>
-        </div>
-        <div class="callout note">
-          <span class="callout-title">Note</span>
-          <p>Connectors act with your own permissions, so Copilot only sees what you can see. In the Copilot CLI, the same servers are managed with <code>/mcp</code>.</p>
-          <p>For the optional documentation-agent exercise, see <a href="https://github.com/octodemo/virtual-universe-26/blob/main/02-github-copilot-latest-features/tools-and-connectors/README.md">Universe '26: tools and connectors</a>. Send only public documentation questions to Context7, not repository contents.</p>
-        </div>
-
-        <h2>Read the sprint</h2>
-        <ol>
-          <li>Start a <strong>local</strong> session in your Project and send:
-            <div class="prompt"><pre>Using Jira, list the stories in the active sprint of project FORD as a table with key, summary, priority, story points and status.</pre></div>
-          </li>
-          <li>Then ask:
-            <div class="prompt"><pre>Which story should we start with, and why? Consider priority, size and risk.</pre></div>
-          </li>
-        </ol>
-        <div class="callout tip">
-          <span class="callout-title">Tip</span>
-          <p>No Jira? Open <code>demo-assets/jira/backlog.csv</code> in the <span class="ui">Editor</span> canvas and ask the same questions about the file.</p>
-        </div>
-
-        <h2>Create the story if you need to</h2>
-        <p>First look for the EV charging story imported in lesson 0, even if its key differs from FORD-101. Create it only if it is absent.</p>
-        <div class="prompt"><pre>Find the "Reserve an EV charging bay during service" story in Jira project FORD. If it already exists, return its key and URL; do not create another.
-If it is absent, draft the fields from demo-assets/jira/FORD-101.md with priority High, 3 story points and labels ev, booking and demo. Wait for my approval before creating it.</pre></div>
-
-        <h2>Read the Figma frame</h2>
-        <div class="prompt"><pre>Read the Figma frame "Booking – EV charging bay" in the file "Ford Dealer Service Booking". Compare it with app/public/index.html and list what's missing: elements, colors and copy. Don't change any files.</pre></div>
-        <p>You should see the EV panel, the "⚡ 2 chargers" label on each time slot and the confirmation text listed as missing.</p>
-        <p>Keep this local session open. It becomes your <strong>delivery session</strong> in lesson 6. Save the actual Jira key, Jira URL and Figma frame URL in your lesson notes; use your real key wherever this workshop says FORD-101.</p>
-        <div class="callout tip">
-          <span class="callout-title">Tip</span>
-          <p>No Figma? Ask Copilot to use <code>demo-assets/figma/booking-ev-slot-spec.md</code> and <code>booking-ev-slot.png</code> instead.</p>
-        </div>
-
-        <h2>Know the alternative: a reusable skill</h2>
-        <p>A skill is a reusable set of instructions in <code>.github/skills/&lt;name&gt;/SKILL.md</code>. This repository also includes <code>jira-to-pr</code> for a standalone local delivery flow. <strong>Do not run it for FORD-101:</strong> the Workbench owns this workshop's delivery. In lesson 9 you'll save the skill as a template for a future, unstarted story.</p>
-        <p>If you edit the skill, run <code>/skills reload</code>.</p>
-
-        <div class="presenter">
-          <p>"It's getting the same context a developer would, and it only sees what I'm allowed to see."</p>
-        </div>
-
-        <h2>Summary and next steps</h2>
-        <p>You connected Jira and Figma, read the sprint and the design from chat, and met the <code>jira-to-pr</code> skill. Next, you'll work in canvases.</p>
-        <p><a href="#lesson-4">Continue to Lesson 4 →</a></p>
-      </section>
-
-      <!-- ============ LESSON 4 ============ -->
-      <section class="lesson" id="lesson-4" data-num="4" data-title="Canvases" data-time="10 min" hidden>
-        <span class="eyebrow">Lesson 4 of 10</span>
-        <h1>Lesson 4 - Canvases</h1>
-        <div class="lesson-meta"><span class="chip">⏱ 10 min</span><span class="chip blue">Canvases</span></div>
-        <p class="lead">A canvas is a shared, two-way surface beside the chat. You and the agent can both see and change what's in it.</p>
-        <p>Use a separate practice session for this lesson and lesson 5. Leave the delivery session from lesson 3 unchanged; you'll return to it for FORD-101 in lesson 6.</p>
-
-        <div class="objectives">
-          <h2>In this lesson, you will:</h2>
-          <ul>
-            <li>run the booking app and preview it in the Browser canvas.</li>
-            <li>install a canvas from the gallery.</li>
-            <li>build your own canvas from a prompt.</li>
-          </ul>
-        </div>
-
-        <h2>Use the built-in canvases</h2>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Canvas</th><th>Use it to</th></tr></thead>
-            <tbody>
-              <tr><td><span class="ui">Plan</span></td><td>Read, edit and approve the agent's plan before it writes code.</td></tr>
-              <tr><td><span class="ui">Browser</span></td><td>Preview a running app and let the agent click through it.</td></tr>
-              <tr><td><span class="ui">Terminal</span></td><td>Watch long-running commands such as dev servers.</td></tr>
-              <tr><td><span class="ui">Editor</span></td><td>Read and edit Markdown and other files.</td></tr>
-              <tr><td><span class="ui">Excel</span>, <span class="ui">Word</span>, <span class="ui">PowerPoint</span></td><td>Work with Office files the agent creates.</td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <h2>Preview the booking app</h2>
-        <div class="prompt"><pre>Start the booking app from the app folder and open http://localhost:3000 in the Browser canvas. Then pick the EV vehicle type and tell me what you see.</pre></div>
-        <p>You should see the current booking page with no EV charging option yet. That's the "before" picture for lesson 7.</p>
-
-        <h2>Install a canvas from the gallery</h2>
-        <ol>
-          <li>Open the <a href="https://awesome-copilot.github.com/extensions/">Awesome Copilot extensions gallery</a>.</li>
-          <li>Pick a canvas and select <span class="ui">Install in GitHub Copilot app</span>.</li>
-          <li>Find it in the app under <span class="ui">Customize</span> → <span class="ui">Canvas</span>.</li>
-        </ol>
-
-        <h2>Build your own canvas</h2>
-        <div class="prompt"><pre>/create-canvas A kanban board for our release checklist with add, move and close card actions</pre></div>
-        <p>Copilot writes the extension and opens it. Project canvases are saved in <code>.github/extensions/</code> so your team gets them too, and personal ones in <code>~/.copilot/extensions/</code>.</p>
-        <div class="callout tip">
-          <span class="callout-title">Tip</span>
-          <p>The Jira Sprint Workbench you'll use in lesson 6 is a project canvas built the same way. It lives in <code>.github/extensions/jira-sprint-workbench/</code>.</p>
-        </div>
-
-        <div class="presenter">
-          <p>"Chat is where you instruct. Canvases are where you inspect, steer and verify."</p>
-        </div>
-
-        <h2>Summary and next steps</h2>
-        <p>You previewed the app in the Browser canvas, installed a canvas and built one from a prompt. Next, you'll compare Copilot Fusion effort levels.</p>
-        <p><a href="#lesson-5">Continue to Lesson 5 →</a></p>
-      </section>
-
-      <!-- ============ LESSON 5 ============ -->
-      <section class="lesson" id="lesson-5" data-num="5" data-title="Copilot Fusion" data-time="10 min" hidden>
-        <span class="eyebrow">Lesson 5 of 10</span>
-        <h1>Lesson 5 - Copilot Fusion</h1>
-        <div class="lesson-meta"><span class="chip">⏱ 10 min</span><span class="chip blue">Copilot Fusion</span></div>
-        <p class="lead">You choose an effort level, not a model. Fusion picks and combines models for the task.</p>
-
-        <div class="objectives">
-          <h2>In this lesson, you will:</h2>
-          <ul>
-            <li>learn the three Fusion effort levels and how they work.</li>
-            <li>run a quick task on Standard and a review on High.</li>
-            <li>compare High, Max and a single model side by side.</li>
-          </ul>
-        </div>
-
-        <h2>Pick an effort level</h2>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Effort</th><th>How it works</th><th>Use it for</th></tr></thead>
-            <tbody>
-              <tr><td><span class="ui">Standard</span></td><td><strong>Single:</strong> routes the task to one well-suited model.</td><td>Everyday edits, docs and questions.</td></tr>
-              <tr><td><span class="ui">High</span></td><td><strong>Cascade:</strong> an efficient model drafts and a judge model accepts or escalates.</td><td>Features, reviews and multi-file changes.</td></tr>
-              <tr><td><span class="ui">Max</span></td><td><strong>Critique:</strong> several critics review the draft in parallel and the drafter revises.</td><td>Hard bugs, risky changes and design decisions.</td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <h2>Try Standard</h2>
-        <ol>
-          <li>In the model picker, choose <span class="ui">Copilot Fusion</span> and set the effort to <span class="ui">Standard</span>.</li>
-          <li>Send:
-            <div class="prompt"><pre>Write a JSDoc comment for the isValidDate function in app/src/slots.js.</pre></div>
-          </li>
-        </ol>
-
-        <h2>Try High</h2>
-        <ol>
-          <li>Switch the effort to <span class="ui">High</span> and send:
-            <div class="prompt"><pre>Review app/src/bookings.js and app/src/server.js for edge cases in booking validation and concurrency. List the top 3 risks with a test idea for each. Don't change any files.</pre></div>
-          </li>
-          <li>Hover over the effort label on the response to see which models ran.</li>
-        </ol>
-        <p>Expect risks such as bookings in the past, no length limit on <code>customerName</code>, and bookings lost on restart because the store is in memory.</p>
-        <div class="callout important">
-          <span class="callout-title">Important</span>
-          <p>Stay the reviewer. If Copilot reports a race condition in <code>create()</code>, push back: the method is synchronous, so two requests can't interleave inside it in Node.js.</p>
-        </div>
-
-        <h2>Compare side by side</h2>
-        <p>Start three sessions with the same prompt: one on Fusion <span class="ui">High</span>, one on Fusion <span class="ui">Max</span> and one on a single model, for example Claude Opus 5.5.</p>
-        <div class="prompt"><pre>Propose the smallest safe change to block bookings in the past, with the test. Don't edit files; show the diff.</pre></div>
-        <p>Compare the quality, the time taken and the credits each one used.</p>
-        <div class="callout note">
-          <span class="callout-title">Note</span>
-          <p>Fusion only uses models your organization's policy allows. If <span class="ui">Max</span> isn't offered, a required model is turned off by policy, so use <span class="ui">High</span>.</p>
-        </div>
-
-        <div class="presenter">
-          <p>Copilot Fusion is generally available since October 28, 2026, in VS Code, the Copilot CLI, the Copilot app and JetBrains IDEs.</p>
-          <p>There's no separate fee. High and Max can use more credits than Standard. Paid plans get 30% off Fusion through November 30, 2026.</p>
-          <p>Fusion Max scored 60 on the Artificial Analysis Coding Agent Index, within 2 points of the top entry, at about half the cost and about 40% less time.</p>
-          <p>Admins can exclude models from Fusion or make Fusion the default.</p>
-        </div>
-
-        <h2>Summary and next steps</h2>
-        <p>You used Standard for a quick task, High for a review and compared High, Max and a single model. Next, you'll open the Jira Sprint Workbench.</p>
-        <p><a href="#lesson-6">Continue to Lesson 6 →</a></p>
-      </section>
-
-      <!-- ============ LESSON 6 ============ -->
-      <section class="lesson" id="lesson-6" data-num="6" data-title="The Jira Sprint Workbench" data-time="15 min" hidden>
-        <span class="eyebrow">Lesson 6 of 10</span>
-        <h1>Lesson 6 - The Jira Sprint Workbench</h1>
-        <div class="lesson-meta"><span class="chip">⏱ 15 min</span><span class="chip blue">Custom canvas</span><span class="chip">Local session</span></div>
-        <p class="lead">Use your custom Workbench to analyze FORD-101, steer its Jira + Figma plan, and create one implementation issue. Stop before coding; lesson 7 continues this same workflow.</p>
-
-        <div class="objectives">
-          <h2>In this lesson, you will:</h2>
-          <ul>
-            <li>open the sprint dashboard for your Jira site.</li>
-            <li>run the analysis stage in your existing delivery session.</li>
-            <li>add the Figma context and the missing rule before approving the plan.</li>
-            <li>create one GitHub issue and hand it to lesson 7.</li>
-          </ul>
-        </div>
-
-        <h2>Open the sprint dashboard</h2>
-        <p>The extension ships with this repository in <code>.github/extensions/jira-sprint-workbench/</code>, so it loads automatically. You need the Atlassian connector from lesson 3.</p>
-        <p>Return to the <strong>local delivery session from lesson 3</strong>. Use <span class="ui">Interactive</span> mode and <span class="ui">Copilot Fusion</span> · <span class="ui">High</span> for the analysis and planning work.</p>
-        <div class="prompt"><pre>Open the jira-sprint-workbench canvas for my Jira site.</pre></div>
-        <p>Copilot looks up your site's <code>cloudId</code> and <code>siteUrl</code> and opens the dashboard.</p>
-
-        <div class="mock" role="img" aria-label="Illustration of the sprint dashboard with stats and the FORD-101 row with Open workbench and Start with Copilot buttons">
-          <div class="mock-head">Jira Sprint Workbench <small>FORD · active sprint</small></div>
-          <div class="mock-body">
-            <div class="mock-row"><span><strong>8</strong> Total scope · <strong>1</strong> Done · <strong>2</strong> In progress · <strong>1</strong> Needs attention</span></div>
-            <div class="mock-row"><span><code>FORD-101</code> Reserve an EV charging bay during service</span><span><span class="pill">Open workbench</span> <span class="pill blue">Start with Copilot</span></span></div>
-            <div class="mock-row"><span><code>FORD-102</code> Show the service duration on each slot</span><span><span class="pill">Open workbench</span> <span class="pill blue">Start with Copilot</span></span></div>
-          </div>
-        </div>
-
-        <h2>Open the story, not a second implementation</h2>
-        <ol>
-          <li>On FORD-101, select <span class="ui">Open workbench</span>. Confirm the <span class="ui">GitHub repo</span> field points to your workshop repository, not the original partner-commerce demo repository.</li>
-          <li>For this walkthrough, clear the per-stage Jira posting checkboxes, <span class="ui">Move to In Progress</span> and <span class="ui">On approve, move to</span>. Preferences can persist from an earlier run; you'll post the final result manually.</li>
-          <li>Inspect the saved stage results and linked work before running anything:
-            <div class="prompt"><pre>Before starting FORD-101, inspect its Workbench results, Jira links and comments, GitHub issues labeled jira:FORD-101, and related pull requests in all states.
-Report the existing delivery session, implementation issue and PR if present. Do not create or assign anything, edit files, or invoke jira-to-pr.
-If work already exists, stop and show me where to resume it.</pre></div>
-          </li>
-        </ol>
-        <div class="callout important">
-          <span class="callout-title">Choose one entry point</span>
-          <p><span class="ui">Start with Copilot</span> is an alternative: it creates a nested Autopilot session and can begin work immediately. <strong>Do not select it in this lab.</strong> Stage buttons send work to the session that opened the canvas. Keep using that delivery session through lessons 6–7.</p>
-          <p>If a previous run already has an issue or PR, resume its recorded stage instead of rerunning creation or assignment. If it is already delivered, show that result rather than starting FORD-101 again.</p>
-        </div>
-
-        <h2>Your five-stage route</h2>
-        <p>Under <span class="ui">Copilot workflow</span>, each stage unlocks when the one before it is done. Its button sends a prompt to this session, and the agent reports back with <code>record_stage_result</code>, so the panel updates live.</p>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>#</th><th>Stage</th><th>When and what</th></tr></thead>
-            <tbody>
-              <tr><td>1</td><td><span class="ui">Analyze story with codebase</span></td><td>Lesson 6: map acceptance criteria to code, risks and questions. No code changes.</td></tr>
-              <tr><td>2</td><td><span class="ui">Plan &amp; create GitHub issues</span></td><td>Lesson 6: create one small, end-to-end implementation issue labeled <code>jira:FORD-101</code>.</td></tr>
-              <tr><td>3</td><td><span class="ui">Implement with Copilot coding agent</span></td><td>Lesson 7: assign that issue once; the cloud coding agent opens its PR.</td></tr>
-              <tr><td>4</td><td><span class="ui">Test cases &amp; coverage</span></td><td>Lesson 7: inspect that PR's tests and request missing coverage on the same PR.</td></tr>
-              <tr><td>5</td><td><span class="ui">Pull request &amp; code review</span></td><td>Lesson 7: confirm and review the existing PR, then post its link to Jira. Never merge here.</td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <h2>Stage 1: analyze</h2>
-        <p>Select <span class="ui">Run analysis</span>. Review the impacted files, risks and open questions. Wait for the analysis result before continuing; it should not change code.</p>
-
-        <h2>Steer the plan with Jira and Figma</h2>
-        <p>Switch this delivery session to <span class="ui">Plan</span> mode. Draft the handoff before running the issue-creation stage:</p>
-        <div class="prompt"><pre>Using the FORD-101 analysis and the Figma frame "Booking – EV charging bay", draft one end-to-end implementation plan covering API, UI and tests.
-Read the design through the Figma connector, or explicitly use demo-assets/figma/booking-ev-slot-spec.md and demo-assets/figma/booking-ev-slot.png as the fallback.
-Include the frame URL, the relevant layout, colors, copy and UI states, acceptance criteria, files to change and tests. The cloud agent must be able to work from the GitHub issue without our local connector sessions.
-Keep this as a plan only. Do not create issues, assign agents, implement code or open a PR yet.</pre></div>
-        <p>The story deliberately omits one API rule. Add it in the plan before approving:</p>
-        <div class="prompt"><pre>Also reject evCharging for Gas and Hybrid vehicles with a 400, and add tests for both. Keep the whole FORD-101 change in one implementation issue and one PR.</pre></div>
-
-        <h2>Stage 2: create the approved implementation issue</h2>
-        <ol>
-          <li>Agree on the plan without choosing an action that starts implementation. Return to <span class="ui">Interactive</span> mode and send this boundary:
-            <div class="prompt"><pre>The plan is approved as requirements for one GitHub implementation issue, not permission to code yet.
-Wait for me to select Run planning agent in the Workbench. Then create only that issue from this plan, record the plan-stage result and stop. Do not assign a coding agent, edit app files or open a PR.</pre></div>
-          </li>
-          <li>Select <span class="ui">Run planning agent</span> once. It creates the implementation issue labeled <code>jira:FORD-101</code>.</li>
-          <li>Open the recorded issue. Verify it contains the Jira link, Figma context, the Gas/Hybrid 400 rule, all acceptance criteria and test expectations. If something is missing, edit <strong>that issue</strong>; do not rerun issue creation.</li>
-          <li>Save the delivery session name, repository and implementation issue URL in your notes. <strong>Stop here; do not select Start coding agent until lesson 7.</strong></li>
-        </ol>
-
-        <h2>Jira controls you'll use along the way</h2>
-        <div class="tabs">
-          <div class="tablist">
-            <button>Post results</button>
-            <button>Move status</button>
-            <button>Edit the story</button>
-          </div>
-          <div class="tabpanel">
-            <p>Each stage card has a checkbox to post to Jira automatically when the stage succeeds. Failed stages are never posted.</p>
-            <p>For this lab, leave automatic posting off. In lesson 7, open <span class="ui">Update Jira</span> under the review stage, inspect the text and select <span class="ui">Post comment to Jira</span> once.</p>
-          </div>
-          <div class="tabpanel" hidden>
-            <p><span class="ui">Move to In Progress</span> on the Implement card can move the story when the coding agent starts. Enable it in lesson 7 only if that transition is appropriate for your demo project.</p>
-            <p><span class="ui">On approve, move to</span> moves the story when the review has no blocking findings; that is not proof of a merged PR. Leave it unset in this lab.</p>
-          </div>
-          <div class="tabpanel" hidden>
-            <p><span class="ui">Update issue</span> lets you edit status, summary, priority, labels or description. Inspect it without saving for this tour. When you need a real change, <span class="ui">Save changes</span> sends only the fields you changed.</p>
-          </div>
-        </div>
-        <div class="callout note">
-          <span class="callout-title">Note</span>
-          <p>The workbench saves its state in <code>~/.copilot/jira-story-workbench/&lt;cloudId&gt;.json</code>. Jira is only written when a box is checked or you select a button.</p>
-        </div>
-
-        <div class="presenter">
-          <p>"Jira stays the system of record. The app does the work, and the story shows what happened at each step."</p>
-          <p>The workbench is Apache-2.0 and based on the Atlassian Labs <code>jira-sprint-dashboard-canvas</code>.</p>
-        </div>
-
-        <h2>Summary and next steps</h2>
-        <p>You completed Workbench stages 1–2: an analysis and one implementation issue containing the approved Jira + Figma plan. Next, you'll continue this exact delivery in stages 3–5.</p>
-        <p><a href="#lesson-7">Continue to Lesson 7 →</a></p>
-      </section>
-
-      <!-- ============ LESSON 7 ============ -->
-      <section class="lesson" id="lesson-7" data-num="7" data-title="Jira + Figma to pull request" data-time="20 min + agent time" hidden>
-        <span class="eyebrow">Lesson 7 of 10</span>
-        <h1>Lesson 7 - Jira + Figma to pull request</h1>
-        <div class="lesson-meta"><span class="chip">⏱ 20 min + agent time</span><span class="chip blue">Workbench stages 3–5</span><span class="chip">Continue the same delivery</span></div>
-        <p class="lead">Hand the approved issue to the coding agent once, inspect its pull request, and bring the result back to the Workbench and Jira.</p>
-
-        <div class="objectives">
-          <h2>In this lesson, you will:</h2>
-          <ul>
-            <li>continue the issue created in lesson 6, without starting a second implementation.</li>
-            <li>inspect the coding agent's PR and verify its tests and browser behavior.</li>
-            <li>complete the Workbench's coverage and review stages on that PR.</li>
-            <li>link the same PR back to Jira.</li>
-          </ul>
-        </div>
-
-        <h2>Resume the delivery</h2>
-        <ol>
-          <li>Return to the local delivery session and FORD-101 Workbench panel from lesson 6.</li>
-          <li>Confirm that analysis and planning are complete, and open the implementation issue URL you saved. If those stages are incomplete, finish lesson 6 first.</li>
-          <li>If the coding agent is already assigned or a PR already exists, resume that work. Do not assign it again, select <span class="ui">Start with Copilot</span>, or run <code>jira-to-pr</code>.</li>
-        </ol>
-
-        <h2>Stage 3: implement once</h2>
-        <ol>
-          <li>Check the issue includes the approved design and API rules. The cloud agent uses that handoff, not your local Jira or Figma sign-in.</li>
-          <li>If approved for this demo, enable <span class="ui">Move to In Progress</span>. Select <span class="ui">Start coding agent</span> once; the Workbench assigns the implementation issue to <code>@copilot</code>.</li>
-          <li>Follow the assigned issue and its coding-agent session until the PR is available and the implementation is finished. Record its URL in your notes.</li>
-        </ol>
-        <div class="callout important">
-          <span class="callout-title">Assigned is not finished</span>
-          <p>A completed Implement card can mean the task was dispatched, not that the code is ready. Do not advance to test coverage until you have the actual PR and the agent has finished. Do not select <span class="ui">Re-run</span> to poll progress.</p>
-          <p>Fusion High is doing the local analysis and review. The cloud coding agent uses its own configured model; the local model picker does not set it.</p>
-        </div>
-        <div class="prompt"><pre>Check the existing coding-agent assignment for the FORD-101 implementation issue recorded in the Workbench. Do not create issues, reassign it or start another agent.
-If its PR is available, record that exact PR URL and current status in the Workbench implement result using record_stage_result, preserving the implementation issue link. Otherwise report that it is still pending and stop.</pre></div>
-
-        <h2>Open the existing PR for inspection</h2>
-        <p>Once the agent has finished, open its PR in a local session with a checkout of <strong>that PR's branch</strong>. This is a review checkout of existing work, not a new feature session from <code>main</code>.</p>
-        <div class="prompt"><pre>Open the existing FORD-101 PR recorded in the Workbench in a local review session. Use its branch to run npm test in app/ and preview the booking page in the Browser canvas.
-Do not implement the story again or create a new issue, branch or PR. If a fix is needed, show it to me first and keep it on this PR.</pre></div>
-
-        <h2>Review the changes</h2>
-        <p>Open the <span class="ui">Changes</span> tab. Your names may differ, but expect something like this:</p>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>File</th><th>Expected change</th></tr></thead>
-            <tbody>
-              <tr><td><code>app/src/slots.js</code></td><td>A constant such as <code>EV_CHARGING_BAYS_PER_HOUR = 2</code>, and <code>evChargingAvailable</code> and <code>evChargingRemaining</code> on each slot for EVs.</td></tr>
-              <tr><td><code>app/src/bookings.js</code></td><td>Accepts <code>evCharging: true</code>. Returns 409 when no charging bay is left and 400 for non-EV vehicles.</td></tr>
-              <tr><td><code>app/public/index.html</code></td><td>An EV charging panel, "⚡ 2 chargers" on each slot and the charging bay in the confirmation.</td></tr>
-              <tr><td><code>app/test/*.test.js</code></td><td>New tests for capacity, 409 and 400. The 15 existing tests still pass.</td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <h2>Check it in the browser</h2>
-        <ol>
-          <li>Choose <strong>Gas</strong>: the EV charging option is hidden.</li>
-          <li>Choose <strong>EV</strong>: the option appears and each slot shows how many chargers are left.</li>
-          <li>Book a slot with charging: the confirmation mentions the reserved charging bay.</li>
-        </ol>
-
-        <h2>Stage 4: test cases and coverage</h2>
-        <ol>
-          <li>Return to the original delivery session and Workbench. Confirm its Implement result contains the PR URL, then select <span class="ui">Analyze test coverage</span>.</li>
-          <li>Check the cases for two chargers per hour, exhausted capacity (409), Gas/Hybrid rejection (400), EV-only display and the existing booking behavior.</li>
-          <li>If coverage is missing, <span class="ui">Add missing tests</span> requests fixes on the existing coding-agent PR. Wait for those commits, then rerun the tests on the updated PR checkout and recheck coverage. A requested test is not a passing test.</li>
-        </ol>
-
-        <h2>Stage 5: confirm and review that PR</h2>
-        <p>Before selecting <span class="ui">Create PR &amp; review</span>, give the delivery session this constraint:</p>
-        <div class="prompt"><pre>For the FORD-101 review stage, use only the PR URL already recorded in the Workbench. Confirm that it belongs to our implementation issue.
-Do not create a replacement PR. If the link is missing or ambiguous, stop and ask. Keep this PR open for lessons 8–9; do not merge it or move Jira to Done.</pre></div>
-        <ol>
-          <li>Select <span class="ui">Create PR &amp; review</span>. Despite the button name, this path confirms the coding agent's PR, requests review and records the findings.</li>
-          <li>Ensure the existing PR title is <code>FORD-101: Reserve an EV charging bay</code> and its body links the implementation issue and Jira story. Correct the existing PR metadata if necessary.</li>
-          <li>Under the review stage, open <span class="ui">Update Jira</span>, inspect the PR link and summary, then select <span class="ui">Post comment to Jira</span> once. If that result was already posted, reuse the comment rather than posting it again.</li>
-          <li>Optional: in the PR's review session, run:
-            <div class="prompt"><pre>/security-review</pre></div>
-          </li>
-        </ol>
-
-        <h2>If something goes wrong</h2>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Problem</th><th>What to do</th></tr></thead>
-            <tbody>
-              <tr><td>Figma isn't connected</td><td>Ask Copilot to use <code>demo-assets/figma/booking-ev-slot-spec.md</code> and <code>demo-assets/figma/booking-ev-slot.png</code>.</td></tr>
-              <tr><td>Atlassian isn't connected</td><td>Reconnect before using the live Workbench. Use <code>demo-assets/jira/FORD-101.md</code> for a read-only walkthrough meanwhile; do not claim Jira was updated.</td></tr>
-              <tr><td>Cloud agent is unavailable or still running</td><td>Pause this delivery and show prepared evidence, clearly labeled as a rehearsal. Do not launch the standalone skill or a second agent for FORD-101.</td></tr>
-              <tr><td>Tests fail</td><td>Ask for a fix on the existing PR branch, then rerun the tests there.</td></tr>
-              <tr><td>Port 3000 is busy</td><td>Run <code>$env:PORT=3001; npm start</code> in <code>app/</code>, or <code>PORT=3001 npm start</code> on macOS or Linux.</td></tr>
-              <tr><td>It's taking too long</td><td>Show the prepared PR or screenshots from your dry run, if available. Keep the live run pending and identify which result you're showing.</td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="presenter">
-          <p>Follow the same issue and PR links throughout. The plan was steered in lesson 6; now show that the cloud agent implemented the extra 400 rule and the Figma states.</p>
-          <p>Show the "before" page from lesson 4 next to the "after" page.</p>
-        </div>
-
-        <h2>Summary and next steps</h2>
-        <p>You completed the same Workbench delivery through stages 3–5. One implementation issue led to one tested PR, and Jira links to that result. Keep the PR URL for the review and automation lessons.</p>
-        <p><a href="#lesson-8">Continue to Lesson 8 →</a></p>
-      </section>
-
-      <!-- ============ LESSON 8 ============ -->
-      <section class="lesson" id="lesson-8" data-num="8" data-title="Review loop and Agent Merge" data-time="10 min" hidden>
-        <span class="eyebrow">Lesson 8 of 10</span>
-        <h1>Lesson 8 - Review loop and Agent Merge</h1>
-        <div class="lesson-meta"><span class="chip">⏱ 10 min</span><span class="chip blue">Code review</span><span class="chip blue">Agent Merge</span></div>
-        <p class="lead">Continue reviewing the PR from lesson 7, apply fixes to the same branch, and inspect how Agent Merge can help with follow-up.</p>
-
-        <div class="objectives">
-          <h2>In this lesson, you will:</h2>
-          <ul>
-            <li>address the Copilot review already requested by the Workbench.</li>
-            <li>inspect Agent Merge controls while keeping the PR open for lesson 9.</li>
-            <li>attach evidence to the existing PR and learn when a future story might need a stack.</li>
-          </ul>
-        </div>
-
-        <h2>Continue the existing review</h2>
-        <ol>
-          <li>Open the same FORD-101 PR URL saved in lesson 7, in its PR review session. Check the <span class="ui">Changes</span> and review findings.</li>
-          <li>The Workbench requested a Copilot review. Use those results; only request one under <span class="ui">Reviewers</span> if it was not already requested.</li>
-          <li>Inspect the comments, then ask:
-            <div class="prompt"><pre>Address the review comments on this existing FORD-101 PR. Work only on its branch, run npm test in app/, and push the fixes to the same PR. Do not start a new delivery or open another PR.</pre></div>
-          </li>
-        </ol>
-
-        <h2>Inspect Agent Merge</h2>
-        <p>Open <span class="ui">Agent Merge</span> for this PR and review the available actions: addressing feedback, fixing checks, resolving conflicts and merging. For the workshop, keep merging disabled so lesson 9 can check this same open PR. If your app only offers a combined enable-and-merge control, show it without enabling it.</p>
-        <div class="callout important">
-          <span class="callout-title">Important</span>
-          <p>Merging is a separate, explicit decision after the workshop checks. Branch protection, required reviews and required checks still apply; a green agent review is not human approval. You can leave the PR open at the end of the demo.</p>
-        </div>
-
-        <h2>Go further</h2>
-        <div class="tabs">
-          <div class="tablist">
-            <button>Stacked pull requests</button>
-            <button>Attach evidence</button>
-          </div>
-          <div class="tabpanel">
-            <p><strong>Future story only:</strong> larger changes can use stacked PRs, where each small change builds on the previous one. FORD-101 already has one focused PR; do not split or resubmit it during this lab.</p>
-            <p>Use a separate, unstarted story to explore the <a href="https://github.com/octodemo/virtual-universe-26">Universe '26 cookbooks</a> after the workshop.</p>
-          </div>
-          <div class="tabpanel" hidden>
-            <p>Capture the before/after browser state and attach it to a comment on the <strong>existing</strong> PR. Review the image for sensitive content before posting.</p>
-            <div class="prompt"><pre>Prepare a before/after screenshot comment for this existing FORD-101 PR, using the browser evidence we captured. Show me the images and comment before posting. Do not create another PR.</pre></div>
-          </div>
-        </div>
-
-        <div class="presenter">
-          <p>"The agent wrote it, another agent reviewed it, and your rules still decide when it merges."</p>
-        </div>
-
-        <h2>Summary and next steps</h2>
-        <p>You addressed review feedback on the same PR and inspected Agent Merge without merging. Next, you'll run a read-only automation and check this PR, not reimplement FORD-101.</p>
-        <p><a href="#lesson-9">Continue to Lesson 9 →</a></p>
-      </section>
-
-      <!-- ============ LESSON 9 ============ -->
-      <section class="lesson" id="lesson-9" data-num="9" data-title="Automations" data-time="15 min" hidden>
-        <span class="eyebrow">Lesson 9 of 10</span>
-        <h1>Lesson 9 - Automations</h1>
-        <div class="lesson-meta"><span class="chip">⏱ 15 min</span><span class="chip blue">Automations</span><span class="chip">Local + cloud</span></div>
-        <p class="lead">An automation runs a prompt for you on a schedule, on a GitHub event or when you select <span class="ui">Run</span>.</p>
-
-        <div class="objectives">
-          <h2>In this lesson, you will:</h2>
-          <ul>
-            <li>run a read-only sprint digest and optionally schedule it.</li>
-            <li>configure a cloud standards check for the existing PR.</li>
-            <li>save a Jira-to-PR template for a future story without running it here.</li>
-          </ul>
-        </div>
-
-        <h2>Open Automations</h2>
-        <p>In the sidebar, select <span class="ui">Automations</span>. You can filter by <span class="ui">All</span>, <span class="ui">Local</span> or <span class="ui">Cloud</span>, start from <span class="ui">Templates</span>, or select <span class="ui">New automation</span>.</p>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th></th><th>Local</th><th>Cloud</th></tr></thead>
-            <tbody>
-              <tr><td>Runs on</td><td>Your computer, which must be on</td><td>The Copilot cloud agent</td></tr>
-              <tr><td>Triggers</td><td>Manual or a schedule</td><td>Manual, a schedule or GitHub events</td></tr>
-              <tr><td>Credit limits</td><td>None</td><td>Per run (30 minimum) and daily or monthly</td></tr>
-              <tr><td>Needs</td><td>The Copilot app</td><td>A private or internal repository</td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <h2>Create your automations</h2>
-        <p>Run <strong>A</strong> live. If cloud automations are available, use <strong>B</strong> on the existing PR. <strong>C and D are future-story setup only</strong>; neither starts FORD-101 again.</p>
-        <div class="tabs">
-          <div class="tablist">
-            <button>A. Sprint digest (run)</button>
-            <button>B. PR standards check</button>
-            <button>C. Future story (save only)</button>
-            <button>D. Jira webhook (next step)</button>
-          </div>
-
-          <div class="tabpanel">
-            <p><strong>Local</strong> · <strong>Manual</strong> now, optional weekly schedule later · <strong>Read-only</strong></p>
-            <ol>
-              <li>Select <span class="ui">New automation</span>. Name it <strong>FORD sprint digest (read-only)</strong>.</li>
-              <li>Choose <strong>Local</strong>, a <span class="ui">Manual</span> trigger and this repository. Use <span class="ui">Auto</span> or <span class="ui">Copilot Fusion</span> · <span class="ui">Standard</span>.</li>
-              <li>Paste the prompt:
-                <div class="prompt"><pre>Build a read-only sprint digest for the FORD Jira project.
-
-1. Read the issues in the open sprint with the Atlassian connector.
-2. Group them by current status. Include the Jira key and link, summary, assignee and existing linked GitHub PR, if any.
-3. Highlight FORD-101 and the existing implementation issue and PR from this workshop. Do not infer completion from an agent status; check the PR state.
-4. Return a short progress, risks and asks summary in this automation session. Report unavailable data explicitly.
-
-Do not modify files, create or update issues or PRs, post comments, assign agents, change Jira, invoke jira-to-pr, or merge anything.</pre></div>
-              </li>
-              <li>Save the automation, then select <span class="ui">Run</span> once. Open its session and inspect the digest.</li>
-              <li>Optionally change the schedule to weekly, Friday at 15:00, in your local time zone. Keep only the digest schedule you want; pause the Project summary from lesson 2 if it overlaps. Pause workshop schedules when the demo ends.</li>
-            </ol>
-            <p>Expected result: a summary with links to existing work, with no new delivery issues, branches, PRs or Jira comments. The local automation needs your computer on and the connector available.</p>
-          </div>
-
-          <div class="tabpanel" hidden>
-            <p><strong>Cloud</strong> · <strong>Shared</strong> · GitHub event triggers</p>
-            <ol>
-              <li>Select <span class="ui">New automation</span>, then <span class="ui">Create manually</span>. Name it <strong>PR standards check</strong> and turn on <span class="ui">Run in the cloud</span>.</li>
-              <li>Triggers: <span class="ui">Pull request opened</span> and <span class="ui">Pull request ready for review</span>.</li>
-              <li><span class="ui">Can be triggered by</span>: <span class="ui">People and Copilot</span>. <span class="ui">Can change</span>: <span class="ui">Only the triggering issue</span>.</li>
-              <li>Tools: <span class="ui">Read pull request</span>, <span class="ui">Read files</span>, <span class="ui">Add pull request review comment</span>, <span class="ui">Add pull request comment</span>.</li>
-              <li>Model: <span class="ui">Copilot Fusion</span> · <span class="ui">High</span>. Credits: 100 per run, 500 per day.</li>
-              <li>Paste the prompt:
-                <div class="prompt"><pre>Review this pull request against our team checklist in .github/pr-checklist.md.
-
-1. Read the checklist and the PR diff.
-2. Post ONE summary comment on the PR with a table:
-   checklist item | pass / fail / n/a | evidence (file:line or short reason)
-3. For each failed item, add an inline review comment on the relevant line with a concrete suggested fix (use a suggestion block when the fix is small).
-4. End the summary with "Ready to merge" or "Changes requested: &lt;count&gt;".
-
-Be specific and brief. Do not push commits, approve, or merge.</pre></div>
-              </li>
-              <li>Save this single automation. Keep its write permissions limited to review comments on the triggering PR.</li>
-            </ol>
-            <div class="callout tip">
-              <span class="callout-title">Tip</span>
-              <p>To test it now, select <span class="ui">Run</span>, choose the <span class="ui">Pull request opened</span> trigger and paste the <strong>existing FORD-101 PR URL from lesson 7</strong> as the <span class="ui">Resource URL</span>. This adds review feedback; it does not create or reopen a PR. If the check already ran on that revision, inspect its result instead.</p>
-              <p>If cloud automations are unavailable, show the configuration without claiming it ran. If the PR is already merged or closed, inspect its existing evidence rather than reopening it for the demo.</p>
-            </div>
-          </div>
-
-          <div class="tabpanel" hidden>
-            <p><strong>Local</strong> · <strong>Manual</strong> · <strong>Save only; do not run in this workshop</strong></p>
-            <p>This adapts <a href="https://github.com/octodemo/virtual-universe-26/blob/main/02-github-copilot-latest-features/automate/README.md">Universe '26: turn your skill into an automation</a>, which selects unstarted work with no linked PR. It is an alternative delivery route for another story, not a continuation of FORD-101.</p>
-            <ol>
-              <li>Name it <strong>Future Jira story to PR (template)</strong>. Choose <strong>Local</strong>, <span class="ui">Manual</span> and this repository. Use <span class="ui">Interactive</span> so the skill's plan and publication approvals remain visible.</li>
-              <li>Save this inert prompt:
-                <div class="prompt"><pre>This is an unconfigured future-story template. No Jira story has been selected.
-Do not invoke jira-to-pr, implement anything, create issues or PRs, assign an agent, or write to Jira.
-Return "Template only: choose a new, unstarted story before enabling delivery." and stop.</pre></div>
-              </li>
-              <li>Select <span class="ui">Create</span> to save it with a Manual trigger. Do not select the play button or any create-and-run action.</li>
-              <li>After the workshop, select a different, unstarted Jira story with no active delivery session, linked implementation issue or PR. Replace the template with <code>/jira-to-pr &lt;NEW-JIRA-KEY&gt;</code> using its actual key, review the scope and run it once.</li>
-            </ol>
-            <div class="callout important">
-              <span class="callout-title">Do not replay FORD-101</span>
-              <p>Each run starts a new session. Saving a reusable prompt is not a guarantee of safe retries: the skill must check existing work first and stop if it finds an in-progress or delivered story. Choose either this standalone path or the Workbench for a story, never both.</p>
-            </div>
-          </div>
-
-          <div class="tabpanel" hidden>
-            <p><strong>Next step</strong> · start an automation from Jira</p>
-            <p>A future integration can trigger an automation when a new story moves to <strong>Ready for dev</strong>, using a Jira Automation rule and the REST API. Before enabling delivery, validate the story key and check for an existing delivery so repeated webhook events cannot launch it twice. This is a design discussion only; do not create or fire a FORD-101 webhook in this lab. See <a href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/using-automations">Using automations</a>.</p>
-          </div>
-        </div>
-
-        <h2>Alternative setup: create by chatting</h2>
-        <p>Use this instead of the form for B, not as a second automation:</p>
-        <div class="prompt"><pre>Find the PR standards check automation for this repository. If it exists, show its configuration and do not create another.
-If it is absent, draft one that checks new PRs against .github/pr-checklist.md and comments a pass/fail table with suggested fixes. Limit it to comments on the triggering PR and 100 AI credits per run.
-Show me the configuration before saving. Do not run it yet or start any story implementation.</pre></div>
-
-        <div class="callout warning">
-          <span class="callout-title">Warning</span>
-          <p>You can't change the type, <span class="ui">Personal</span> or <span class="ui">Shared</span>, after you create an automation. Anyone who can read the repository can see cloud sessions, so never put secrets in a prompt.</p>
-        </div>
-        <div class="callout tip">
-          <span class="callout-title">Tip</span>
-          <p>Not sure which tools to allow? Select <span class="ui">Suggest tools</span>. You can also manage automations on GitHub.com under <span class="ui">Agents</span> → <span class="ui">Automations</span>.</p>
-        </div>
-
-        <div class="presenter">
-          <p>"One story, one PR. Automations can report on and review that work without starting it again. A new story gets its own explicitly chosen delivery path."</p>
-        </div>
-
-        <h2>Summary and next steps</h2>
-        <p>You ran a read-only digest, configured a standards check for the existing PR, and saved an inactive template for a future story. FORD-101 still has the same implementation issue and PR. Next, review what you built and plan your rollout.</p>
-        <p><a href="#lesson-10">Continue to Lesson 10 →</a></p>
-      </section>
-
-      <!-- ============ LESSON 10 ============ -->
-      <section class="lesson" id="lesson-10" data-num="10" data-title="Review and next steps" data-time="5 min" hidden>
-        <span class="eyebrow">Lesson 10 of 10</span>
-        <h1>Lesson 10 - Review and next steps</h1>
-        <div class="lesson-meta"><span class="chip">⏱ 5 min</span><span class="chip blue">Wrap-up</span></div>
-        <p class="lead">You took one Jira story and Figma design through the Workbench to one reviewed PR, then added reporting and review automation without rebuilding the story.</p>
-
-        <h2>What you built</h2>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Feature</th><th>What you did</th><th>Try next</th></tr></thead>
-            <tbody>
-              <tr><td>Copilot app and Projects</td><td>Ran local and cloud sessions in parallel and created a Project for the FORD sprint.</td><td>Add your team's main repository as a Project.</td></tr>
-              <tr><td>Connectors</td><td>Read Jira and Figma; Context7 was optional.</td><td>Add the connectors your team uses most.</td></tr>
-              <tr><td>Canvases</td><td>Previewed the app and built a canvas from a prompt.</td><td>Build a canvas for your release or support process.</td></tr>
-              <tr><td>Copilot Fusion</td><td>Compared Standard, High and Max.</td><td>Make Fusion High the default for feature work.</td></tr>
-              <tr><td>Jira Sprint Workbench</td><td>Used stages 1–2 in lesson 6 and stages 3–5 in lesson 7 for the same delivery.</td><td>Choose one new story for the next Workbench run.</td></tr>
-              <tr><td>Jira + Figma to PR</td><td>Built FORD-101 once, with one implementation issue, one PR, tests and a browser check.</td><td>Try <code>jira-to-pr</code> as an alternative on a different, unstarted story.</td></tr>
-              <tr><td>Review and Agent Merge</td><td>Addressed feedback on the same PR and inspected Agent Merge controls.</td><td>Decide whether to merge after the required human review and checks.</td></tr>
-              <tr><td>Automations</td><td>Ran a read-only digest, configured PR checks and saved a future-story template.</td><td>Enable one useful schedule; design duplicate-run protection before webhook delivery.</td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <h2>Rollout checklist</h2>
+        <div class="callout warning"><span class="callout-title">Upload only the library folder</span><p>The kit README in <code>demo-assets\projects</code> contains the answer key. Don’t add that folder or the workshop repository to this Project.</p></div>
+        <div class="prompt" data-label="Project kickoff — read-only"><pre>Customers and dealers report inconsistent service-appointment cancellation behavior. Investigate dealer-appointments-api, dealer-customer-portal and dealer-help-center together. Treat the product brief and status glossary in this Project's Library as the source of truth; use the support tickets as evidence.
+1. Find every disagreement (cutoff, eligible statuses, fees, status values/labels, customer-facing messages) and cite file paths and lines.
+2. Map each ticket to its findings; flag any ticket that isn't caused by a defect.
+3. Recommend one coordinated fix: the owner repo, changes per repo, and order.
+
+Present the findings as a table. No code changes, branches, issues or PRs yet.</pre></div>
+        <h2>What to notice while it works</h2>
         <ul>
-          <li>Pick a pilot team and one or two real Jira projects.</li>
-          <li>Review Copilot policies: allowed models, Fusion defaults and cloud agent access.</li>
-          <li>Set an MCP allowlist with Atlassian, Figma and any other approved connectors.</li>
-          <li>Commit skills, canvases and the PR checklist to your repositories so everyone gets them.</li>
-          <li>Start with local automations, then move proven ones to the cloud with credit limits.</li>
-          <li>Measure lead time from story to pull request, review time and rework.</li>
+          <li><strong>One place:</strong> three repositories and the files that define the policy, in one conversation. Nothing is copied between chats or explained twice.</li>
+          <li><strong>Grounding:</strong> the prompt says which files define “correct” and which are evidence. The docs recommend telling Copilot which sources to use.</li>
+          <li><strong>Library:</strong> under <strong>All Files</strong>, <strong>User</strong> holds your uploads and <strong>Agent</strong> holds files Copilot generates.</li>
+          <li><strong>Overview:</strong> if the Project starts sessions, they appear under <strong>Needs input</strong>, <strong>Open</strong>, <strong>Working</strong> or <strong>Done</strong>. Open one to see its conversation, changes, PR and plan, or use <strong>Steer this session</strong>.</li>
+          <li><strong>Why it drifted:</strong> each surface was last updated under a different policy, so each one tells customers something different.</li>
         </ul>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Policy</th><th>Rule</th><th>Still used by</th></tr></thead>
+          <tbody>
+            <tr><td>v0 · January 2024</td><td>Cancel online up to 48 hours ahead; $40 no-show fee</td><td>Help center: cancel article</td></tr>
+            <tr><td>v1 · April 2025</td><td>Cancel online up to 24 hours ahead; $25 late fee and $40 no-show fee</td><td>API; help center: fees and statuses articles</td></tr>
+            <tr><td>v2 · October 1, 2026 (current)</td><td>Cancel online up to 2 hours ahead, booked appointments only; no fees</td><td>Portal, apart from a leftover fee warning; help center: FAQ and drop-off articles</td></tr>
+          </tbody>
+        </table></div>
+        <details>
+          <summary>Check your answer — open after trying the exercise</summary>
+          <p>Expect different wording and possibly more rows: the agent may split a disagreement or add valid extras. Check that it covers these eight, cites matching files and lines, and treats SUP-4874 (online rescheduling) as a feature request rather than a defect.</p>
+          <div class="table-wrap"><table>
+            <thead><tr><th>ID</th><th>Disagreement</th><th>Where</th><th>Tickets</th></tr></thead>
+            <tbody>
+              <tr><td>D1</td><td>The API’s online cutoff is 24 hours, not 2</td><td>API <code>src/policy.js</code> L6, plus its README, changelog and tests</td><td>SUP-4812, SUP-4879</td></tr>
+              <tr><td>D2</td><td>Checked-in appointments can still be canceled online</td><td>API <code>src/policy.js</code> L14–24; portal <code>public/appointment-view.js</code> L37</td><td>SUP-4856</td></tr>
+              <tr><td>D3</td><td>The portal shows a generic error instead of the API’s reason and never shows the cancel-until time</td><td>Portal <code>public/app.js</code> L89, L92</td><td>SUP-4812, SUP-4879</td></tr>
+              <tr><td>D4</td><td>The portal uses <code>cancelled</code>, but the API and glossary use <code>canceled</code>, so canceled appointments stay under <strong>Upcoming</strong> with a Cancel button</td><td>Portal <code>public/appointment-view.js</code> L17, L25, plus its tests</td><td>SUP-4827; partly SUP-4861</td></tr>
+              <tr><td>D5</td><td>The cancel dialog warns about a $25 late-cancellation fee</td><td>Portal <code>public/index.html</code> L34</td><td>SUP-4840</td></tr>
+              <tr><td>D6</td><td>The cancel article still says 48 hours and warns about a no-show fee</td><td>Help center <code>articles/cancel-or-change-an-appointment.md</code> L11, L17, L19</td><td>SUP-4833, SUP-4879</td></tr>
+              <tr><td>D7</td><td>The fees article lists late-cancellation and no-show fees</td><td>Help center <code>articles/fees-and-charges.md</code> L11, L15</td><td>SUP-4840, SUP-4879</td></tr>
+              <tr><td>D8</td><td>The statuses article uses “Confirmed”, omits Canceled and No-show, and says canceled appointments are removed</td><td>Help center <code>articles/appointment-statuses.md</code> L11, L17</td><td>SUP-4861</td></tr>
+            </tbody>
+          </table></div>
+          <p><strong>Expected fix:</strong> the API owns the rule and ships first, with a 2-hour cutoff, booked appointments only, a clear refusal reason, and fields that say whether and until when an appointment can be canceled. The portal then uses those fields and fixes its spelling, messages and fee warning. The help center updates three articles.</p>
+          <p><strong>Valid extras:</strong> the portal repeats the cutoff rule in the browser instead of using the API’s decision; the cancel article and the portal’s policy text never say that only booked appointments can be canceled online; and when the portal hides Cancel, it doesn’t say why or what to do next.</p>
+          <p><strong>Not defects:</strong> the portal’s 2-hour value, the FAQ and the API’s generic 500 for unexpected errors already match the brief. The kit lists the rest, with every citation.</p>
+        </details>
+        <h2>Optional: from findings to coordinated change</h2>
+        <p>Try this only when you are ready to make changes in repositories you control. It starts sessions that create branches and draft PRs. Review the proposed work first, and keep the original shared practice repositories unchanged.</p>
+        <div class="prompt" data-label="Optional follow-up — opens draft PRs"><pre>Implement the coordinated fix you recommended. Start one session per repository. Begin with dealer-appointments-api, because the portal will consume its new fields; the portal and help-center sessions can follow.
+Each session should change only its own repository, run npm test (in dealer-help-center this runs the article checks), and open a draft PR that links the other two.
+Do not merge anything.</pre></div>
+        <div class="prompt" data-label="Come back later — same Project"><pre>Where does the cancellation fix stand across the three repositories? What needs my input?</pre></div>
+        <details>
+          <summary>Optional: explore the symptoms in a browser</summary>
+          <p>Run the API and the portal in two terminals, from a scratch folder outside this repository. They need Node.js 20 or later and no <code>npm install</code>. Replace the repository owner in these commands if you are using your own authorized copies.</p>
+          <div class="prompt" data-label="PowerShell — terminal 1: API on port 4000"><pre>gh repo clone cherryjain-msft/dealer-appointments-api
+cd dealer-appointments-api
+npm start</pre></div>
+          <div class="prompt" data-label="PowerShell — terminal 2: portal on port 5173"><pre>gh repo clone cherryjain-msft/dealer-customer-portal
+cd dealer-customer-portal
+npm start</pre></div>
+          <p>Open <code>http://localhost:5173</code>. Cancel <strong>APT-1001</strong>, an oil and filter change about 5 hours away: the dialog warns about a $25 fee, then the portal says “Something went wrong. Please try again.” <strong>APT-1004</strong> is already canceled but still sits under <strong>Upcoming</strong> with a Cancel button. Restart the API to reset the data. The kit lists all five seeded appointments.</p>
+        </details>
+        <details>
+          <summary>After the exercise: prepare for another attempt</summary>
+          <p>Keep any changes you still need. Close only your own unwanted exercise PRs without merging, then delete their branches if no longer needed. Check that the practice baseline is unchanged: both lines for each repository should show the same commit identifier (SHA). Do not reset a shared repository; the kit explains owner-only reset steps for disposable copies. Use a new Project for a fresh attempt.</p>
+          <div class="prompt" data-label="PowerShell — baseline check"><pre>foreach ($repo in 'dealer-appointments-api', 'dealer-customer-portal', 'dealer-help-center') {
+  git ls-remote "https://github.com/cherryjain-msft/$repo" refs/heads/main refs/tags/demo-baseline
+}</pre></div>
+        </details>
+        <div class="objectives"><h2>Check your result</h2><ul><li>Findings cite files and lines in all three repositories and are checked against the brief and glossary.</li><li>Tickets map to findings, and SUP-4874 is flagged as a feature request, not a defect.</li><li>The recommendation names an owner repository and an order. The initial read-only investigation creates no code, branches, issues or PRs.</li></ul></div>
+        <div class="presenter"><p><strong>Key idea:</strong> Every repository’s tests can pass while the combined system gives customers different answers. The shared policy gives you a way to evaluate the whole system.</p><p><strong>Think it through:</strong> The drop-off article already says checked-in appointments can’t be canceled online. Compare that rule with finding D2: which code must change, and which documentation should stay as it is?</p><p><strong>If blocked:</strong> Use the supplied answer key to trace how each ticket maps to a disagreement. If you can run the local apps, explore the symptoms there. Neither replaces a completed Project investigation, but both help you understand the scenario.</p></div>
+        <p class="source">Source: <a href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/working-with-projects">Working with projects</a>. Projects are in public preview; labels may change.</p>
+      </section>
 
-        <h2>Learn more</h2>
+      <section class="lesson" id="automations" data-num="2" data-title="Automations" data-time="8 min" hidden>
+        <span class="eyebrow">Core lesson · 2 of 5</span>
+        <h1>Two automations, two kinds of ownership</h1>
+        <p class="lead">An automation repeats saved instructions on a schedule or in response to an event. In this lesson, compare a personal weekly report with a repository-shared report triggered by a pull request. Both examples are cloud-based and read-only; ownership and execution location are different choices.</p>
+        <p>Use a practice repository where you have permission to manage automations. Check for an existing automation with the same purpose before creating another. If you use your own workshop copy, select that repository throughout both exercises.</p>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Use case</th><th>Ownership and trigger</th><th>What it does</th></tr></thead>
+          <tbody>
+            <tr><td>My weekly follow-up queue</td><td>Cloud, Personal; weekly schedule</td><td>Summarize issues assigned to me and PRs I authored or need to review.</td></tr>
+            <tr><td>PR intake snapshot</td><td>Cloud, Repository; pull request opened</td><td>Check the PR summary and visible check state; report evidence and unknowns, with no writes.</td></tr>
+          </tbody>
+        </table></div>
+        <h2>1. Personal: weekly follow-up queue</h2>
+        <ol>
+          <li>Open <strong>Automations → Create automation</strong>. Choose your practice repository, cloud execution, and <strong>Personal</strong> ownership.</li>
+          <li>Name it <strong>My weekly GitHub follow-up</strong>. Set a weekly schedule, for example Monday at <strong>15:00 UTC</strong>, and grant only GitHub issue and pull-request read tools.</li>
+          <li>Use the prompt below and review the settings before saving. Run it once to inspect the output, then check its next scheduled run. Pause the schedule after practicing unless you want it to continue.</li>
+        </ol>
+        <div class="prompt" data-label="Personal weekly follow-up"><pre>Build my weekly follow-up queue for this repository using the automation owner's GitHub identity.
+Find open issues assigned to me, pull requests authored by me, and pull requests where my review is requested. Use the corresponding @me search filters.
+For each result, include its link, title, last activity, current review or check state when available, and one concrete next step. Deduplicate results.
+If an identity filter fails or data is unavailable, report the limitation; do not broaden the search to all repository work. Distinguish a successful search with no results from unavailable data.
+
+Return the report in this run only. Do not edit files, comment, assign, label, request reviews, approve, merge, or push.</pre></div>
+        <h2>2. Shared on the repository: PR intake snapshot</h2>
+        <ol>
+          <li>Create <strong>PR intake snapshot</strong> for the same practice repository with <strong>Repository</strong> ownership and cloud execution.</li>
+          <li>Choose <strong>Pull request opened</strong> as the trigger, filtered to <code>app/**</code>. Grant only pull-request read access and repository-file read access for <code>.github/pr-checklist.md</code>.</li>
+          <li>Use the read-only prompt below. A matching PR from the Workbench lesson can provide the event if its actor is eligible under the trigger policy. Do not open a duplicate PR just to test the trigger.</li>
+        </ol>
+        <div class="prompt" data-label="Shared PR intake snapshot"><pre>Review only the pull request that triggered this run.
+Read its live title, description, base and head branches, issue references in the title or description, and current status-check results. Read .github/pr-checklist.md.
+Report whether the title or description includes a Jira key and one-line summary. List checks as passing, failing, pending, or unknown with links when available.
+For checklist items that require inspecting a code diff, running tests, or other evidence you cannot access, mark unknown and explain why. Do not infer a pass from missing evidence or a passing check alone.
+Return a concise table of item, result, and evidence, followed by unresolved questions. This is an advisory report, not a merge gate.
+
+Return the report in this run only. Do not comment, change labels, request reviewers, approve, push, or merge.</pre></div>
+        <h2>Execution, ownership, and safety</h2>
+        <p>Cloud execution lets these examples run without your computer staying on. Scheduled or manual tasks can also run locally; GitHub event triggers require cloud execution. <strong>Personal</strong> cloud automations are visible only to you, run using your identity, and use your AI credits. <strong>Repository</strong> automations are shared with the repository and billed to its owner. Cloud prompts and logs are visible to repository readers, even for personal automations. Ownership cannot be changed after creation.</p>
+        <p>Before enabling a trigger, check repository policy, visibility and whether the event actor must have write access. Copilot-created PRs also need the trigger to accept Copilot activity; do not assume every new PR can start a run. Keep tool grants read-only. A report is not approval to change code or merge.</p>
+        <p>Full copy-ready prompts and settings are in <a href="../demo-assets/automations/automation-prompts.md">automation-prompts.md</a>. If no eligible PR has opened since you enabled the trigger, leave the event result as <strong>not observed yet</strong>.</p>
+        <div class="objectives"><h2>Check your result</h2><ul><li>The personal report lists your relevant work or clearly states that no results were found.</li><li>The shared report identifies the triggering PR and separates evidence from unknowns.</li><li>You can explain the difference between ownership, execution location and trigger. A manual run alone does not prove an event trigger worked.</li></ul></div>
+        <div class="presenter"><p><strong>Key idea:</strong> Personal helps you follow up on your work; shared gives the team a consistent report. Neither example has permission to make changes.</p><p><strong>If blocked:</strong> Review the saved instructions and trigger settings to understand the design. Keep unavailable data marked unknown, and pause any schedule you do not intend to keep using.</p></div>
+        <p class="source">Source: <a href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/using-automations">Using automations</a>.</p>
+      </section>
+
+      <section class="lesson" id="workbench" data-num="3" data-title="Jira Workbench → PR" data-time="15 min + agent time" hidden>
+        <span class="eyebrow">Core lesson · 3 of 5</span>
+        <h1>One Jira story, end to end</h1>
+        <p class="lead">Learn how one Jira story becomes a reviewed pull request. The Jira Sprint Workbench is a custom extension included in this repository, not a built-in Jira feature of the app. The Atlassian MCP connector supplies Jira access; the Workbench canvas guides analysis, planning, implementation, tests and review.</p>
+        <p>To try the full workflow, follow the <a href="../.github/extensions/jira-sprint-workbench/README.md">extension setup guide</a>, connect an authorized Jira account with a sandbox story in an active sprint, and confirm GitHub coding-agent access. Use the <a href="../demo-assets/jira/FORD-101.md">sample story</a> and <a href="../demo-assets/figma/booking-ev-slot-spec.md">design specification</a> to understand the requirements. Figma access is optional when using the supplied spec and PNG.</p>
+        <div class="callout important"><span class="callout-title">Before you start</span><p>Use a local delivery session on your practice copy of this repository. Replace <code>OWNER/REPOSITORY</code> and <code>FORD-101</code> in the prompts with your target repository and actual Jira key. Review automatic Jira-posting and status-transition preferences from earlier runs; disable any you have not chosen to use. Do not click <strong>Start with Copilot</strong> as well as running the stages; it is an alternative entry point that can start work immediately.</p></div>
+        <div class="prompt" data-label="Open the Workbench"><pre>Open the jira-sprint-workbench canvas for my Jira site. If several sites are available, ask me to choose.
+Use OWNER/REPOSITORY as the target repository. Do not start implementation.</pre></div>
+        <p>Select the EV charging story's <strong>Open workbench</strong>. Before running a stage:</p>
+        <div class="prompt" data-label="Existing delivery check"><pre>For FORD-101, inspect saved Workbench results, Jira links/comments, GitHub issues labeled jira:FORD-101, and related PRs in all states.
+Report the existing delivery session, implementation issue and PR if present. If another run already owns or delivered it, stop and show where to resume.
+Do not create, assign, implement, transition or post anything. Do not invoke jira-to-pr.</pre></div>
+        <h2>The five-stage route</h2>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Stage</th><th>Action</th><th>Expected result / stop condition</th></tr></thead>
+          <tbody>
+            <tr><td>1. Analyze</td><td><strong>Run analysis</strong></td><td>Acceptance criteria mapped to actual API, UI and tests; no edits.</td></tr>
+            <tr><td>2. Plan</td><td>Steer the plan, then <strong>Run planning agent</strong> once</td><td>One approved implementation issue with Jira/design context; no coding yet.</td></tr>
+            <tr><td>3. Implement</td><td><strong>Start coding agent</strong> once</td><td>Existing issue assigned; wait for its actual PR and completed implementation.</td></tr>
+            <tr><td>4. Test coverage</td><td>Inspect the PR's tests</td><td>Covered / partial / missing cases with evidence; fix gaps on the same PR.</td></tr>
+            <tr><td>5. Review</td><td>Review the existing PR</td><td>Checks, findings and browser evidence; approved summary linked back to Jira. No merge.</td></tr>
+          </tbody>
+        </table></div>
+        <h2>Refine the plan before coding</h2>
+        <p>After analysis, switch to <strong>Plan</strong> mode. Read the actual Figma frame if available, or explicitly use the committed spec and PNG. Keep the approved issue self-contained: cloud execution cannot rely on your local connector sessions.</p>
+        <div class="prompt" data-label="Plan with design context"><pre>Draft one end-to-end implementation plan for FORD-101 using its Workbench analysis.
+Read the Figma frame "Booking – EV charging bay", or clearly identify demo-assets\figma\booking-ev-slot-spec.md and booking-ev-slot.png as the fallback.
+Include the Jira/design links, exact UI copy and states, API requirements, impacted files and tests.
+Keep this plan-only: no file changes, issues, assignments or PRs yet.</pre></div>
+        <div class="prompt" data-label="Human requirement correction"><pre>Add this requirement before approval: reject evCharging requests for Gas and Hybrid vehicles with HTTP 400, and test both.
+Preserve four service bays and separately limit charging to two per hour. EV appointments without charging must still work when chargers are full but a service bay is free.
+Keep the story in one implementation issue and one PR.</pre></div>
+        <p>Agree on the plan without starting implementation. Return to <strong>Interactive</strong> and set this boundary before <strong>Run planning agent</strong>:</p>
+        <div class="prompt" data-label="Approve issue creation only"><pre>The plan is approved as requirements for one GitHub implementation issue only.
+When I select Run planning agent, create that issue, record its plan-stage result and stop.
+Do not assign a coding agent, edit app files or open a PR yet. Reuse an existing implementation issue if one is found.</pre></div>
+        <h2>Implement, then inspect the real result</h2>
+        <p>Open the recorded issue and verify its handoff. Select <strong>Start coding agent</strong> once. The Workbench reports stages through <code>record_stage_result</code>. A completed Implement card can mean <em>dispatched</em>, not finished code. Do not rerun creation/assignment buttons to poll.</p>
+        <div class="prompt" data-label="Read implementation status"><pre>Check the existing coding-agent assignment for the issue recorded in the FORD-101 Workbench.
+Do not reassign it or create new work. If the PR exists, record its exact URL and status in the implement result while preserving the issue link.
+If still pending, report pending and stop. Do not advance to coverage or review until implementation is ready.</pre></div>
+        <div class="callout tip"><span class="callout-title">While implementation runs</span><p>Agent execution can take time. You can study <a href="#parallelism">parallelism</a> in separate sessions while waiting, then return to finish coverage and review. Keep the implementation marked pending until its actual result is available; an assignment is not completed code.</p></div>
+        <p>Open the existing PR in a local review session on <strong>its branch</strong>, not a fresh branch from main. Do not have two agents write to that branch at the same time.</p>
+        <div class="prompt" data-label="Verify the existing PR"><pre>Open the existing FORD-101 PR recorded in the Workbench for review in a local checkout of its branch.
+Run npm test --prefix app. Start that checkout's app on an unused port and open its actual URL in the Browser canvas.
+Inspect the diff and verify the agreed acceptance criteria. Report evidence and gaps; do not fix files, start another implementation, open another PR or merge.</pre></div>
+        <h2>Check the browser and test results</h2>
         <ul>
-          <li><a href="https://docs.github.com/en/copilot/get-started/quickstart-copilot-app">Quickstart for the Copilot app</a></li>
-          <li><a href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/agent-sessions">Working with agent sessions</a></li>
-          <li><a href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/working-with-projects">Working with projects</a></li>
-          <li><a href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/using-automations">Using automations</a></li>
-          <li><a href="https://awesome-copilot.github.com/learning-hub/copilot-workshops/first-steps/copilot-app/">First steps: Copilot Workshops</a></li>
-          <li><a href="https://awesome-copilot.github.com/extensions/">Awesome Copilot extensions gallery</a></li>
-          <li><a href="https://github.com/octodemo/virtual-universe-26">GitHub Virtual Universe '26 cookbooks</a></li>
+          <li>Choose a future, non-Sunday date; EV shows the charging toggle and per-slot charger count. Gas/Hybrid hide it.</li>
+          <li>Reserve two charging appointments for one hour. A third charged booking conflicts with 409; an uncharged appointment can still use a remaining service bay.</li>
+          <li>Direct API requests for Gas/Hybrid charging return 400, not just a hidden UI control.</li>
+          <li>Another date/hour has independent charging capacity; service capacity still caps at four.</li>
+          <li>Confirmation mentions charging; keyboard navigation, labels, selected-slot state and the live message region still work.</li>
         </ul>
+        <p>Run the coverage and review stages on this same PR. Inspect the final Jira comment preview, then post once using <strong>Update Jira → Post comment to Jira</strong>. Do not move the story to Done merely because an agent review has no blocking findings.</p>
+        <div class="presenter"><p><strong>Key idea:</strong> Clarify business rules before coding. The issue is the implementation handoff, so it must contain enough context for an agent that cannot access your local connector sessions.</p><p><strong>Check your understanding:</strong> Explain the difference between an assigned issue, completed implementation, reviewed PR and merged change. A successful stage does not prove the next stage is complete.</p><p><strong>If blocked:</strong> Use the local story and design files for a read-only planning exercise. You can learn how to map requirements to a plan without claiming that Jira access or implementation succeeded.</p></div>
+      </section>
 
-        <div class="presenter">
-          <p>Ask: "Which story in your next sprint should we try this on?" Agree on a pilot date before you leave.</p>
+      <section class="lesson" id="parallelism" data-num="4" data-title="Parallelism + worktrees" data-time="7 min" hidden>
+        <span class="eyebrow">Core lesson · 4 of 5</span>
+        <h1>Parallel work without a shared checkout</h1>
+        <p class="lead">Use two independent local sessions with <strong>New worktree</strong> selected. A worktree isolates files and branch state; it is not a security sandbox and does not isolate ports or external systems.</p>
+        <div class="flow" aria-label="Two independent worktrees from a common baseline">
+          <div class="step">Same baseline commit<small>Record its SHA</small></div><span class="arrow" aria-hidden="true">→</span>
+          <div class="step">Session A<small>Worktree A · branch A · comments only</small></div>
+          <div class="step">Session B<small>Worktree B · branch B · read-only audit</small></div>
         </div>
+        <h2>Try two bounded tasks</h2>
+        <ol>
+          <li>In <strong>New session</strong>, choose the repository, <strong>This computer</strong>, <strong>New worktree</strong>, and the same recorded baseline branch/commit for both sessions.</li>
+          <li>Send A, then start B while A is working. Do not use <strong>Current checkout</strong> for this isolation exercise.</li>
+          <li>Watch working / needs-input / finished states. Record whether the tasks actually overlap. Separate sessions prove isolation only when their paths and changes are separate, not simply because two chats are open.</li>
+        </ol>
+        <div class="tabs">
+          <div class="tablist"><button>A · Documentation edit</button><button>B · Read-only audit</button></div>
+          <div class="tabpanel">
+            <div class="prompt" data-label="Parallel session A"><pre>In this session's own worktree, add concise JSDoc to createBookingStore and its create method in app\src\bookings.js.
+Document only behavior that exists. Change comments only, not runtime code.
+Run npm test --prefix app and leave the diff for review.
+Do not implement FORD-101, commit, push, open a PR or write to another checkout.</pre></div>
+          </div>
+          <div class="tabpanel" hidden>
+            <div class="prompt" data-label="Parallel session B"><pre>Read app\public\index.html and return a short accessibility checklist with file:line evidence for labels, keyboard slot selection and the live message region.
+Separate confirmed gaps from checks that need a browser.
+Read-only: do not modify files, implement FORD-101, create issues or PRs, or write to Jira.</pre></div>
+          </div>
+        </div>
+        <h2>Verify isolation, not just two chats</h2>
+        <p>Run this in each session's terminal. Compare different paths and branch names, matching initial commit SHAs, and the final diffs. A should contain its comment-only change; B should remain clean.</p>
+        <div class="prompt" data-label="PowerShell — each session"><pre>git rev-parse --show-toplevel
+git branch --show-current
+git rev-parse HEAD
+git status --short
+git --no-pager diff --stat
+git worktree list</pre></div>
+        <p>A worktree starts from a snapshot. Later changes on main or another worktree do not appear automatically; integrate them explicitly after review. Two branches can still conflict when merged. If starting servers, use distinct ports. A cloud session is a GitHub-hosted sandbox, not another local worktree listed here.</p>
+        <div class="objectives"><h2>Check your result</h2><ul><li>Two sessions, two local paths, two branches.</li><li>The intended change appears only in A.</li><li>The Workbench's EV delivery remains untouched.</li></ul></div>
+        <div class="presenter"><p><strong>Key idea:</strong> Parallelism divides independent work; worktrees keep working copies separate. Neither removes the need to integrate and review changes.</p><p><strong>If a task finishes early:</strong> You can still compare paths and diffs to verify isolation. That does not establish that the tasks ran at the same time.</p><p><strong>Connect the concepts:</strong> These sessions work on different tasks. Fusion, in the next lesson, chooses models inside a task.</p></div>
+        <p class="source">Source: <a href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/agent-sessions">Working with agent sessions</a>. Mode and tool permissions are separate settings.</p>
+      </section>
+
+      <section class="lesson" id="fusion" data-num="5" data-title="Fusion comparison" data-time="10 min" hidden>
+        <span class="eyebrow">Core lesson · 5 of 5</span>
+        <h1>Compare the result, not the label</h1>
+        <p class="lead">Fusion is a runtime model router and orchestrator, not a single model. It selects models, reasoning effort and execution patterns, then returns one final response.</p>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Choice</th><th>What you control</th><th>What it prioritizes</th><th>Use in this exercise</th></tr></thead>
+          <tbody>
+            <tr><td>Named model</td><td>Select an available model and reasoning effort</td><td>A fixed model selection for the main agent; delegated tools/agents are separate.</td><td>Baseline, not an assumed winner or loser.</td></tr>
+            <tr><td>Fusion Standard</td><td>Select Standard</td><td>Balances cost, quality and latency; selects one model for each task.</td><td>Everyday-work comparison.</td></tr>
+            <tr><td>Fusion High</td><td>Select High</td><td>Balanced orchestration for substantial, well-scoped work.</td><td>Compare with the named model.</td></tr>
+            <tr><td>Fusion Max</td><td>Select Max if available</td><td>Deep reasoning and thorough analysis while considering token efficiency.</td><td>Optional extended comparison.</td></tr>
+          </tbody>
+        </table></div>
+        <h2>Understand the execution patterns</h2>
+        <div class="cards">
+          <div class="card-feature"><h3>Single</h3><p>One model completes the task.</p></div>
+          <div class="card-feature"><h3>Cascade</h3><p>A draft is judged, then accepted or escalated to a stronger model.</p></div>
+          <div class="card-feature"><h3>Critique</h3><p>Independent critics review a draft; their feedback informs a revision.</p></div>
+        </div>
+        <div class="callout important"><span class="callout-title">A higher tier is not a guaranteed outcome</span><p>High does not always mean Cascade, and Max does not always mean Critique. Fusion selects patterns per prompt when warranted. Review calls can take longer and cost more. Compare the actual results rather than assuming a higher tier will be faster, cheaper or correct.</p></div>
+        <h2>Set up a fair, repeatable comparison</h2>
+        <ol>
+          <li>Record a baseline commit before the EV implementation is added using <code>git rev-parse HEAD</code>. Use fresh, clean sessions at that same commit with the same repository instructions and files.</li>
+          <li>Keep environment, permissions, tool access, session mode and prompt identical. No Jira access, previous conversation, extra hints or manual edits for one contender only. Do not delegate separate agents.</li>
+          <li>Start with <strong>one named model</strong> and <strong>Fusion High</strong> if available. You can add Standard and Max to extend the exercise. Each run uses credits. These are comparison sessions, not the Workbench delivery session.</li>
+          <li>Time from sending the prompt to its final response. Note approvals or connection delays. Hover the response's effort label to inspect actual models used. If a pattern or credit total is not exposed, record <strong>not shown</strong>.</li>
+        </ol>
+        <div class="prompt" data-label="Identical comparison prompt"><pre>Read app\src\slots.js, app\src\bookings.js, app\src\server.js, app\public\index.html and app\test.
+Propose the smallest safe design to add optional EV charging to this in-memory booking demo.
+
+Requirements:
+- Preserve four service bays per hour; charging is separately limited to two per date/hour.
+- Only EV vehicles may request charging. Gas and Hybrid charging requests return 400.
+- Charging exhaustion returns 409. An EV booking without charging may still use a free service bay.
+- EV slot responses expose evChargingAvailable and evChargingRemaining.
+- Preserve existing clients and validation; no database, dependencies or authentication.
+
+Return at most 600 words: a file-by-file plan, a test matrix with expected outcomes, and the top three risks with code evidence. Distinguish current behavior from proposed changes.
+Do not edit files, contact external services, create issues/PRs, or delegate agents. Do not implement the story.</pre></div>
+        <h2>Judge against the same rubric</h2>
+        <p>Score each row <strong>0</strong> (missing/incorrect), <strong>1</strong> (partial) or <strong>2</strong> (correct and testable). Total is out of 10. Hide the model labels while scoring if possible. This is a practice rubric, not a general benchmark.</p>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Criterion</th><th>Full-credit evidence</th></tr></thead>
+          <tbody>
+            <tr><td>Capacity correctness</td><td>Two charging / four service bays, scoped by date and hour; ordinary bookings don't consume chargers.</td></tr>
+            <tr><td>API rules</td><td>Gas/Hybrid 400, charging-full 409, EV slot metadata and unchanged behavior when the option is omitted.</td></tr>
+            <tr><td>UI behavior</td><td>EV-only toggle, charger counts, disabled charged slots when full, accessible feedback.</td></tr>
+            <tr><td>Tests</td><td>Two successes then charging conflict; uncharged booking still succeeds; invalid vehicles; independent date/hour; existing tests preserved.</td></tr>
+            <tr><td>Evidence and scope</td><td>Grounded file references, small changes, no invented asynchronous race inside synchronous store.create(), no unrequested architecture.</td></tr>
+          </tbody>
+        </table></div>
+        <h2>Results worksheet — fill from actual runs</h2>
+        <p>Copy this worksheet into the notes below and fill it from your own runs. It contains no measured results yet. Leave missing telemetry unknown, not zero.</p>
+        <div class="prompt" data-label="Fusion results worksheet"><pre>Baseline commit:
+Date / app version / environment:
+Identical prompt and tools confirmed:
+
+Choice | Actual model(s) shown | Time to final | AI credits shown | Score /10 | Unsupported claims / corrections
+Named model (name + effort): | not measured | not measured | not measured | not scored |
+Fusion Standard:            | not measured | not measured | not measured | not scored |
+Fusion High:                | not measured | not measured | not measured | not scored |
+Fusion Max:                 | not measured | not measured | not measured | not scored |
+
+Approval / network delays:
+Best-supported differences in these runs:
+What this single-task exercise cannot establish:</pre></div>
+        <div class="presenter"><p><strong>Key idea:</strong> You choose the tradeoff; Fusion chooses the models. Evaluate concrete omissions, corrections and evidence rather than length or confident wording.</p><p><strong>If a tier is unavailable:</strong> Check your plan and model policy, then compare the choices you can use. Mark unrun choices as not measured instead of inventing timing or credit data.</p><p><strong>Check your understanding:</strong> Explain why one task cannot establish a universal winner, and why model orchestration does not replace human review.</p></div>
+        <p class="source">Source: <a href="https://docs.github.com/en/copilot/concepts/models/copilot-fusion">About GitHub Copilot Fusion</a>, checked November 12, 2026. Recheck current availability and billing before running the exercise.</p>
+      </section>
+
+      <section class="lesson" id="agent-merge" data-num="6" data-title="Optional: Agent Merge" data-time="5 min · optional" hidden>
+        <span class="eyebrow">Optional lesson · A</span>
+        <h1>Keep a PR moving without giving up review</h1>
+        <p class="lead">Agent Merge can address review feedback, failing checks and merge conflicts. Permission to perform maintenance is not permission to merge.</p>
+        <ol>
+          <li>Open the same Workbench PR. Confirm it is open and the coding agent is no longer writing to it.</li>
+          <li>Inspect its review threads and continuous integration (CI) checks. Identify which maintenance actions are enabled and which are not.</li>
+          <li>Inspect the Agent Merge controls with <strong>merge disabled</strong>. If the UI only provides a combined enable-and-merge action, leave it off for this exercise.</li>
+          <li>If you choose to try maintenance, approve only the selected actions and inspect the resulting update. If no review feedback or failing check needs attention, inspection alone is enough; do not introduce a failure just to exercise the feature.</li>
+        </ol>
+        <div class="prompt" data-label="Inspect Agent Merge only"><pre>For the existing FORD-101 PR, show Agent Merge's current status and available actions.
+Explain which checks, reviews or conflicts need attention.
+Do not enable it, edit or push code, resolve threads, approve, or merge. This is an inspection only.</pre></div>
+        <div class="prompt" data-label="Optional maintenance — only after your explicit approval"><pre>For this existing open PR, enable only the Agent Merge maintenance actions I selected for review feedback, failing checks and merge conflicts.
+Keep merge_pr disabled. Work on this PR only; preserve required reviews and checks.
+If maintenance cannot be enabled without enabling merge, stop and explain instead.</pre></div>
+        <p><strong>Check your result:</strong> inspect the actual diff, updated check or addressed thread, not merely an “enabled” badge. Human approval and repository protections still apply. Leave the PR open for review; a green agent review is not human approval. Disable practice-only maintenance if you do not want it to continue.</p>
+        <div class="presenter"><p><strong>Key idea:</strong> PR maintenance and merging are separate permissions. Agent Merge does not bypass required checks or make the release decision for you.</p><p><strong>If unavailable:</strong> Study the existing review threads and checks. Identify what maintenance would help without claiming an automated update occurred.</p></div>
+        <p class="source">Overview: <a href="https://github.com/github/app">GitHub Copilot app</a>. Verify the available action controls in your app version.</p>
+      </section>
+
+      <section class="lesson" id="stacked-prs" data-num="7" data-title="Optional: Stacked PRs" data-time="5 min · optional" hidden>
+        <span class="eyebrow">Optional lesson · B</span>
+        <h1>Small reviews for dependent changes</h1>
+        <p class="lead">Independent work branches from the same baseline. Dependent work forms a stack: the upper PR targets the branch below it, so each review shows one layer.</p>
+        <div class="flow" aria-label="Stack dependency order">
+          <div class="step">main<small>Ultimate base</small></div><span class="arrow" aria-hidden="true">←</span>
+          <div class="step">PR A · API + tests<small>Base: main</small></div><span class="arrow" aria-hidden="true">←</span>
+          <div class="step">PR B · UI + tests<small>Base: branch A</small></div>
+        </div>
+        <h2>Practice with a separate follow-up</h2>
+        <p>Use a new, unstarted follow-up: <strong>show estimated service duration in booking confirmation</strong>. Layer A adds an additive <code>durationMin</code> field to the booking response, with tests and API docs. Layer B consumes that field in the confirmation UI, with tests. Check whether this work already exists before selecting it.</p>
+        <div class="prompt" data-label="Stack exercise plan — no writes"><pre>Plan a separate service-duration confirmation feature as two dependent PRs.
+Do not change or split the existing FORD-101 delivery.
+First check whether this follow-up already has an implementation or PR; if so, show it and stop.
+Layer A: add durationMin to the booking response, with API tests and documentation.
+Layer B: use that response field in the confirmation UI, with tests.
+Show the proposed session/branch/PR-base chain. Plan only: do not create sessions, edit files, push, open PRs, register a stack or merge until I approve.</pre></div>
+        <p>If you choose to implement the exercise, explicitly approve opening the two PRs using the app's <code>pr-stack</code> skill in your practice repository. Create layers <strong>sequentially, bottom to top</strong>: A must commit and push before B's worktree snapshots A. Each layer owns its branch and opens its PR in the app.</p>
+        <h2>Inspect the base branches and diffs</h2>
+        <ol>
+          <li>Open the bottom PR and confirm its base is <code>main</code> with an API-only diff.</li>
+          <li>Open the top PR and confirm its base is <strong>branch A</strong>, not main. Its review should show only the UI layer.</li>
+          <li>Explore stack navigation if native registration is supported. A dependent branch chain alone is not proof of registered native stack metadata.</li>
+          <li>Notice that a lower-layer change may require rebase/sync and renewed checks above it. Keep changes in the owning sessions; do not force-push another active session's branch.</li>
+        </ol>
+        <div class="callout important"><span class="callout-title">Keep merging outside this exercise</span><p>Native stacks can have cascading merge and queue behavior. Review the full membership, ordered bases, checks and protections before any separately authorized merge action. Cross-fork PRs are not eligible for native stack registration; a dependent-PR chain without registration is still a different result.</p></div>
+        <div class="presenter"><p><strong>Key idea:</strong> A stack makes dependencies explicit and reviews smaller. Independent changes usually do not need a stack.</p><p><strong>Check your understanding:</strong> Explain why the top PR targets branch A rather than main, and what may need updating if A changes.</p><p><strong>If unavailable:</strong> Use the dependency diagram to trace the two diffs. Creating the PRs is an optional extension and takes additional agent time.</p></div>
+        <p class="source">Technical reference: <a href="https://docs.github.com/en/pull-requests/reference/stacked-pull-requests-apis-and-webhooks">Native stack APIs</a>. Check availability and the installed <code>pr-stack</code> skill before trying the exercise.</p>
       </section>
 
     </main>
   </div>
-
-  <footer class="site-footer">
-    Zero dependencies · Static HTML, CSS &amp; JavaScript · Built for the Ford × GitHub Copilot workshop
-  </footer>
-
+  <footer class="site-footer">GitHub Copilot App learning guide · Learn, try, reflect · Fictional Dealer Service Booking scenario</footer>
   <script src="script.js"></script>
 </body>
 </html>
