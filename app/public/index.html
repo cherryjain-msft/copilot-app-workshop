@@ -117,7 +117,12 @@
         renderSlots();
         return;
       }
-      cachedSlots = await api(`/api/slots?date=${date}&vehicleType=${$("vehicleType").value}`);
+      cachedSlots = null;
+      renderSlots();
+      const vehicleType = $("vehicleType").value;
+      const data = await api(`/api/slots?date=${date}&vehicleType=${vehicleType}`);
+      if (date !== $("date").value || vehicleType !== $("vehicleType").value) return;
+      cachedSlots = data;
       renderSlots();
     }
 
