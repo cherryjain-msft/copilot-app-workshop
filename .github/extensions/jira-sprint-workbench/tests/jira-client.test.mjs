@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test, { beforeEach } from "node:test";
 
-import { requireCanvasOpenInput } from "../server/jira-client.mjs";
+import { FORD_JIRA_DEFAULTS, requireCanvasOpenInput, resolveDashboardInput } from "../server/jira-client.mjs";
 
 let fetchOpenSprintIssues;
 let moduleId = 0;
@@ -52,6 +52,13 @@ test("normalizes and validates canvas site input", () => {
     );
 });
 
+test("defaults the dashboard to the Ford Jira site and project", () => {
+    assert.deepEqual(resolveDashboardInput(), {
+        ...FORD_JIRA_DEFAULTS,
+        projectKey: "FORD",
+    });
+});
+
 test("executes the session tool and paginates authoritative text without MCP Apps", async () => {
     const { session, calls } = makeSession(async (_args, page) => ({
         ...success(page === 1
@@ -65,7 +72,10 @@ test("executes the session tool and paginates authoritative text without MCP App
     assert.equal(calls[0].name, "atlassian-searchJiraIssuesUsingJql");
     assert.deepEqual(Object.keys(calls[0]).sort(), ["arguments", "name"]);
     assert.equal(calls[0].arguments.cloudId, identifiers.cloudId);
-    assert.equal(calls[0].arguments.jql, "sprint in openSprints() ORDER BY priority DESC, Rank ASC");
+    assert.equal(
+        calls[0].arguments.jql,
+        "project = FORD AND sprint in openSprints() ORDER BY priority DESC, Rank ASC",
+    );
     assert.equal(calls[0].arguments.maxResults, 100);
     assert.equal(calls[1].arguments.nextPageToken, "page-2");
 });

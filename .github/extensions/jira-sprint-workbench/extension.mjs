@@ -3,7 +3,7 @@ import { createCanvas, CanvasError, joinSession } from "@github/copilot-sdk/exte
 import {
     JiraDashboardError,
     fetchOpenSprintIssues,
-    requireCanvasOpenInput,
+    resolveDashboardInput,
 } from "./server/jira-client.mjs";
 import {
     buildDashboardModel,
@@ -92,7 +92,7 @@ function normalizeSessionId(value) {
 }
 
 function resolveCanvasIdentifiers(source) {
-    const identifiers = requireCanvasOpenInput(source);
+    const identifiers = resolveDashboardInput(source);
     const projectId = normalizeProjectId(source?.projectId);
     return projectId ? { ...identifiers, projectId } : identifiers;
 }
@@ -317,6 +317,7 @@ async function loadFreshModel(identifiers) {
         identifiers.siteUrl,
         result.fetchedAt,
         result.partial,
+        identifiers.projectKey,
     );
 }
 
@@ -344,11 +345,22 @@ const dashboardCanvas = createCanvas({
     inputSchema: {
         type: "object",
         additionalProperties: false,
-        required: ["cloudId", "siteUrl"],
         properties: {
-            cloudId: { type: "string", minLength: 1 },
-            siteUrl: { type: "string", pattern: "^https://" },
-            projectId: { type: "string", minLength: 1 },
+            cloudId: {
+                type: "string",
+                minLength: 1,
+                default: "834e5d3d-0113-409c-9bc8-76bf55658353",
+            },
+            siteUrl: {
+                type: "string",
+                pattern: "^https://",
+                default: "https://msft-demo.atlassian.net",
+            },
+            projectId: {
+                type: "string",
+                minLength: 1,
+                description: "Copilot project ID for nested code work; this is not the Jira project ID.",
+            },
         },
     },
     actions: [

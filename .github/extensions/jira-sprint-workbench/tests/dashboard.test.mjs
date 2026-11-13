@@ -69,6 +69,12 @@ test("builds an allowlisted four-stat renderer model", () => {
     }
 });
 
+test("labels the dashboard scope and empty state with its Jira project", () => {
+    const model = buildDashboardModel([], "https://example.atlassian.net", "2026-08-17T00:00:00Z", false, "FORD");
+    assert.equal(model.context.scopeLabel, "FORD project work items in currently open sprints");
+    assert.equal(model.quality.notice, "No Jira issues were returned for FORD project currently open sprints.");
+});
+
 test("renders risk and attention as an accessible linked table", () => {
     const model = buildDashboardModel(
         [sampleIssue()],
