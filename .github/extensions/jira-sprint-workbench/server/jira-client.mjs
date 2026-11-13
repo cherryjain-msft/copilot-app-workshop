@@ -1,4 +1,9 @@
-const OPEN_SPRINT_JQL = "sprint in openSprints() ORDER BY priority DESC, Rank ASC";
+export const FORD_PROJECT_KEY = "FORD";
+export const FORD_JIRA_DEFAULTS = Object.freeze({
+    cloudId: "834e5d3d-0113-409c-9bc8-76bf55658353",
+    siteUrl: "https://msft-demo.atlassian.net",
+});
+const OPEN_SPRINT_JQL = `project = ${FORD_PROJECT_KEY} AND sprint in openSprints() ORDER BY priority DESC, Rank ASC`;
 const SEARCH_FIELDS = [
     "summary",
     "status",
@@ -51,6 +56,16 @@ export function requireCanvasOpenInput(source) {
         );
     }
     return { cloudId, siteUrl };
+}
+
+export function resolveDashboardInput(source = {}) {
+    return {
+        ...requireCanvasOpenInput({
+            cloudId: source.cloudId === undefined ? FORD_JIRA_DEFAULTS.cloudId : source.cloudId,
+            siteUrl: source.siteUrl === undefined ? FORD_JIRA_DEFAULTS.siteUrl : source.siteUrl,
+        }),
+        projectKey: FORD_PROJECT_KEY,
+    };
 }
 
 function selectSearchTool(tools) {

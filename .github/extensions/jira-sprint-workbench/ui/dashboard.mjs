@@ -360,7 +360,7 @@ function completedByWorkingDay(issues, now) {
     } : null;
 }
 
-export function buildDashboardModel(rawIssues, siteUrl, fetchedAt, partial = false) {
+export function buildDashboardModel(rawIssues, siteUrl, fetchedAt, partial = false, projectKey = "") {
     const now = parseDate(fetchedAt) ?? Date.now();
     const normalized = (Array.isArray(rawIssues) ? rawIssues : [])
         .map((issue) => normalizeIssue(issue, siteUrl, now))
@@ -388,13 +388,17 @@ export function buildDashboardModel(rawIssues, siteUrl, fetchedAt, partial = fal
 
     let notice = null;
     if (partial) notice = "This dashboard is based on a partial Jira result set.";
-    else if (normalized.length === 0) notice = "No Jira issues were returned for currently open sprints.";
+    else if (normalized.length === 0) {
+        notice = `No Jira issues were returned for ${projectKey ? `${projectKey} project ` : ""}currently open sprints.`;
+    }
 
     return {
         schemaVersion: 1,
         context: {
             title: "Jira sprint workbench",
-            scopeLabel: "All visible work items in currently open sprints",
+            scopeLabel: projectKey
+                ? `${projectKey} project work items in currently open sprints`
+                : "All visible work items in currently open sprints",
             site: hostname,
             projectCount: projects.length,
             sprintNames: sprints,

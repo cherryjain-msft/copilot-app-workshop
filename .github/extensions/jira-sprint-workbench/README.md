@@ -11,7 +11,7 @@ Based on the Atlassian Labs `jira-sprint-dashboard-canvas` (Apache-2.0). See `LI
 
 ## Opening it
 
-Ask Copilot: *"Open the jira-sprint-workbench canvas"*. You need the Atlassian MCP server connected. The input is `{ cloudId, siteUrl }`. The story panel also takes `issueKey` and an optional `repo` (`owner/name`, which defaults to this workspace's `origin`).
+Ask Copilot: *"Open the jira-sprint-workbench canvas"*. You need the Atlassian MCP server connected. The dashboard defaults to the Ford Jira site (`msft-demo.atlassian.net`) and only queries open sprints in the `FORD` project. The story panel takes `issueKey` and an optional `repo` (`owner/name`, which defaults to this workspace's `origin`).
 
 ## Story flow
 
