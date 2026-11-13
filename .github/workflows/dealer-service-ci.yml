@@ -1,0 +1,30 @@
+name: Dealer service CI
+
+on:
+  pull_request:
+    paths:
+      - 'app/**'
+      - 'demo-assets/automations/ci/**'
+      - '.github/workflows/dealer-service-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dealer-service-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: App tests
+        run: npm test --prefix app
+      - name: Cancellation contract check
+        run: node --test demo-assets/automations/ci/cancellation-contract.test.cjs

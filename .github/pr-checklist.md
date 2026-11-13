@@ -1,6 +1,6 @@
 # Pull request checklist
 
-Reviewers and the **PR standards check** automation (`demo-assets/automations/automation-prompts.md`) use this list. Mark each item **pass**, **fail** or **n/a**.
+Reviewers use this list for app changes. Mark each item **pass**, **fail** or **n/a**. The Automations lesson's release briefing and CI diagnosis are not replacements for this checklist.
 
 1. **Linked story.** The PR title or description includes the Jira key (for example `FORD-101`) and a one-line summary.
 2. **Tests.** New or changed behavior has tests in `app/test/`, and `npm test` passes in `app/`.
