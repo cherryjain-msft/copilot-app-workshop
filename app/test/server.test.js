@@ -30,6 +30,18 @@ test("GET /api/slots returns slots", async () => {
   assert.equal(body.slots.length, 9);
 });
 
+test("GET /api/slots includes charger fields only for EVs", async () => {
+  const evRes = await fetch(`${base}/api/slots?date=2026-11-18&vehicleType=EV`);
+  const evSlot = (await evRes.json()).slots[0];
+  assert.equal(typeof evSlot.evChargingAvailable, "boolean");
+  assert.equal(typeof evSlot.evChargingRemaining, "number");
+
+  const gasRes = await fetch(`${base}/api/slots?date=2026-11-18&vehicleType=Gas`);
+  const gasSlot = (await gasRes.json()).slots[0];
+  assert.equal("evChargingAvailable" in gasSlot, false);
+  assert.equal("evChargingRemaining" in gasSlot, false);
+});
+
 test("GET /api/slots returns 400 for bad input", async () => {
   const res = await fetch(`${base}/api/slots?date=bad&vehicleType=Gas`);
   assert.equal(res.status, 400);
@@ -44,6 +56,48 @@ test("POST /api/bookings creates a booking", async () => {
   assert.equal(res.status, 201);
   const booking = await res.json();
   assert.equal(booking.customerName, "Jordan");
+});
+
+test("POST /api/bookings reserves charging bays and rejects a third reservation", async () => {
+  const payload = {
+    date: "2026-11-18",
+    time: "10:00",
+    service: "tire-rotation",
+    vehicleType: "EV",
+    evCharging: true,
+  };
+  for (const customerName of ["EV Customer 1", "EV Customer 2"]) {
+    const res = await fetch(`${base}/api/bookings`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...payload, customerName }),
+    });
+    assert.equal(res.status, 201);
+    assert.equal((await res.json()).evCharging, true);
+  }
+  const full = await fetch(`${base}/api/bookings`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ...payload, customerName: "EV Customer 3" }),
+  });
+  assert.equal(full.status, 409);
+  assert.match((await full.json()).error, /No EV charging bays left/);
+});
+
+test("POST /api/bookings rejects charging reservations for Gas vehicles", async () => {
+  const res = await fetch(`${base}/api/bookings`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      date: "2026-11-18",
+      time: "10:00",
+      service: "tire-rotation",
+      vehicleType: "Gas",
+      customerName: "Gas Customer",
+      evCharging: true,
+    }),
+  });
+  assert.equal(res.status, 400);
 });
 
 test("GET / serves the booking page", async () => {

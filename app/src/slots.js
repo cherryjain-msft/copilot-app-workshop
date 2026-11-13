@@ -12,6 +12,7 @@ const VEHICLE_TYPES = ["Gas", "Hybrid", "EV"];
 const OPEN_HOUR = 8;
 const CLOSE_HOUR = 17;
 const SERVICE_BAYS_PER_HOUR = 4;
+const EV_CHARGING_BAYS_PER_HOUR = 2;
 
 function isValidDate(date) {
   if (typeof date !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(date)) return false;
@@ -26,6 +27,15 @@ function isSunday(date) {
 function validateVehicleType(vehicleType) {
   if (!VEHICLE_TYPES.includes(vehicleType)) {
     throw new BookingError(`vehicleType must be one of: ${VEHICLE_TYPES.join(", ")}`);
+  }
+}
+
+function validateEvCharging(vehicleType, evCharging) {
+  if (evCharging !== undefined && typeof evCharging !== "boolean") {
+    throw new BookingError("evCharging must be true or false");
+  }
+  if (evCharging === true && vehicleType !== "EV") {
+    throw new BookingError("EV charging bays are only available for EV vehicles");
   }
 }
 
@@ -52,7 +62,7 @@ function hourLabel(hour) {
  * Returns hourly slots for a date with remaining service-bay capacity.
  * @param {string} date YYYY-MM-DD
  * @param {string} vehicleType Gas | Hybrid | EV
- * @param {Array<{date:string,time:string}>} bookings existing bookings
+ * @param {Array<{date:string,time:string,evCharging?:boolean}>} bookings existing bookings
  */
 function getSlots(date, vehicleType, bookings = []) {
   if (!isValidDate(date)) throw new BookingError("date must be YYYY-MM-DD");
@@ -65,9 +75,16 @@ function getSlots(date, vehicleType, bookings = []) {
   const slots = [];
   for (let hour = OPEN_HOUR; hour < CLOSE_HOUR; hour++) {
     const time = hourLabel(hour);
-    const booked = bookings.filter((b) => b.date === date && b.time === time).length;
+    const sameHour = bookings.filter((b) => b.date === date && b.time === time);
+    const booked = sameHour.length;
     const remaining = Math.max(0, SERVICE_BAYS_PER_HOUR - booked);
-    slots.push({ time, available: remaining > 0, remaining });
+    const slot = { time, available: remaining > 0, remaining };
+    if (vehicleType === "EV") {
+      const chargingBooked = sameHour.filter((b) => b.evCharging === true).length;
+      slot.evChargingRemaining = Math.max(0, EV_CHARGING_BAYS_PER_HOUR - chargingBooked);
+      slot.evChargingAvailable = slot.evChargingRemaining > 0;
+    }
+    slots.push(slot);
   }
   return { date, vehicleType, open: true, slots };
 }
@@ -78,8 +95,10 @@ module.exports = {
   OPEN_HOUR,
   CLOSE_HOUR,
   SERVICE_BAYS_PER_HOUR,
+  EV_CHARGING_BAYS_PER_HOUR,
   BookingError,
   isValidDate,
   listServices,
+  validateEvCharging,
   getSlots,
 };
