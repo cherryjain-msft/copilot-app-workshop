@@ -2,6 +2,8 @@
 
 Companion to the [Projects lesson](../../workshop/index.html#projects). Learn to investigate one problem across three repositories using shared reference files. **Start with the read-only investigation:** it makes no code changes, branches, issues or PRs.
 
+This is **use case 1.1**. For a repository-free example with three Excel files and a stakeholder dashboard, use [1.2: Dealer service planning](analytics/README.md).
+
 Projects are in public preview and subject to change. Check availability in your app before starting. If you cannot access the repositories, use the scenario and answer key to understand the reasoning without claiming a completed agent run.
 
 | Setting | Value |

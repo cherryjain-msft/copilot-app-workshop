@@ -1,0 +1,9 @@
+{
+  "description": "Fictional API/portal compatibility fixture; not a live service contract.",
+  "api": {
+    "responseFields": ["cancelDeadline", "canCancel", "cancellationReason"]
+  },
+  "portal": {
+    "requiredFields": ["cancelDeadline", "canCancel", "cancellationReason"]
+  }
+}

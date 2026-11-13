@@ -14,8 +14,9 @@ GitHub displays `.html` files as source; it does not run their JavaScript inside
 
 | Order | Topic | Suggested lesson time |
 |---|---|---|
-| 1 | [Projects: one problem across three repositories](workshop/index.html#projects) | 7 minutes + agent time |
-| 2 | [Automations: personal schedule + shared trigger](workshop/index.html#automations) | 8 minutes |
+| 1.1 | [Projects: one problem across three repositories](workshop/index.html#projects-cross-repo) | 7 minutes + agent time; optional issue-based meeting deck |
+| 1.2 | [Projects: scattered Excel files to a decision dashboard](workshop/index.html#projects-analytics) | 7 minutes + agent time |
+| 2 | [Automations: personal briefing + shared CI first response](workshop/index.html#automations) | 8 minutes + CI setup/agent time |
 | 3 | [Jira Workbench: analysis, plan, implementation, tests, PR review](workshop/index.html#workbench) | 15 minutes + agent time |
 | 4 | [Parallel sessions and worktree isolation](workshop/index.html#parallelism) | 7 minutes |
 | 5 | [Copilot Fusion: controlled comparison with a named model](workshop/index.html#fusion) | 10 minutes |
@@ -60,16 +61,21 @@ For frontend regression checks, open **http://127.0.0.1:8080/workshop/tests.html
 | Projects repositories | [dealer-appointments-api](https://github.com/cherryjain-msft/dealer-appointments-api) · [dealer-customer-portal](https://github.com/cherryjain-msft/dealer-customer-portal) · [dealer-help-center](https://github.com/cherryjain-msft/dealer-help-center) | Add all three to the practice Project. They are private; use authorized access or your own permitted copies |
 | Projects Library | [Brief, glossary and support tickets](demo-assets/projects/library/) | Upload only this folder to the Project's Library |
 | Projects exercise kit | [Setup, answer key and repeat-run guidance](demo-assets/projects/README.md) | Check your findings after the exercise; don't upload the answer key to the Project |
+| Projects 1.2 Excel files | [Demand, capacity, feedback and decision brief](demo-assets/projects/analytics/library/) | Add only this folder to a new, repository-free Project |
+| Projects 1.2 exercise kit | [Dashboard prompt, metric definitions and answer checks](demo-assets/projects/analytics/README.md) | Generate a filterable HTML planning dashboard; review before sharing |
 | Sprint backlog | [Jira import CSV](demo-assets/jira/backlog.csv) | Optional backlog for a sandbox Jira project |
 | Story requirements | [FORD-101 story](demo-assets/jira/FORD-101.md) | EV charging scenario; replace the sample key with the actual Jira key |
 | Design requirements | [Figma specification](demo-assets/figma/booking-ev-slot-spec.md) | Exact frame setup, UI states and copy |
 | Design image | [EV booking mock PNG](demo-assets/figma/booking-ev-slot.png) | Visual fallback if the live Figma connector is unavailable |
-| Automation prompts | [Personal follow-up and shared PR intake examples](demo-assets/automations/automation-prompts.md) | Weekly schedule; pull-request-opened trigger |
+| Automation prompts | [Cross-repo release briefing and recurring CI first response](demo-assets/automations/automation-prompts.md) | Local manual/weekly dashboard; shared cloud response to every eligible failed test run |
+| Automation seed | [Cancellation release packet template](demo-assets/automations/cancellation-release-packet.md) | Existing demo PR links, synthetic staging gaps and 40 support tickets; reuse one practice issue |
+| Shared CI demo kit | [Installed workflow, contract fixture and repeatable failure demo](demo-assets/automations/ci/README.md) | Commit/push the workflow and kit together; shared automation setup remains separate |
+| Alternative support exercise | [Dealer support intake template](demo-assets/automations/dealer-support-intake.md) | Optional bug/feature classification exercise, not the primary shared automation |
 | Jira Workbench | [Extension guide](.github/extensions/jira-sprint-workbench/README.md) | Custom extension setup, five-stage flow and Jira-write preferences |
 | Standalone alternative | [`jira-to-pr` skill](.github/skills/jira-to-pr/SKILL.md) | A different, unstarted story only; not a second FORD-101 delivery |
 | Sample app | [App files](app/) · [run instructions](#run-the-sample-app) · [API](#api-baseline) | Start the dependency-free practice app |
 | Coding conventions | [Repository instructions](.github/copilot-instructions.md) | Scope, validation, accessibility and tests |
-| PR evidence | [Review checklist](.github/pr-checklist.md) | Human review and optional PR-check automation |
+| PR evidence | [Review checklist](.github/pr-checklist.md) | Human review of app changes |
 | Fusion exercise | [Comparison, identical prompt and scorecard](workshop/index.html#fusion) | Record real outputs; no preselected winner |
 | Browser checks | [Guide test page](workshop/tests.html) | Open locally over HTTP to verify the interactive guide |
 
@@ -84,7 +90,8 @@ Use your own authorized Jira, Figma, issue and PR links. Replace sample reposito
 | [`demo-assets/projects/`](demo-assets/projects/) | Projects exercise kit and Library files for the cross-repo investigation. The three repositories it uses live outside this repo |
 | [`demo-assets/jira/`](demo-assets/jira/) | EV charging story and importable backlog CSV |
 | [`demo-assets/figma/`](demo-assets/figma/) | Committed design PNG and specification; optional live Figma setup |
-| [`demo-assets/automations/`](demo-assets/automations/) | Reusable read-only and PR-check prompts |
+| [`demo-assets/automations/`](demo-assets/automations/) | Cross-repo dashboard, shared CI-diagnosis prompt, CI kit and alternative support seed |
+| [`.github/workflows/dealer-service-ci.yml`](.github/workflows/dealer-service-ci.yml) | Dealer service CI: app tests and the demo contract check on matching PR changes, plus manual dispatch |
 | [`.github/extensions/jira-sprint-workbench/`](.github/extensions/jira-sprint-workbench/) | Custom Jira canvases, tests, license and attribution |
 | [`.github/skills/jira-to-pr/`](.github/skills/jira-to-pr/) | Alternative standalone delivery path for a different, unstarted story |
 | [Repository instructions](.github/copilot-instructions.md), [PR checklist](.github/pr-checklist.md) | App coding conventions and review checklist |
@@ -98,7 +105,7 @@ Use your own authorized Jira, Figma, issue and PR links. Replace sample reposito
 - Review automation ownership, tool grants and triggers before enabling them. Start with read-only reports, and pause schedules you do not intend to keep running.
 - Make changes only in practice repositories you control. Reading a lesson does not authorize creating issues, posting comments, enabling automations or merging PRs.
 
-**One story, one owner:** the Workbench exercise owns the EV story. Check existing Jira links, saved stage results, issues and PRs in all states before creating anything. Automations report on it, while parallel sessions and Fusion do not implement it again. Projects investigates a separate cross-repository problem. The standalone `jira-to-pr` skill is an alternative, not a second route for the same story. A successful assignment is not completed implementation, and a clean review is not a merged PR.
+**One story, one owner:** the Workbench exercise owns the EV story. Check existing Jira links, saved stage results, issues and PRs in all states before creating anything. Parallel sessions and Fusion do not implement it again. Projects and Automations use the separate cancellation rollout; the automation packet reuses its existing PRs, not a second delivery. The standalone `jira-to-pr` skill is an alternative, not a second route for the same story. A successful assignment is not completed implementation, and a clean review is not a merged PR.
 
 ## Run the sample app
 
