@@ -1,107 +1,147 @@
-# Copilot app workshop
+# GitHub Copilot App learning guide
 
-Reusable deck, hands-on workshop, demo guides and demo assets for a beginner-to-intermediate customer session on the latest GitHub Copilot features. The current sample customer theme is Ford.
+**Start here: [the interactive learning guide](workshop/index.html)** — self-paced lessons explaining what each feature does, when to use it, and how to try it. Each lesson includes copy-ready prompts, expected results, learning tips and space for your notes.
 
-> **All data and stories in this repo are made up for the demo.** The warranty data, Jira backlog, Figma mock and booking app are not real Ford systems or data.
+**Follow along:** [open the HTML locally](#open-the-guide) → [choose a lesson](#learning-path) → [use the supporting files](#supporting-files-and-links) → [check the official documentation](#product-references).
 
-## Agenda (about 75 minutes)
+GitHub displays `.html` files as source; it does not run their JavaScript inside this README. Download or clone the repository and open the HTML locally for navigation, prompts and notes. No public hosted version is assumed by these links.
 
-| # | Topic | Slides | Time | Demo guide |
-|---|---|---|---|---|
-| 1 | What is the Copilot app | 3–5 | 10 min | [01-copilot-app-tour](demos/01-copilot-app-tour.md) |
-| 2 | Agent-first: where GitHub is going | 6 | 5 min | — |
-| 3 | Connectors and canvases | 7–8 | 10 min | [02-connectors-canvases](demos/02-connectors-canvases.md) |
-| 4 | Copilot Fusion and the 30% offer | 9–10 | 8 min | [03-copilot-fusion](demos/03-copilot-fusion.md) |
-| 5 | Demo: Jira story + Figma design to PR | 11 | 15 min | [04-jira-figma](demos/04-jira-figma.md) |
-| 6 | Excel for business users | 12 | 8 min | [05-excel-business-users](demos/05-excel-business-users.md) |
-| 7 | Automations | 13–14 | 9 min | [06-automations](demos/06-automations.md) |
-| 8 | Getting started and Q&A | 15–16 | 10 min | [qa/faq](qa/faq.md) |
+**Optional slides:** [Ignite Watch Party - GitHub Copilot App and Fusion Demo.pptx](https://microsoft-my.sharepoint.com/:p:/r/personal/cherryjain_microsoft_com/_layouts/15/Doc.aspx?sourcedoc=%7B775DAA7D-D4E1-4931-8BDE-D81C8CAB76D9%7D&file=Ignite%20Watch%20Party%20-%20GitHub%20Copilot%20App%20and%20Fusion%20Demo.pptx&action=edit). The slides require Microsoft sign-in and separately granted file access. They are not required to use the learning guide.
 
-Start with the **[prep checklist](demos/00-prep-checklist.md)**. It covers admin policies, connectors, Jira and Figma setup, and backup branches.
+> All stories, designs, app data and the companion `dealer-*` repositories are fictional demo material, not Ford production systems or data.
 
-## Hands-on workshop
+## Learning path
 
-`workshop/` is a customer-facing, self-paced lab in the [First Steps: Copilot Workshops](https://awesome-copilot.github.com/learning-hub/copilot-workshops/first-steps/copilot-app/) format, updated with [Virtual Universe '26](https://github.com/octodemo/virtual-universe-26) content. It has 11 lessons (about 2 hours): the Copilot app, Projects, connectors, canvases, Copilot Fusion, the Jira Sprint Workbench, Jira + Figma to PR (FORD-101), Agent Merge and Automations. It tracks progress and keeps notes in your browser, and has presenter notes and light and dark themes.
+| Order | Topic | Suggested lesson time |
+|---|---|---|
+| 1 | [Projects: one problem across three repositories](workshop/index.html#projects) | 7 minutes + agent time |
+| 2 | [Automations: personal schedule + shared trigger](workshop/index.html#automations) | 8 minutes |
+| 3 | [Jira Workbench: analysis, plan, implementation, tests, PR review](workshop/index.html#workbench) | 15 minutes + agent time |
+| 4 | [Parallel sessions and worktree isolation](workshop/index.html#parallelism) | 7 minutes |
+| 5 | [Copilot Fusion: controlled comparison with a named model](workshop/index.html#fusion) | 10 minutes |
+| Optional | [Agent Merge, with merge disabled](workshop/index.html#agent-merge) | 5 minutes |
+| Optional | [Stacked PRs for a separate follow-up](workshop/index.html#stacked-prs) | 5 minutes |
 
-**One story, one delivery path:** lesson 6 runs Workbench analysis and planning to create one implementation issue with the Jira + Figma context. Lesson 7 continues with cloud implementation, coverage and review on that issue's PR; allow extra time for the coding agent. Lessons 8–9 reuse that PR. The live automation is a read-only sprint digest; the standalone `jira-to-pr` automation is saved as an inactive template for a different, unstarted story, not run again on FORD-101.
+These times are rough guides and exclude environment setup and agent execution. Work at your own pace. If you cannot run an exercise, study its explanation and expected results without treating them as your own execution evidence. Record actual Fusion measurements only after running the comparison.
 
-Open [workshop/index.html](workshop/index.html) in a browser, or serve it:
+Start with the [learning path](workshop/index.html#overview). The section links above navigate directly when the HTML is opened locally.
+
+## Open the guide
+
+1. Get the repository using **Code → Download ZIP**, then extract it, or clone it:
+
+   ```powershell
+   git clone https://github.com/cherryjain-msft/copilot-app-workshop.git
+   cd copilot-app-workshop
+   ```
+
+2. Use the revision containing these learning materials. If you are following a shared branch link, select that branch before downloading or check it out after cloning. A fresh clone starts on the default branch and does not include unpushed edits.
+3. Open `workshop\index.html` directly in your browser. Keep the whole repository together so styles, scripts and supporting links resolve.
+
+For a consistent browser address, serve the repository from its root:
 
 ```powershell
-cd workshop
-python -m http.server 8080   # http://localhost:8080
+python -m http.server 8080 --bind 127.0.0.1
 ```
 
-The workshop uses two project customizations that load automatically in the Copilot app:
+Visit **http://127.0.0.1:8080/workshop/index.html**. Python is optional; the site has no build step or npm dependencies. Keep the server local, and stop it with Ctrl+C afterward.
 
-- `.github/skills/jira-to-pr/`: the `/jira-to-pr <KEY>` skill, an alternative for future unstarted stories (existing-work check → Jira + Figma → approved plan → tests → preview → one PR). It stops if it finds an existing delivery.
-- `.github/extensions/jira-sprint-workbench/`: the Jira Sprint Workbench canvases (`npm test` inside that folder runs its tests).
+`127.0.0.1` means **your own computer**. These preview links are not public URLs; each learner runs their own copy. Reading the guide does not require Jira, Figma or Microsoft sign-in. Hands-on connector exercises need your own authorized accounts, and the optional SharePoint slides need separately granted access.
 
-## What's in the repo
+The sidebar follows the learning path. Use **Learning tips** for additional explanations, arrow keys to navigate, and **Copy** to copy a prompt without running it. Light/dark themes are available. Completion and notes stay in this browser; they are not synced or committed. Existing notes and progress are preserved.
 
-```text
-deck/            Slide deck (Ford-GitHub-Copilot-Whats-New.pptx) and its generator (build-deck.js)
-demos/           Step-by-step guide for each demo, with fallbacks
-qa/              Likely questions and answers
-workshop/        Hands-on workshop site (static HTML, CSS and JS)
-app/             Dealer service booking app used in the Jira + Figma demo (Node.js, no dependencies)
-demo-assets/
-  jira/          FORD-101 story and a backlog CSV to import into Jira
-  figma/         Mock design (PNG), design spec, and the script that draws the mock
-  excel/         Synthetic warranty claims workbook, finished analysis, and generator
-  automations/   Prompts and settings for four automations
-.github/         Copilot repo instructions, the PR checklist, the jira-to-pr skill and the Jira Sprint Workbench extension
-```
+For frontend regression checks, open **http://127.0.0.1:8080/workshop/tests.html** and select **Run checks**. This checks persistence/reset isolation, navigation, prompt tabs/copying, narrow layouts and printable prompts without installing packages. It restores the storage keys it touches; do not edit notes in another tab during the run.
 
-## Prerequisites
+## Supporting files and links
 
-- GitHub Copilot app (macOS, Windows or Linux) with a paid Copilot plan
-- Node.js 20 or later
-- Python 3.10 or later with `openpyxl` (only to regenerate the Excel data)
-- Jira Cloud and Figma accounts, if you use the live connectors
+| What you need | Link | How to use it |
+|---|---|---|
+| Optional slides | [Ignite Watch Party deck](https://microsoft-my.sharepoint.com/:p:/r/personal/cherryjain_microsoft_com/_layouts/15/Doc.aspx?sourcedoc=%7B775DAA7D-D4E1-4931-8BDE-D81C8CAB76D9%7D&file=Ignite%20Watch%20Party%20-%20GitHub%20Copilot%20App%20and%20Fusion%20Demo.pptx&action=edit) | Additional workshop material; Microsoft sign-in and file access required |
+| Projects repositories | [dealer-appointments-api](https://github.com/cherryjain-msft/dealer-appointments-api) · [dealer-customer-portal](https://github.com/cherryjain-msft/dealer-customer-portal) · [dealer-help-center](https://github.com/cherryjain-msft/dealer-help-center) | Add all three to the practice Project. They are private; use authorized access or your own permitted copies |
+| Projects Library | [Brief, glossary and support tickets](demo-assets/projects/library/) | Upload only this folder to the Project's Library |
+| Projects exercise kit | [Setup, answer key and repeat-run guidance](demo-assets/projects/README.md) | Check your findings after the exercise; don't upload the answer key to the Project |
+| Sprint backlog | [Jira import CSV](demo-assets/jira/backlog.csv) | Optional backlog for a sandbox Jira project |
+| Story requirements | [FORD-101 story](demo-assets/jira/FORD-101.md) | EV charging scenario; replace the sample key with the actual Jira key |
+| Design requirements | [Figma specification](demo-assets/figma/booking-ev-slot-spec.md) | Exact frame setup, UI states and copy |
+| Design image | [EV booking mock PNG](demo-assets/figma/booking-ev-slot.png) | Visual fallback if the live Figma connector is unavailable |
+| Automation prompts | [Personal follow-up and shared PR intake examples](demo-assets/automations/automation-prompts.md) | Weekly schedule; pull-request-opened trigger |
+| Jira Workbench | [Extension guide](.github/extensions/jira-sprint-workbench/README.md) | Custom extension setup, five-stage flow and Jira-write preferences |
+| Standalone alternative | [`jira-to-pr` skill](.github/skills/jira-to-pr/SKILL.md) | A different, unstarted story only; not a second FORD-101 delivery |
+| Sample app | [App files](app/) · [run instructions](#run-the-sample-app) · [API](#api-baseline) | Start the dependency-free practice app |
+| Coding conventions | [Repository instructions](.github/copilot-instructions.md) | Scope, validation, accessibility and tests |
+| PR evidence | [Review checklist](.github/pr-checklist.md) | Human review and optional PR-check automation |
+| Fusion exercise | [Comparison, identical prompt and scorecard](workshop/index.html#fusion) | Record real outputs; no preselected winner |
+| Browser checks | [Guide test page](workshop/tests.html) | Open locally over HTTP to verify the interactive guide |
+
+Use your own authorized Jira, Figma, issue and PR links. Replace sample repository names and Jira keys in prompts before running them. Record the links in your lesson notes, and use the same issue and PR throughout the Workbench exercise.
+
+## Repository layout
+
+| Path | Purpose |
+|---|---|
+| [`workshop/`](workshop/) | Interactive learning guide built with plain HTML, CSS and JavaScript |
+| [`app/`](app/) | Small, dependency-free Dealer Service Booking app |
+| [`demo-assets/projects/`](demo-assets/projects/) | Projects exercise kit and Library files for the cross-repo investigation. The three repositories it uses live outside this repo |
+| [`demo-assets/jira/`](demo-assets/jira/) | EV charging story and importable backlog CSV |
+| [`demo-assets/figma/`](demo-assets/figma/) | Committed design PNG and specification; optional live Figma setup |
+| [`demo-assets/automations/`](demo-assets/automations/) | Reusable read-only and PR-check prompts |
+| [`.github/extensions/jira-sprint-workbench/`](.github/extensions/jira-sprint-workbench/) | Custom Jira canvases, tests, license and attribution |
+| [`.github/skills/jira-to-pr/`](.github/skills/jira-to-pr/) | Alternative standalone delivery path for a different, unstarted story |
+| [Repository instructions](.github/copilot-instructions.md), [PR checklist](.github/pr-checklist.md) | App coding conventions and review checklist |
+
+## Before hands-on exercises
+
+- Use the Copilot app with the required account, repository and model permissions; confirm current feature availability.
+- Use Node.js **20+** for the app and extension tests. Neither requires installing dependencies.
+- For Projects, confirm read access to the three private `dealer-*` repositories or authorized copies. The [kit](demo-assets/projects/README.md) explains the baseline and includes an answer key you can study without running the agents.
+- For the Jira exercise, sign in to Atlassian, load the Workbench extension, and use a sandbox story in an active sprint. Figma is optional: use the committed spec and PNG if needed.
+- Review automation ownership, tool grants and triggers before enabling them. Start with read-only reports, and pause schedules you do not intend to keep running.
+- Make changes only in practice repositories you control. Reading a lesson does not authorize creating issues, posting comments, enabling automations or merging PRs.
+
+**One story, one owner:** the Workbench exercise owns the EV story. Check existing Jira links, saved stage results, issues and PRs in all states before creating anything. Automations report on it, while parallel sessions and Fusion do not implement it again. Projects investigates a separate cross-repository problem. The standalone `jira-to-pr` skill is an alternative, not a second route for the same story. A successful assignment is not completed implementation, and a clean review is not a merged PR.
 
 ## Run the sample app
 
-```powershell
-cd app
-npm test     # 15 tests
-npm start    # http://localhost:3000 (set PORT to change it)
-```
-
-The EV charging bay feature (FORD-101) is **not built on purpose**. Copilot builds it live in demo 04.
-
-## Rebuild the assets
+From the repository root:
 
 ```powershell
-# Slide deck
-cd deck
-npm install
-npm run build
-
-# Figma mock PNG (uses sharp from deck/node_modules, so install the deck first)
-node demo-assets/figma/render-mock.js
-
-# Excel workbooks (same output every time)
-pip install openpyxl
-python demo-assets/excel/generate_data.py
+npm test --prefix app
+npm start --prefix app
 ```
 
-## Key facts used in the deck
+Open **http://localhost:3000**. Set `$env:PORT = "3001"` first if 3000 is occupied. Every server has its own in-memory store; restarting clears bookings. Start a PR preview from that PR's checkout, not from main.
 
-These were checked against GitHub's docs and blog in November 2026. Check again before the session.
+The EV charging feature is **intentionally unimplemented** on this baseline so you can practice implementing it in the Workbench lesson. Use a future non-Sunday date when trying bookings.
 
-| Topic | Status |
-|---|---|
-| Copilot app | GA, June 17, 2026. Projects and computer use are in preview |
-| Copilot Fusion | GA, October 28, 2026. 30% off model costs on paid plans through November 30, 2026 |
-| Connectors (MCP) | Public preview. 26 GitHub-verified connectors |
-| Canvases | Available. Office canvases depend on the app version |
-| Automations | Need a private or internal repo and Copilot cloud agent |
+To check the Workbench independently:
 
-"Agent First Initiative" is used in the agenda as a name for GitHub's agent-first direction. It isn't an official GitHub product name.
+```powershell
+npm test --prefix .github\extensions\jira-sprint-workbench
+```
 
-## Links
+See its [README](.github/extensions/jira-sprint-workbench/README.md) for canvas actions and persisted Jira-update preferences.
 
-- [GitHub Copilot app](https://github.com/features/ai/github-app)
-- [GitHub Copilot docs](https://docs.github.com/copilot)
-- [GitHub changelog](https://github.blog/changelog)
+## API (baseline)
+
+The app uses Node.js built-ins, CommonJS and an in-memory store. No authentication or database is provided; this is a demo, not a production service.
+
+| Endpoint | Input | Success response |
+|---|---|---|
+| `GET /api/services` | Query `vehicleType=Gas`, `Hybrid` or `EV` | Array of `{ id, name, durationMin }` |
+| `GET /api/slots` | Query `date=YYYY-MM-DD` and `vehicleType` | `{ date, vehicleType, open, slots: [{ time, available, remaining }] }` |
+| `POST /api/bookings` | JSON `{ date, time, service, vehicleType, customerName }` | `201` with `{ id, date, time, service, vehicleType, customerName }` |
+
+Hourly starts are 08:00 through 16:00 (closing at 17:00), with four service bays per hour. Sundays return `open: false` and an empty slot list. Use a service ID from `/api/services`, such as `tire-rotation`.
+
+Expected failures return `{ error: "..." }`: `400` for invalid input, `409` for closed/full slots, and `413` for an oversized body. EV charging request/response fields described in the story are **future behavior**, not part of this baseline.
+
+## Product references
+
+- [Working with Projects](https://docs.github.com/en/copilot/how-tos/github-copilot-app/working-with-projects)
+- [Using Automations](https://docs.github.com/en/copilot/how-tos/github-copilot-app/using-automations)
+- [Agent sessions, worktrees and permissions](https://docs.github.com/en/copilot/how-tos/github-copilot-app/agent-sessions)
+- [Copilot Fusion](https://docs.github.com/en/copilot/concepts/models/copilot-fusion)
+- [Copilot app / Agent Merge overview](https://github.com/github/app)
+- [Stacked PR APIs](https://docs.github.com/en/pull-requests/reference/stacked-pull-requests-apis-and-webhooks)
+
+Recheck preview status, policies, model availability and billing before presenting. High/Max do not map permanently to a particular Fusion execution pattern; worktree isolation is not a security sandbox; Autopilot does not bypass tool permissions.

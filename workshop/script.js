@@ -32,7 +32,7 @@
   const routeList = document.getElementById('route-list');
   const progressText = document.getElementById('progress-text');
   const progressFill = document.getElementById('progress-fill');
-  const done = new Set(store.get('done', []));
+  const done = new Set(store.get('done:playbook', []));
 
   // Theme
   const themeBtn = document.getElementById('theme-toggle');
@@ -49,7 +49,7 @@
     applyTheme(next);
   });
 
-  // Presenter notes
+  // Learning tips
   const presenterBtn = document.getElementById('presenter-toggle');
   function applyPresenter(on) {
     document.body.classList.toggle('show-presenter', on);
@@ -122,7 +122,7 @@
         notes.className = 'notes';
         const id = `notes-${section.id}`;
         notes.innerHTML = `<label for="${id}">📝 Your notes for this lesson</label>
-          <textarea id="${id}" placeholder="Capture questions, customer reactions or follow-ups. Notes stay in this browser."></textarea>
+          <textarea id="${id}" placeholder="Capture questions, key takeaways or ideas to try. Notes stay in this browser."></textarea>
           <div class="saved" aria-live="polite"></div>`;
         const textarea = notes.querySelector('textarea');
         const saved = notes.querySelector('.saved');
@@ -161,7 +161,7 @@
         complete.addEventListener('click', () => {
           if (done.has(section.id)) done.delete(section.id);
           else done.add(section.id);
-          store.set('done', Array.from(done));
+          store.set('done:playbook', Array.from(done));
           refreshProgress();
         });
         actions.appendChild(complete);
@@ -174,7 +174,7 @@
         nextLink.textContent = `${next.dataset.title} →`;
       } else {
         nextLink.href = `#${sections[0].id}`;
-        nextLink.textContent = 'Back to overview ↺';
+        nextLink.textContent = 'Back to learning path ↺';
       }
       actions.appendChild(nextLink);
       section.appendChild(actions);
@@ -195,7 +195,7 @@
     if (current !== section) {
       for (const s of sections) s.hidden = s !== section;
       current = section;
-      document.title = `${section.dataset.title} · Copilot app workshop · Ford`;
+      document.title = `${section.dataset.title} · GitHub Copilot App learning guide`;
       for (const li of routeList.children) {
         const a = li.querySelector('a');
         if (li.dataset.target === section.id) a.setAttribute('aria-current', 'page');
@@ -236,9 +236,9 @@
 
   // Reset
   document.getElementById('reset-lab').addEventListener('click', () => {
-    if (!window.confirm('Reset progress and clear all notes for this workshop?')) return;
+    if (!window.confirm('Reset progress and clear notes for the seven lessons in this guide?')) return;
     done.clear();
-    store.remove('done');
+    store.remove('done:playbook');
     for (const s of lessons) {
       store.remove(`notes:${s.id}`);
       const textarea = document.getElementById(`notes-${s.id}`);
