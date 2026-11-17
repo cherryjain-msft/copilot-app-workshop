@@ -3,6 +3,7 @@ import { createCanvas, CanvasError, joinSession } from "@github/copilot-sdk/exte
 import {
     JiraDashboardError,
     fetchOpenSprintIssues,
+    requireCanvasOpenInput,
     resolveDashboardInput,
 } from "./server/jira-client.mjs";
 import {
