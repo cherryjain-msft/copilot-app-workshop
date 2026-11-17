@@ -118,7 +118,7 @@ npm start --prefix app
 
 Open **http://localhost:3000**. Set `$env:PORT = "3001"` first if 3000 is occupied. Every server has its own in-memory store; restarting clears bookings. Start a PR preview from that PR's checkout, not from main.
 
-The EV charging feature is **intentionally unimplemented** on this baseline so you can practice implementing it in the Workbench lesson. Use a future non-Sunday date when trying bookings.
+Use a future non-Sunday date when trying bookings. EV owners can optionally reserve one of the two charging bays available per hour.
 
 To check the Workbench independently:
 
@@ -135,12 +135,12 @@ The app uses Node.js built-ins, CommonJS and an in-memory store. No authenticati
 | Endpoint | Input | Success response |
 |---|---|---|
 | `GET /api/services` | Query `vehicleType=Gas`, `Hybrid` or `EV` | Array of `{ id, name, durationMin }` |
-| `GET /api/slots` | Query `date=YYYY-MM-DD` and `vehicleType` | `{ date, vehicleType, open, slots: [{ time, available, remaining }] }` |
-| `POST /api/bookings` | JSON `{ date, time, service, vehicleType, customerName }` | `201` with `{ id, date, time, service, vehicleType, customerName }` |
+| `GET /api/slots` | Query `date=YYYY-MM-DD` and `vehicleType` | `{ date, vehicleType, open, slots: [{ time, available, remaining }] }`; EV slots also include `evChargingAvailable` and `evChargingRemaining` |
+| `POST /api/bookings` | JSON `{ date, time, service, vehicleType, customerName, evCharging? }` | `201` with `{ id, date, time, service, vehicleType, customerName, evCharging }` |
 
 Hourly starts are 08:00 through 16:00 (closing at 17:00), with four service bays per hour. Sundays return `open: false` and an empty slot list. Use a service ID from `/api/services`, such as `tire-rotation`.
 
-Expected failures return `{ error: "..." }`: `400` for invalid input, `409` for closed/full slots, and `413` for an oversized body. EV charging request/response fields described in the story are **future behavior**, not part of this baseline.
+Expected failures return `{ error: "..." }`: `400` for invalid input (including non-boolean `evCharging` or requesting charging for a non-EV), `409` for closed/full slots or when no EV charging bays remain for the requested hour, and `413` for an oversized body. `evCharging` is optional and defaults to `false`.
 
 ## Product references
 

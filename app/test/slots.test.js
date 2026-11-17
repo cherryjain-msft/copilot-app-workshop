@@ -4,6 +4,7 @@ const { test } = require("node:test");
 const assert = require("node:assert/strict");
 const {
   SERVICE_BAYS_PER_HOUR,
+  EV_CHARGING_BAYS_PER_HOUR,
   BookingError,
   isValidDate,
   listServices,
@@ -58,6 +59,34 @@ test("getSlots reduces capacity for existing bookings", () => {
   assert.equal(nine.remaining, SERVICE_BAYS_PER_HOUR - 2);
 });
 
+test("getSlots includes charger capacity only for EVs", () => {
+  const ev = getSlots(MONDAY, "EV").slots[0];
+  assert.equal(ev.evChargingRemaining, EV_CHARGING_BAYS_PER_HOUR);
+  assert.equal(ev.evChargingAvailable, true);
+  for (const vehicleType of ["Gas", "Hybrid"]) {
+    const slot = getSlots(MONDAY, vehicleType).slots[0];
+    assert.equal("evChargingRemaining" in slot, false);
+    assert.equal("evChargingAvailable" in slot, false);
+  }
+});
+
+test("getSlots counts charger bookings independently per date and time", () => {
+  const bookings = [
+    { date: MONDAY, time: "09:00" },
+    { date: MONDAY, time: "09:00", evCharging: true },
+    { date: MONDAY, time: "09:00", evCharging: true },
+    { date: MONDAY, time: "10:00", evCharging: true },
+    { date: "2026-11-17", time: "09:00", evCharging: true },
+  ];
+  const slots = getSlots(MONDAY, "EV", bookings).slots;
+  const nine = slots.find((slot) => slot.time === "09:00");
+  const ten = slots.find((slot) => slot.time === "10:00");
+  assert.equal(nine.remaining, SERVICE_BAYS_PER_HOUR - 3);
+  assert.equal(nine.evChargingRemaining, 0);
+  assert.equal(nine.evChargingAvailable, false);
+  assert.equal(ten.evChargingRemaining, EV_CHARGING_BAYS_PER_HOUR - 1);
+});
+
 test("getSlots validates input", () => {
   assert.throws(() => getSlots("tomorrow", "Gas"), /YYYY-MM-DD/);
   assert.throws(() => getSlots(MONDAY, "Truck"), /vehicleType/);
@@ -71,6 +100,41 @@ test("booking store creates bookings and enforces capacity", () => {
     assert.equal(b.id, i + 1);
   }
   assert.throws(() => store.create({ ...base, customerName: "One too many" }), /No bays left/);
+});
+
+test("booking store enforces charging capacity independently from service bays", () => {
+  const store = createBookingStore();
+  const base = { date: MONDAY, time: "10:00", service: "tire-rotation", vehicleType: "EV" };
+  const first = store.create({ ...base, customerName: "Customer 1", evCharging: true });
+  const second = store.create({ ...base, customerName: "Customer 2", evCharging: true });
+  assert.equal(first.evCharging, true);
+  assert.equal(second.evCharging, true);
+  assert.throws(
+    () => store.create({ ...base, customerName: "Customer 3", evCharging: true }),
+    (error) => error instanceof BookingError && error.status === 409 && /No EV charging bays left/.test(error.message)
+  );
+  const withoutCharging = store.create({ ...base, customerName: "Customer 4" });
+  assert.equal(withoutCharging.evCharging, false);
+});
+
+test("booking store validates EV charging options and persists false", () => {
+  const base = { date: MONDAY, time: "10:00", service: "tire-rotation", customerName: "Customer" };
+  for (const vehicleType of ["Gas", "Hybrid"]) {
+    assert.throws(
+      () => createBookingStore().create({ ...base, vehicleType, evCharging: true }),
+      (error) => error instanceof BookingError && error.status === 400 &&
+        error.message === "EV charging bays are only available for EV vehicles"
+    );
+  }
+  for (const evCharging of ["yes", null]) {
+    assert.throws(
+      () => createBookingStore().create({ ...base, vehicleType: "EV", evCharging }),
+      (error) => error instanceof BookingError && error.status === 400 &&
+        error.message === "evCharging must be true or false"
+    );
+  }
+  const gasBooking = createBookingStore().create({ ...base, vehicleType: "Gas", evCharging: false });
+  assert.equal(gasBooking.evCharging, false);
 });
 
 test("booking store rejects services not offered for the vehicle type", () => {

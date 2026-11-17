@@ -19,6 +19,17 @@
     .slots { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; margin-top: 8px; }
     .slot { padding: 10px; border: 1px solid var(--border); border-radius: 6px; background: #fff; cursor: pointer; text-align: center; font: inherit; }
     .slot small { display: block; color: var(--muted); font-size: 11px; }
+    .ev-panel { margin-top: 20px; padding: 16px; border: 1px solid #86efac; border-radius: 8px; background: #f0fdf4; }
+    .ev-panel[hidden], #slot-caption[hidden] { display: none; }
+    .ev-panel h2 { margin: 0; font-size: 16px; }
+    .ev-panel p { margin: 6px 0 12px; color: var(--muted); font-size: 13px; }
+    .ev-tag { margin-left: 8px; color: #15803d; font-size: 12px; font-weight: 600; }
+    .ev-toggle { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; background: #fff; color: var(--ink); font: inherit; cursor: pointer; }
+    .ev-toggle[aria-pressed="true"] { border-color: var(--blue); }
+    .ev-toggle-state { color: var(--muted); font-size: 13px; }
+    .charger-count.available { color: #15803d; }
+    .charger-count.none { color: #b45309; }
+    #slot-caption { margin-top: 14px; }
     .slot[aria-pressed="true"] { border-color: var(--blue); background: #eff6ff; }
     .slot:disabled { opacity: .45; cursor: not-allowed; }
     button.primary { margin-top: 20px; width: 100%; padding: 12px; border: 0; border-radius: 6px; background: var(--blue); color: #fff; font: inherit; font-weight: 600; cursor: pointer; }
@@ -60,7 +71,16 @@
         </div>
       </div>
 
+      <section class="ev-panel" id="ev-panel" hidden>
+        <h2>Reserve EV charging bay <span class="ev-tag">EV only</span></h2>
+        <p>Charge while we service your vehicle · free during your appointment</p>
+        <button class="ev-toggle" id="ev-toggle" type="button" aria-label="Reserve EV charging bay" aria-pressed="false">
+          <span>Reserve charging bay</span><strong class="ev-toggle-state" id="ev-toggle-state">Off</strong>
+        </button>
+      </section>
+
       <label>Available times</label>
+      <div class="muted" id="slot-caption" hidden>2 charging bays per hour</div>
       <div class="slots" id="slots"><span class="muted">Pick a date to see times.</span></div>
 
       <button class="primary" id="submit" type="submit" disabled>Book appointment</button>
@@ -71,6 +91,8 @@
   <script>
     const $ = (id) => document.getElementById(id);
     let selectedTime = null;
+    let cachedSlots = null;
+    let evToggleOn = false;
 
     async function api(url, options) {
       const res = await fetch(url, options);
@@ -90,20 +112,54 @@
       selectedTime = null;
       updateSubmit();
       const date = $("date").value;
-      if (!date) return;
-      const data = await api(`/api/slots?date=${date}&vehicleType=${$("vehicleType").value}`);
+      if (!date) {
+        cachedSlots = null;
+        renderSlots();
+        return;
+      }
+      cachedSlots = null;
+      renderSlots();
+      const vehicleType = $("vehicleType").value;
+      const data = await api(`/api/slots?date=${date}&vehicleType=${vehicleType}`);
+      if (date !== $("date").value || vehicleType !== $("vehicleType").value) return;
+      cachedSlots = data;
+      renderSlots();
+    }
+
+    function renderSlots() {
+      const data = cachedSlots;
+      if (!data) {
+        $("slots").innerHTML = '<span class="muted">Pick a date to see times.</span>';
+        return;
+      }
       if (!data.open) {
+        selectedTime = null;
+        updateSubmit();
         $("slots").innerHTML = '<span class="muted">Closed on Sundays — please pick another day.</span>';
         return;
       }
       $("slots").innerHTML = "";
+      let selectedTimeIsAvailable = false;
       for (const slot of data.slots) {
         const btn = document.createElement("button");
         btn.type = "button";
         btn.className = "slot";
-        btn.disabled = !slot.available;
-        btn.setAttribute("aria-pressed", "false");
-        btn.innerHTML = `${slot.time}<small>${slot.remaining} bays left</small>`;
+        btn.disabled = !slot.available || (evToggleOn && !slot.evChargingAvailable);
+        btn.setAttribute("aria-pressed", String(slot.time === selectedTime && !btn.disabled));
+        btn.append(slot.time);
+        const bays = document.createElement("small");
+        bays.textContent = `${slot.remaining} ${slot.remaining === 1 ? "bay" : "bays"} left`;
+        btn.appendChild(bays);
+        if ($("vehicleType").value === "EV") {
+          const chargerCount = document.createElement("small");
+          const remaining = slot.evChargingRemaining;
+          chargerCount.className = `charger-count ${remaining > 0 ? "available" : "none"}`;
+          chargerCount.textContent = remaining === 0
+            ? "⚡ No chargers"
+            : `⚡ ${remaining} ${remaining === 1 ? "charger" : "chargers"}`;
+          btn.appendChild(chargerCount);
+        }
+        if (slot.time === selectedTime && !btn.disabled) selectedTimeIsAvailable = true;
         btn.addEventListener("click", () => {
           document.querySelectorAll(".slot").forEach((b) => b.setAttribute("aria-pressed", "false"));
           btn.setAttribute("aria-pressed", "true");
@@ -112,32 +168,62 @@
         });
         $("slots").appendChild(btn);
       }
+      if (selectedTime && !selectedTimeIsAvailable) selectedTime = null;
+      updateSubmit();
     }
 
     function updateSubmit() {
       $("submit").disabled = !selectedTime;
+      $("submit").textContent = $("vehicleType").value === "EV" && evToggleOn
+        ? "Book appointment + charging bay"
+        : "Book appointment";
     }
 
-    $("vehicleType").addEventListener("change", async () => { await loadServices(); await loadSlots(); });
+    function updateEvPanel() {
+      const isEv = $("vehicleType").value === "EV";
+      $("ev-panel").hidden = !isEv;
+      $("slot-caption").hidden = !isEv;
+      if (!isEv) {
+        evToggleOn = false;
+        $("ev-toggle").setAttribute("aria-pressed", "false");
+        $("ev-toggle-state").textContent = "Off";
+      }
+      updateSubmit();
+    }
+
+    $("ev-toggle").addEventListener("click", () => {
+      evToggleOn = !evToggleOn;
+      $("ev-toggle").setAttribute("aria-pressed", String(evToggleOn));
+      $("ev-toggle-state").textContent = evToggleOn ? "On" : "Off";
+      renderSlots();
+    });
+
+    $("vehicleType").addEventListener("change", async () => {
+      updateEvPanel();
+      await loadServices();
+      await loadSlots();
+    });
     $("date").addEventListener("change", loadSlots);
 
     $("booking-form").addEventListener("submit", async (e) => {
       e.preventDefault();
       const msg = $("message");
       try {
+        const payload = {
+          customerName: $("customerName").value,
+          vehicleType: $("vehicleType").value,
+          service: $("service").value,
+          date: $("date").value,
+          time: selectedTime,
+        };
+        if ($("vehicleType").value === "EV" && evToggleOn) payload.evCharging = true;
         const booking = await api("/api/bookings", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            customerName: $("customerName").value,
-            vehicleType: $("vehicleType").value,
-            service: $("service").value,
-            date: $("date").value,
-            time: selectedTime,
-          }),
+          body: JSON.stringify(payload),
         });
         msg.className = "ok";
-        msg.textContent = `Booked! Confirmation #${booking.id} — ${booking.date} at ${booking.time}.`;
+        msg.textContent = `Booked! Confirmation #${booking.id} — ${booking.date} at ${booking.time}.${booking.evCharging ? " EV charging bay reserved." : ""}`;
         await loadSlots();
       } catch (err) {
         msg.className = "err";
@@ -146,6 +232,7 @@
     });
 
     $("date").valueAsDate = new Date(Date.now() + 86400000);
+    updateEvPanel();
     loadServices().then(loadSlots);
   </script>
 </body>
