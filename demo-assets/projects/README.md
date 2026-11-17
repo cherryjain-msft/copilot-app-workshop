@@ -11,7 +11,7 @@ Projects are in public preview and subject to change. Check availability in your
 | Scenario | The portal, API and help center give customers different answers about canceling a service appointment |
 | Pace | Self-guided; allow additional time for setup and agent execution |
 | Where | Sidebar: **+** next to **Projects** → **New project** |
-| Repositories | `dealer-appointments-api`, `dealer-customer-portal` and `dealer-help-center` (private) |
+| Repositories | `dealer-appointments-api`, `dealer-customer-portal` and `dealer-help-center` (public, read-only) |
 | Library | Only the three files in [`library/`](library/) |
 | Writes | None at kickoff. The optional follow-up opens draft PRs in the companion repositories. |
 
@@ -43,7 +43,7 @@ The Library gives Copilot the current policy and the evidence:
 
 The exercise uses the recorded baseline commits above. Before starting, check whether `main` still matches the `demo-baseline` tag in each repository. Each one needs Node.js 20 or later, has no dependencies and passes `npm test` at the recorded baseline.
 
-The repositories are private. Ask the owner for access or use authorized copies in your own account. Use copies you control for the optional implementation exercise, keeping the shared originals unchanged. The kickoff prompt names the repositories without an owner, so it also works with copies that keep those names.
+The repositories are public and archived (read-only). Fork them into your own account to practice; agents can then change your forks but never the originals. Use your forks for the optional implementation exercise too. The kickoff prompt names the repositories without an owner, so it also works with forks that keep those names.
 
 ## Set up the Project
 

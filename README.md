@@ -1,12 +1,10 @@
 # GitHub Copilot App learning guide
 
-**Start here: [the interactive learning guide](workshop/index.html)** — self-paced lessons explaining what each feature does, when to use it, and how to try it. Each lesson includes copy-ready prompts, expected results, learning tips and space for your notes.
+**Start here: [the interactive learning guide](https://cherryjain-msft.github.io/copilot-app-workshop/)** — self-paced lessons explaining what each feature does, when to use it, and how to try it. Each lesson includes copy-ready prompts, expected results, learning tips and space for your notes.
 
-**Follow along:** [open the HTML locally](#open-the-guide) → [choose a lesson](#learning-path) → [use the supporting files](#supporting-files-and-links) → [check the official documentation](#product-references).
+**Follow along:** [open the hosted guide](#open-the-guide) → [choose a lesson](#learning-path) → [use the supporting files](#supporting-files-and-links) → [check the official documentation](#product-references).
 
-GitHub displays `.html` files as source; it does not run their JavaScript inside this README. Download or clone the repository and open the HTML locally for navigation, prompts and notes. No public hosted version is assumed by these links.
-
-**Optional slides:** [Ignite Watch Party - GitHub Copilot App and Fusion Demo.pptx](https://microsoft-my.sharepoint.com/:p:/r/personal/cherryjain_microsoft_com/_layouts/15/Doc.aspx?sourcedoc=%7B775DAA7D-D4E1-4931-8BDE-D81C8CAB76D9%7D&file=Ignite%20Watch%20Party%20-%20GitHub%20Copilot%20App%20and%20Fusion%20Demo.pptx&action=edit). The slides require Microsoft sign-in and separately granted file access. They are not required to use the learning guide.
+GitHub displays `.html` files as source and does not run their JavaScript, so use the hosted guide above for navigation, prompts and notes. This repository is public and does not accept outside contributions. Fork or clone it to practice with your own copy.
 
 > All stories, designs, app data and the companion `dealer-*` repositories are fictional demo material, not Ford production systems or data.
 
@@ -14,20 +12,22 @@ GitHub displays `.html` files as source; it does not run their JavaScript inside
 
 | Order | Topic | Suggested lesson time |
 |---|---|---|
-| 1.1 | [Projects: one problem across three repositories](workshop/index.html#projects-cross-repo) | 7 minutes + agent time; optional issue-based meeting deck |
-| 1.2 | [Projects: scattered Excel files to a decision dashboard](workshop/index.html#projects-analytics) | 7 minutes + agent time |
-| 2 | [Automations: personal briefing + shared CI first response](workshop/index.html#automations) | 8 minutes + CI setup/agent time |
-| 3 | [Jira Workbench: analysis, plan, implementation, tests, PR review](workshop/index.html#workbench) | 15 minutes + agent time |
-| 4 | [Parallel sessions and worktree isolation](workshop/index.html#parallelism) | 7 minutes |
-| 5 | [Copilot Fusion: controlled comparison with a named model](workshop/index.html#fusion) | 10 minutes |
-| Optional | [Agent Merge, with merge disabled](workshop/index.html#agent-merge) | 5 minutes |
-| Optional | [Stacked PRs for a separate follow-up](workshop/index.html#stacked-prs) | 5 minutes |
+| 1.1 | [Projects: one problem across three repositories](https://cherryjain-msft.github.io/copilot-app-workshop/workshop/index.html#projects-cross-repo) | 7 minutes + agent time; optional issue-based meeting deck |
+| 1.2 | [Projects: scattered Excel files to a decision dashboard](https://cherryjain-msft.github.io/copilot-app-workshop/workshop/index.html#projects-analytics) | 7 minutes + agent time |
+| 2 | [Automations: personal briefing + shared CI first response](https://cherryjain-msft.github.io/copilot-app-workshop/workshop/index.html#automations) | 8 minutes + CI setup/agent time |
+| 3 | [Jira Workbench: analysis, plan, implementation, tests, PR review](https://cherryjain-msft.github.io/copilot-app-workshop/workshop/index.html#workbench) | 15 minutes + agent time |
+| 4 | [Parallel sessions and worktree isolation](https://cherryjain-msft.github.io/copilot-app-workshop/workshop/index.html#parallelism) | 7 minutes |
+| 5 | [Copilot Fusion: controlled comparison with a named model](https://cherryjain-msft.github.io/copilot-app-workshop/workshop/index.html#fusion) | 10 minutes |
+| Optional | [Agent Merge, with merge disabled](https://cherryjain-msft.github.io/copilot-app-workshop/workshop/index.html#agent-merge) | 5 minutes |
+| Optional | [Stacked PRs for a separate follow-up](https://cherryjain-msft.github.io/copilot-app-workshop/workshop/index.html#stacked-prs) | 5 minutes |
 
 These times are rough guides and exclude environment setup and agent execution. Work at your own pace. If you cannot run an exercise, study its explanation and expected results without treating them as your own execution evidence. Record actual Fusion measurements only after running the comparison.
 
-Start with the [learning path](workshop/index.html#overview). The section links above navigate directly when the HTML is opened locally.
+Start with the [learning path](https://cherryjain-msft.github.io/copilot-app-workshop/workshop/index.html#overview).
 
 ## Open the guide
+
+The quickest way is the hosted guide: **https://cherryjain-msft.github.io/copilot-app-workshop/**. To run it offline or from your own fork instead:
 
 1. Get the repository using **Code → Download ZIP**, then extract it, or clone it:
 
@@ -47,7 +47,7 @@ python -m http.server 8080 --bind 127.0.0.1
 
 Visit **http://127.0.0.1:8080/workshop/index.html**. Python is optional; the site has no build step or npm dependencies. Keep the server local, and stop it with Ctrl+C afterward.
 
-`127.0.0.1` means **your own computer**. These preview links are not public URLs; each learner runs their own copy. Reading the guide does not require Jira, Figma or Microsoft sign-in. Hands-on connector exercises need your own authorized accounts, and the optional SharePoint slides need separately granted access.
+`127.0.0.1` means **your own computer**. These preview links are not public URLs; each learner runs their own copy. Reading the guide does not require Jira or Figma sign-in. Hands-on connector exercises need your own authorized accounts.
 
 The sidebar follows the learning path. Use **Learning tips** for additional explanations, arrow keys to navigate, and **Copy** to copy a prompt without running it. Light/dark themes are available. Completion and notes stay in this browser; they are not synced or committed. Existing notes and progress are preserved.
 
@@ -57,8 +57,7 @@ For frontend regression checks, open **http://127.0.0.1:8080/workshop/tests.html
 
 | What you need | Link | How to use it |
 |---|---|---|
-| Optional slides | [Ignite Watch Party deck](https://microsoft-my.sharepoint.com/:p:/r/personal/cherryjain_microsoft_com/_layouts/15/Doc.aspx?sourcedoc=%7B775DAA7D-D4E1-4931-8BDE-D81C8CAB76D9%7D&file=Ignite%20Watch%20Party%20-%20GitHub%20Copilot%20App%20and%20Fusion%20Demo.pptx&action=edit) | Additional workshop material; Microsoft sign-in and file access required |
-| Projects repositories | [dealer-appointments-api](https://github.com/cherryjain-msft/dealer-appointments-api) · [dealer-customer-portal](https://github.com/cherryjain-msft/dealer-customer-portal) · [dealer-help-center](https://github.com/cherryjain-msft/dealer-help-center) | Add all three to the practice Project. They are private; use authorized access or your own permitted copies |
+| Projects repositories | [dealer-appointments-api](https://github.com/cherryjain-msft/dealer-appointments-api) · [dealer-customer-portal](https://github.com/cherryjain-msft/dealer-customer-portal) · [dealer-help-center](https://github.com/cherryjain-msft/dealer-help-center) | Add all three to the practice Project. They are public and archived (read-only): fork them into your own account to practice |
 | Projects Library | [Brief, glossary and support tickets](demo-assets/projects/library/) | Upload only this folder to the Project's Library |
 | Projects exercise kit | [Setup, answer key and repeat-run guidance](demo-assets/projects/README.md) | Check your findings after the exercise; don't upload the answer key to the Project |
 | Projects 1.2 Excel files | [Demand, capacity, feedback and decision brief](demo-assets/projects/analytics/library/) | Add only this folder to a new, repository-free Project |
@@ -76,7 +75,7 @@ For frontend regression checks, open **http://127.0.0.1:8080/workshop/tests.html
 | Sample app | [App files](app/) · [run instructions](#run-the-sample-app) · [API](#api-baseline) | Start the dependency-free practice app |
 | Coding conventions | [Repository instructions](.github/copilot-instructions.md) | Scope, validation, accessibility and tests |
 | PR evidence | [Review checklist](.github/pr-checklist.md) | Human review of app changes |
-| Fusion exercise | [Comparison, identical prompt and scorecard](workshop/index.html#fusion) | Record real outputs; no preselected winner |
+| Fusion exercise | [Comparison, identical prompt and scorecard](https://cherryjain-msft.github.io/copilot-app-workshop/workshop/index.html#fusion) | Record real outputs; no preselected winner |
 | Browser checks | [Guide test page](workshop/tests.html) | Open locally over HTTP to verify the interactive guide |
 
 Use your own authorized Jira, Figma, issue and PR links. Replace sample repository names and Jira keys in prompts before running them. Record the links in your lesson notes, and use the same issue and PR throughout the Workbench exercise.
@@ -86,6 +85,7 @@ Use your own authorized Jira, Figma, issue and PR links. Replace sample reposito
 | Path | Purpose |
 |---|---|
 | [`workshop/`](workshop/) | Interactive learning guide built with plain HTML, CSS and JavaScript |
+| [`index.html`](index.html) | Redirects the hosted GitHub Pages site to the guide |
 | [`app/`](app/) | Small, dependency-free Dealer Service Booking app |
 | [`demo-assets/projects/`](demo-assets/projects/) | Projects exercise kit and Library files for the cross-repo investigation. The three repositories it uses live outside this repo |
 | [`demo-assets/jira/`](demo-assets/jira/) | EV charging story and importable backlog CSV |
@@ -100,7 +100,7 @@ Use your own authorized Jira, Figma, issue and PR links. Replace sample reposito
 
 - Use the Copilot app with the required account, repository and model permissions; confirm current feature availability.
 - Use Node.js **20+** for the app and extension tests. Neither requires installing dependencies.
-- For Projects, confirm read access to the three private `dealer-*` repositories or authorized copies. The [kit](demo-assets/projects/README.md) explains the baseline and includes an answer key you can study without running the agents.
+- For Projects, fork the three public, read-only `dealer-*` repositories into your own account. The [kit](demo-assets/projects/README.md) explains the baseline and includes an answer key you can study without running the agents.
 - For the Jira exercise, sign in to Atlassian, load the Workbench extension, and use a sandbox story in an active sprint. Figma is optional: use the committed spec and PNG if needed.
 - Review automation ownership, tool grants and triggers before enabling them. Start with read-only reports, and pause schedules you do not intend to keep running.
 - Make changes only in practice repositories you control. Reading a lesson does not authorize creating issues, posting comments, enabling automations or merging PRs.
