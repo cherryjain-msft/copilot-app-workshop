@@ -6,8 +6,6 @@
 
 GitHub displays `.html` files as source; it does not run their JavaScript inside this README. Download or clone the repository and open the HTML locally for navigation, prompts and notes. No public hosted version is assumed by these links.
 
-**Optional slides:** [Ignite Watch Party - GitHub Copilot App and Fusion Demo.pptx](https://microsoft-my.sharepoint.com/:p:/r/personal/cherryjain_microsoft_com/_layouts/15/Doc.aspx?sourcedoc=%7B775DAA7D-D4E1-4931-8BDE-D81C8CAB76D9%7D&file=Ignite%20Watch%20Party%20-%20GitHub%20Copilot%20App%20and%20Fusion%20Demo.pptx&action=edit). The slides require Microsoft sign-in and separately granted file access. They are not required to use the learning guide.
-
 > All stories, designs, app data and the companion `dealer-*` repositories are fictional demo material, not Ford production systems or data.
 
 ## Learning path
@@ -47,7 +45,7 @@ python -m http.server 8080 --bind 127.0.0.1
 
 Visit **http://127.0.0.1:8080/workshop/index.html**. Python is optional; the site has no build step or npm dependencies. Keep the server local, and stop it with Ctrl+C afterward.
 
-`127.0.0.1` means **your own computer**. These preview links are not public URLs; each learner runs their own copy. Reading the guide does not require Jira, Figma or Microsoft sign-in. Hands-on connector exercises need your own authorized accounts, and the optional SharePoint slides need separately granted access.
+`127.0.0.1` means **your own computer**. These preview links are not public URLs; each learner runs their own copy. Reading the guide does not require Jira or Figma sign-in. Hands-on connector exercises need your own authorized accounts.
 
 The sidebar follows the learning path. Use **Learning tips** for additional explanations, arrow keys to navigate, and **Copy** to copy a prompt without running it. Light/dark themes are available. Completion and notes stay in this browser; they are not synced or committed. Existing notes and progress are preserved.
 
@@ -57,7 +55,6 @@ For frontend regression checks, open **http://127.0.0.1:8080/workshop/tests.html
 
 | What you need | Link | How to use it |
 |---|---|---|
-| Optional slides | [Ignite Watch Party deck](https://microsoft-my.sharepoint.com/:p:/r/personal/cherryjain_microsoft_com/_layouts/15/Doc.aspx?sourcedoc=%7B775DAA7D-D4E1-4931-8BDE-D81C8CAB76D9%7D&file=Ignite%20Watch%20Party%20-%20GitHub%20Copilot%20App%20and%20Fusion%20Demo.pptx&action=edit) | Additional workshop material; Microsoft sign-in and file access required |
 | Projects repositories | [dealer-appointments-api](https://github.com/cherryjain-msft/dealer-appointments-api) · [dealer-customer-portal](https://github.com/cherryjain-msft/dealer-customer-portal) · [dealer-help-center](https://github.com/cherryjain-msft/dealer-help-center) | Add all three to the practice Project. They are private; use authorized access or your own permitted copies |
 | Projects Library | [Brief, glossary and support tickets](demo-assets/projects/library/) | Upload only this folder to the Project's Library |
 | Projects exercise kit | [Setup, answer key and repeat-run guidance](demo-assets/projects/README.md) | Check your findings after the exercise; don't upload the answer key to the Project |
