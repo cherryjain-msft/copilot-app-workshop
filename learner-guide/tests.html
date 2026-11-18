@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Learner guide browser checks</title>
+  <link rel="icon" href="mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="tests.js" defer></script>
+</head>
+<body>
+  <main>
+    <h1>Learner guide browser checks</h1>
+    <p>Serve this folder over local HTTP. Use a disposable browser profile and do not edit guide notes in another tab while these checks run. Only the guide's known keys and one test sentinel are touched; their original values are restored at the end.</p>
+    <button class="button primary" id="run-checks" type="button">Run checks</button>
+    <p id="test-summary" role="status">Not run.</p>
+    <ol id="test-results"></ol>
+    <iframe id="subject" title="Guide under test" width="1000" height="700" style="max-width:100%;border:1px solid var(--cp-border)"></iframe>
+  </main>
+</body>
+</html>

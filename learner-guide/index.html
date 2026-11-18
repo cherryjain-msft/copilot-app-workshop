@@ -1,0 +1,620 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A practical, self-paced guide to GitHub Copilot app Projects, sessions, automations, Jira story workflows, code review, and official documentation.">
+  <meta name="color-scheme" content="light dark">
+  <title>Learn the GitHub Copilot app | A practical learner guide</title>
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("scoutTheme");
+      const theme = ["light", "dark"].includes(param)
+        ? param
+        : (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <link rel="icon" href="mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to lesson content</a>
+  <header class="site-header">
+    <a class="brand" href="#start" aria-label="Copilot app learner guide home">
+      <span class="brand-mark" aria-hidden="true">C<span>_</span></span>
+      <span>Copilot app<small>The learner guide</small></span>
+    </a>
+    <div class="header-actions">
+      <a class="header-docs" href="#resources">GitHub Docs library</a>
+      <button class="button subtle js-only" id="theme-toggle" type="button" aria-pressed="false">Dark theme</button>
+      <button class="button menu-toggle js-only" id="menu-toggle" type="button" aria-expanded="false" aria-controls="learning-nav">Lessons</button>
+    </div>
+  </header>
+
+  <div class="shell">
+    <nav class="learning-nav" id="learning-nav" aria-label="Learning path">
+      <p class="nav-label">YOUR LEARNING PATH</p>
+      <a class="nav-home" href="#start" data-route="start">Start here</a>
+      <ol class="lesson-list">
+        <li><a href="#first-session" data-route="first-session"><span class="nav-number">01</span><span>Your first safe session<small>Understand the controls</small></span><span class="nav-check" aria-label="Complete" hidden>&#10003;</span></a></li>
+        <li><a href="#projects" data-route="projects"><span class="nav-number">02</span><span>Run a Copilot Project<small>Coordinate work over time</small></span><span class="nav-check" aria-label="Complete" hidden>&#10003;</span></a></li>
+        <li><a href="#delivery" data-route="delivery"><span class="nav-number">03</span><span>Turn a plan into a change<small>Requirements, tests, review</small></span><span class="nav-check" aria-label="Complete" hidden>&#10003;</span></a></li>
+        <li><a href="#parallel" data-route="parallel"><span class="nav-number">04</span><span>Work in parallel<small>Sessions and worktrees</small></span><span class="nav-check" aria-label="Complete" hidden>&#10003;</span></a></li>
+        <li><a href="#automations" data-route="automations"><span class="nav-number">05</span><span>Design an automation<small>Triggers, tools, ownership</small></span><span class="nav-check" aria-label="Complete" hidden>&#10003;</span></a></li>
+        <li><a href="#jira-story" data-route="jira-story"><span class="nav-number">06</span><span>Deliver a Jira story<small>Story to reviewed PR</small></span><span class="nav-check" aria-label="Complete" hidden>&#10003;</span></a></li>
+        <li><a href="#fusion" data-route="fusion"><span class="nav-number">07</span><span>Compare models with evidence<small>Measure the work</small></span><span class="nav-check" aria-label="Complete" hidden>&#10003;</span></a></li>
+      </ol>
+      <div class="nav-extra">
+        <a href="#next-steps" data-route="next-steps">Advanced workflows</a>
+        <a href="#resources" data-route="resources">Docs, glossary &amp; help</a>
+      </div>
+      <div class="progress-card js-only">
+        <label for="course-progress">Your progress         <strong id="progress-count">0 of 7</strong></label>
+        <progress id="course-progress" max="7" value="0">0 of 7</progress>
+        <p>Mark a lesson when you can explain it. This is your checklist, not a certificate.</p>
+        <button class="text-button" id="export-notes" type="button">Export my notebook</button>
+        <button class="text-button muted" id="reset-progress" type="button">Reset notes and progress</button>
+      </div>
+      <p class="nav-footnote">Independent learning material.<br>Official documentation linked throughout.</p>
+    </nav>
+
+    <main id="main" tabindex="-1">
+      <p id="storage-warning" class="notice warning" role="status" hidden></p>
+      <noscript><p class="notice">JavaScript is off. All lessons and download links are still readable. Copy prompts manually; interactive checks and saved notes require JavaScript.</p></noscript>
+
+      <section class="page" id="start" data-page aria-labelledby="start-title">
+        <div class="eyebrow"><span class="status-dot" aria-hidden="true"></span> SELF-PACED &middot; HANDS-ON &middot; BEGINNER TO INTERMEDIATE</div>
+        <h1 class="hero-title" id="start-title">Coordinate the work.<br><em>Prove the result.</em></h1>
+        <p class="lead">Go beyond prompts: run a persistent Copilot Project, coordinate sessions, design an automation, and trace a Jira story through implementation and review. Practice safely with fictional data before connecting real systems.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#first-session" id="start-learning">Start learning <span aria-hidden="true">&#8594;</span></a>
+          <a class="button" href="practice-kit.zip" download>Download the practice kit</a>
+        </div>
+        <p class="hero-meta">7 practical lessons &middot; about 3-4 hours, plus setup and agent time &middot; connected Jira workflow is optional</p>
+
+        <div class="journey" role="img" aria-label="Learning loop: give context, agree on a plan, make a bounded change, verify the evidence, and review the result.">
+          <div><span>01</span><strong>Context</strong><small>What is true?</small></div>
+          <span class="journey-arrow" aria-hidden="true">&#8594;</span>
+          <div><span>02</span><strong>Plan</strong><small>What will change?</small></div>
+          <span class="journey-arrow" aria-hidden="true">&#8594;</span>
+          <div><span>03</span><strong>Practice</strong><small>Keep it small.</small></div>
+          <span class="journey-arrow" aria-hidden="true">&#8594;</span>
+          <div><span>04</span><strong>Evidence</strong><small>Does it work?</small></div>
+          <span class="journey-arrow" aria-hidden="true">&#8594;</span>
+          <div><span>05</span><strong>Review</strong><small>You decide.</small></div>
+        </div>
+
+        <div class="two-col intro-cards">
+          <div class="card">
+            <p class="kicker">WHO THIS IS FOR</p>
+            <h2>For builders ready to manage the full workflow.</h2>
+            <p>Bring basic file and Git familiarity. The guide moves from session controls into Projects, repository work, automation design, and connected Jira delivery. No workshop recording, company repository, or Jira account is required; the <a href="#glossary">glossary</a> covers unfamiliar terms.</p>
+          </div>
+          <div class="card">
+            <p class="kicker">WHAT YOU WILL LEAVE WITH</p>
+            <h2>A workflow you can explain and repeat.</h2>
+            <p>A grounded investigation, a reviewed local change, isolated parallel work, a bounded automation, and a fair model comparison. Not just a collection of prompts.</p>
+          </div>
+        </div>
+
+        <h2>Before you begin</h2>
+        <div class="table-wrap">
+          <table>
+            <caption>Choose how you want to learn</caption>
+            <thead><tr><th>Path</th><th>You need</th><th>You can do</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Read and reflect</th><td>A browser. No sign-in for this guide.</td><td>Read concepts, inspect worked examples, answer checks, and save notes.</td></tr>
+              <tr><th scope="row">Hands-on core path</th><td>The Copilot app, a GitHub account, an eligible Copilot plan or your configured model provider, Git, and Node.js 20+ for the tiny code exercise.</td><td>Run all local exercises in your own practice folder. Model calls may consume credits.</td></tr>
+              <tr><th scope="row">Connected workflows</th><td>Your own authorized GitHub repository or third-party account, plus the required policies and tools.</td><td>Open a real PR, connect an issue tracker, or explore cloud automation after the core path.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Follow GitHub's <a href="https://docs.github.com/en/copilot/get-started/quickstart-copilot-app" data-doc>app installation and sign-in quickstart</a> first. Account policies, model availability, and interface labels can differ. The app is separate from GitHub Desktop and from the Copilot extension inside an IDE.</p>
+
+        <h2>Set up your own small practice space</h2>
+        <ol class="steps">
+          <li><strong>Download and extract <a href="practice-kit.zip" download>the practice kit</a>.</strong> Open the extracted <code>copilot-practice</code> folder, not the ZIP. It contains a tiny JavaScript policy, tests, a change request, and three fictional Library files. It has no package dependencies, credentials, or running service.</li>
+          <li><strong>Open a terminal in that folder.</strong> Run the commands below. This creates a local Git baseline; it does not create a repository on GitHub or upload files. If Git asks for your identity, configure your own name and privacy-safe email.</li>
+          <li><strong>Connect the folder to the app.</strong> Choose <strong>New session &rarr; Open local folder</strong> and select this Git repository. Use the same practice repository throughout; separate sessions will keep their changes apart.</li>
+        </ol>
+        <div class="prompt" data-label="Terminal: prepare the local practice repository">
+          <div class="prompt-header"><span>TERMINAL &middot; RUN IN THE EXTRACTED FOLDER</span><button class="copy-button js-only" type="button">Copy</button></div>
+          <pre tabindex="0"><code>git init -b main
+git add .
+git commit -m "Add learner practice baseline"
+node --test
+git rev-parse HEAD</code></pre>
+        </div>
+        <p><strong>Expected starting result:</strong> six passing tests. Save the commit identifier (SHA) from the last command. The code intentionally enforces the <em>old</em> 24-hour policy. Green baseline tests do not mean it already meets the new 2-hour requirement.</p>
+        <details><summary>What is in the kit?</summary>
+          <ul class="file-list">
+            <li><a href="practice/booking-policy.js" download><code>booking-policy.js</code></a> &mdash; one small cancellation decision function.</li>
+            <li><a href="practice/booking-policy.test.js" download><code>booking-policy.test.js</code></a> &mdash; six tests of the existing behavior.</li>
+            <li><a href="practice/change-request.md" download><code>change-request.md</code></a> &mdash; the new requirement and acceptance criteria.</li>
+            <li><a href="practice/library/policy-brief.md" download><code>library/policy-brief.md</code></a>, <a href="practice/library/current-experience.md" download><code>current-experience.md</code></a>, and <a href="practice/library/feedback.csv" download><code>feedback.csv</code></a> &mdash; the Project exercise, also usable without code.</li>
+            <li><a href="practice/README.md" download><code>README.md</code></a> &mdash; setup and baseline explanation.</li>
+          </ul>
+        </details>
+
+        <h2>Pick a lesson</h2>
+        <div class="path-grid">
+          <a class="path-card" href="#first-session"><span>01 / 15 MIN</span><h3>Your first safe session</h3><p>Choose the right mode and ask an evidence-based question.</p><b aria-hidden="true">&#8594;</b></a>
+          <a class="path-card" href="#projects"><span>02 / 35 MIN</span><h3>Run a Copilot Project</h3><p>Set a goal, attach sources, coordinate sessions, and steer work from Overview.</p><b aria-hidden="true">&#8594;</b></a>
+          <a class="path-card" href="#delivery"><span>03 / 30 MIN</span><h3>Turn a plan into a change</h3><p>Implement a small requirement and review the real diff.</p><b aria-hidden="true">&#8594;</b></a>
+          <a class="path-card" href="#parallel"><span>04 / 20 MIN</span><h3>Work in parallel</h3><p>Prove that two workstreams have separate working copies.</p><b aria-hidden="true">&#8594;</b></a>
+          <a class="path-card" href="#automations"><span>05 / 30 MIN</span><h3>Design an automation</h3><p>Choose the trigger, identity, tools, costs, and stop conditions.</p><b aria-hidden="true">&#8594;</b></a>
+          <a class="path-card" href="#jira-story"><span>06 / 40 MIN</span><h3>Deliver a Jira story</h3><p>Map criteria to code, create a bounded plan, test, and review.</p><b aria-hidden="true">&#8594;</b></a>
+          <a class="path-card" href="#fusion"><span>07 / 20 MIN</span><h3>Compare models with evidence</h3><p>Evaluate correctness and cost without inventing a winner.</p><b aria-hidden="true">&#8594;</b></a>
+        </div>
+        <div class="notice"><strong>A safe starting rule:</strong> use only the fictional kit or material you are authorized to share. Start read-only, approve a bounded change, inspect its evidence, and keep publishing and merging separate decisions. Copying a prompt here never runs it.</div>
+        <p class="privacy-note">Notes and completion stay in this browser, under a guide-specific storage key. They are not sent to a server or synced between devices. Export your notebook before clearing browser data. This site uses no analytics or third-party scripts; GitHub hosts the public files.</p>
+      </section>
+
+      <section class="page lesson" id="first-session" data-page data-lesson="1" aria-labelledby="first-session-title">
+        <p class="eyebrow">LESSON 01 &middot; 15 MIN &middot; READ-ONLY</p>
+        <h1 id="first-session-title">Your first safe session</h1>
+        <p class="lead">Learn what an agent session can do, what it can access, and how to ask a question you can verify.</p>
+        <div class="outcome"><strong>By the end:</strong> you can distinguish session mode from tool permissions and explain a small function using evidence from the actual files.</div>
+        <h2>Understand the controls before the prompt</h2>
+        <p>A chat is useful for exploring an idea. A repository session gives the agent a working context where it can read files, propose changes, run commands, and use approved tools. It is not limited to answering questions. Your prompt should name both the goal and the boundary.</p>
+        <div class="two-col">
+          <div class="card"><h3>Mode: how you collaborate</h3><p><strong>Plan</strong> asks for a plan before execution. <strong>Interactive</strong> lets you steer the work together. <strong>Autopilot</strong> allows more autonomous progress. Start with Interactive or Plan while learning.</p></div>
+          <div class="card"><h3>Permissions: which tools can run</h3><p>Tool permissions are separate. Start with <strong>Ask every time</strong> for this exercise. Read approval requests: a read, a file edit, and a remote push have different effects. A mode is not a security sandbox.</p></div>
+        </div>
+        <h2>Try it</h2>
+        <ol class="steps">
+          <li>Finish the <a href="#start">practice setup</a>. Create a session in that repository with <strong>This computer</strong>, <strong>New worktree</strong>, and the baseline <code>main</code> branch.</li>
+          <li>Choose <strong>Interactive</strong> and review <strong>Tool permissions &rarr; Ask every time</strong>. Do not approve an unexpected write.</li>
+          <li>Send the prompt below. Open each referenced file and check at least one claim yourself.</li>
+          <li>Open <strong>Changes</strong>. It should be empty. A good explanation did not require a code edit.</li>
+        </ol>
+        <div class="prompt" data-label="Explain the current policy without changing it">
+          <div class="prompt-header"><span>COPILOT PROMPT &middot; READ-ONLY</span><button class="copy-button js-only" type="button">Copy</button></div>
+          <pre tabindex="0"><code>Read booking-policy.js and booking-policy.test.js in this worktree.
+Explain when canCancelOnline returns true and how the tests support that explanation.
+Use file and line references. Separate current behavior from the desired behavior in change-request.md.
+Give two concrete input/output examples and one question I should ask before changing the rule.
+Do not edit files, commit, push, create issues or PRs, or contact external services.</code></pre>
+        </div>
+        <h2>Why this prompt works</h2>
+        <p>It supplies a <strong>task</strong> (explain), <strong>sources</strong> (two files), an <strong>output</strong> (examples and evidence), and a <strong>boundary</strong> (no writes). Reuse those four elements rather than memorizing the exact wording.</p>
+        <details><summary>Worked example &mdash; compare after your attempt</summary><p>The baseline allows a booked appointment with 24 hours remaining, but rejects one with 6 hours remaining. The desired rule would allow the 6-hour appointment. Canceled and checked-in appointments stay ineligible. A useful clarification is whether exactly 2 hours is allowed; the change request says yes.</p><p>This is an illustrative answer, not evidence that your agent read the files or ran tests. Its file references must match your checkout.</p></details>
+        <div class="checkpoint"><h2>Before moving on</h2><ul><li>You found the cutoff in the file, not just in the agent's answer.</li><li>You can explain why baseline tests pass while a new requirement is unmet.</li><li>The worktree has no changes.</li></ul></div>
+        <form class="knowledge-check" data-answer="b">
+          <fieldset><legend>Quick check: does selecting Plan mode remove the need to inspect tool permissions?</legend><label><input type="radio" name="check-first" value="a"> Yes. Plan mode makes every tool read-only.</label><label><input type="radio" name="check-first" value="b"> No. Collaboration mode and tool permissions are different controls.</label></fieldset>
+          <button class="button js-only" type="submit">Check answer</button><p class="quiz-feedback" role="status" hidden></p>
+          <p class="answer-explanation" hidden>Mode controls the workflow. Permissions govern tool approvals. Review both; a read-only prompt also states your intent but is not an access-control mechanism.</p>
+        </form>
+        <div class="docs"><h2>Go deeper with GitHub Docs</h2><a href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/agent-sessions" data-doc><strong>Working with agent sessions</strong><span>Environment, worktrees, modes, approvals, and model selection.</span></a><a href="https://docs.github.com/en/copilot/concepts/prompting-and-context/prompt-engineering" data-doc><strong>Prompt engineering</strong><span>Write clear requests, give examples, and manage context.</span></a></div>
+      </section>
+
+      <section class="page lesson" id="projects" data-page data-lesson="2" aria-labelledby="projects-title">
+        <p class="eyebrow">LESSON 02 &middot; 35 MIN &middot; PROJECT + SESSION</p>
+        <h1 id="projects-title">Run a Copilot Project, not just a chat</h1>
+        <p class="lead">Give Copilot an ongoing goal, relevant repositories and Library sources, then steer the work as it moves through sessions and decisions.</p>
+        <div class="outcome"><strong>By the end:</strong> you can decide when to use a Project, configure its working context, delegate a bounded session, and use Overview to decide what needs attention.</div>
+        <h2>Project, repository, session, Library: different scopes</h2>
+        <p>A <strong>Copilot app Project</strong> coordinates an ongoing goal across repositories, sessions, artifacts, and recurring tasks. A <strong>repository</strong> supplies code and its Git history. A <strong>session</strong> carries out one task in a chosen environment. The <strong>Library</strong> holds reference material you add and artifacts created during work. Projects can also investigate material without a code repository.</p>
+        <p>This is the Copilot app's Project feature, not a GitHub Projects board. Projects are in public preview. Use one for a continuing multi-step goal; use a session directly for a single, self-contained task in one repository.</p>
+        <h2>Put each kind of context in the right place</h2>
+        <div class="table-wrap"><table><caption>Context layers and what they should contain</caption><thead><tr><th>Layer</th><th>Use it for</th><th>Check before relying on it</th></tr></thead><tbody>
+          <tr><th scope="row">Project goal</th><td>The outcome, initial tasks, constraints, and questions that persist across related work.</td><td>Keep it focused; update it when the goal changes.</td></tr>
+          <tr><th scope="row">Repositories</th><td>Code the Project is allowed to inspect or work on.</td><td>Confirm owner, branch, access, and whether writes are in scope.</td></tr>
+          <tr><th scope="row">Library</th><td>Specifications, data, reference files, and generated artifacts.</td><td>Identify the authoritative file, date, and any stale or fictional inputs.</td></tr>
+          <tr><th scope="row">App / repository instructions</th><td>Conventions that apply across sessions, globally or for a specific repository.</td><td>These are settings, not a substitute for the task's acceptance criteria.</td></tr>
+          <tr><th scope="row">MCP tools</th><td>Explicit connections to external systems such as an issue tracker.</td><td>Inspect each server's credentials and reachable data; prompt wording does not restrict its access.</td></tr>
+        </tbody></table></div>
+        <div class="scenario"><p class="kicker">YOUR PRACTICE QUESTION</p><h3>Why do customers get different cancellation answers?</h3><p>The new policy allows booked appointments to be canceled at least 2 hours before the start, with no fee. The kit contains a policy brief, fictional observations of three surfaces, and four feedback records. The observations are supplied evidence, not live API or website checks.</p></div>
+        <h2>Try it</h2>
+        <ol class="steps">
+          <li>Create a Project named <strong>Cancellation clarity</strong>. Add the extracted practice repository when prompted; a Project may also start without one.</li>
+          <li>Open <strong>Library &rarr; Add &rarr; Add folder</strong>. Add only the extracted kit's <code>library</code> folder. Check that the three files are visible.</li>
+          <li>Send the prompt below from the Project. Open the output and trace each row to the named policy rule and observation.</li>
+          <li>In the same Project, ask it to propose one separate Plan-mode session for the policy change. Check the repository, starting branch, task boundary, and tests before approving that work.</li>
+          <li>Return to <strong>Overview</strong>. Inspect <strong>Needs input</strong>, <strong>Open</strong>, <strong>Working</strong>, and <strong>Done</strong>; open a session to review its plan, conversation, changes, or PR.</li>
+        </ol>
+        <div class="prompt" data-label="Investigate cancellation evidence in the Project">
+          <div class="prompt-header"><span>COPILOT PROMPT &middot; LIBRARY ONLY</span><button class="copy-button js-only" type="button">Copy</button></div>
+          <pre tabindex="0"><code>Investigate cancellation clarity using only the three files in this Project's Library.
+Treat policy-brief.md as the source of truth. Treat current-experience.md and feedback.csv as fictional observations, not live system state.
+Create a table: disagreement, policy rule, observation ID, feedback ID, recommended owner, and evidence still needed.
+Separate defects from feature requests. Do not invent missing observations or count requests as unique customers.
+Recommend an order for verification. Do not change files, create sessions for implementation, contact external services, or publish anything.</code></pre>
+        </div>
+        <div class="prompt" data-label="Delegate one bounded follow-up from the Project">
+          <div class="prompt-header"><span>PROJECT FOLLOW-UP &middot; PLAN BEFORE EDITING</span><button class="copy-button js-only" type="button">Copy</button></div>
+          <pre tabindex="0"><code>The evidence review is complete. Propose one separate Plan-mode session in the attached practice repository to implement change-request.md.
+First report the repository and starting branch, acceptance criteria, files to change, boundary tests, and existing behavior to preserve.
+Keep the task local to this practice repository. Do not edit until I approve the plan.
+Do not create issues or PRs, post comments, assign a coding agent, transition a Jira story, or merge.
+Use Library findings as context only; verify the requirement in change-request.md and the code in this repository.</code></pre>
+        </div>
+        <details><summary>Worked example &mdash; find four disagreements and one request</summary>
+          <div class="table-wrap"><table><thead><tr><th>Finding</th><th>Grounding</th><th>Feedback</th></tr></thead><tbody><tr><td>API cutoff is 24 hours, not 2.</td><td>Rule P1; observation E1.</td><td>F1.</td></tr><tr><td>Portal checks <code>cancelled</code>, not <code>canceled</code>.</td><td>Rule P4; observation E3.</td><td>F2.</td></tr><tr><td>Help text still says 48 hours.</td><td>Rule P1; observation E4.</td><td>No specific feedback record proves this symptom.</td></tr><tr><td>Help text still mentions a $25 fee.</td><td>Rule P3; observation E4.</td><td>F3.</td></tr></tbody></table></div>
+          <p>F4 requests online rescheduling, which is outside the policy. E2 already limits cancellation to booked appointments, so it is not a defect. The two help-text disagreements share an observation; that does not make them two customers.</p>
+          <p>A reasonable next step is to verify the API cutoff against current code before coordinating portal and help changes. The supplied snapshots alone do not prove a live defect or a successful fix.</p>
+        </details>
+        <h2>Operate the Project as work progresses</h2>
+        <ul class="steps">
+          <li><strong>Start with a focused goal.</strong> In the initial Project prompt, state the desired outcome, first task, constraints, and evidence you expect. Do not paste a vague team mission and expect a safe implementation plan.</li>
+          <li><strong>Add only relevant context.</strong> Choose repositories and Library files deliberately. Label which source is authoritative and which is an observation, an assumption, or historical data.</li>
+          <li><strong>Break work into reviewable sessions.</strong> Ask for a read-only map first, then propose sessions with clear ownership, files, tests, and dependencies. Independent tasks may run separately; dependent work needs an explicit order.</li>
+          <li><strong>Steer from Overview.</strong> Resolve <strong>Needs input</strong> items; inspect active sessions and their actual plans and diffs. In the session, use <strong>Steer this session</strong> to give a precise correction. "Done" means a session completed, not that a PR was approved or merged.</li>
+          <li><strong>Keep the Project current.</strong> Add new evidence when it arrives, question stale artifacts, and ask a precise follow-up in the same Project. Do not treat prior summaries as a replacement for checking current sources.</li>
+        </ul>
+        <div class="notice"><strong>Instructions are not acceptance criteria.</strong> App instructions apply across sessions; repository instructions apply to sessions for that repository. A Project goal describes the ongoing outcome, and a session prompt describes the next task. The issue's actual requirements and repository evidence still need to be checked.</div>
+        <div class="checkpoint"><h2>Before moving on</h2><ul><li>All findings have traceable sources; missing evidence is explicit.</li><li>F4 remains a feature request, not a bug.</li><li>You can explain why a newer policy outranks an outdated help article.</li></ul></div>
+        <form class="knowledge-check" data-answer="a">
+          <fieldset><legend>Quick check: the policy says 2 hours and an article says 48 hours. What should the agent do?</legend><label><input type="radio" name="check-projects" value="a"> Use the declared policy as truth, cite the conflict, and identify what needs verification.</label><label><input type="radio" name="check-projects" value="b"> Average the numbers and recommend 25 hours.</label></fieldset>
+          <button class="button js-only" type="submit">Check answer</button><p class="quiz-feedback" role="status" hidden></p>
+          <p class="answer-explanation" hidden>Source authority is a rule you provide, not a vote among documents. Keep conflicting evidence visible instead of blending it into an invented requirement.</p>
+        </form>
+        <div class="docs"><h2>Go deeper with GitHub Docs</h2><a href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/working-with-projects" data-doc><strong>Working with Projects</strong><span>Create a goal, select repositories, add Library files, steer sessions, inspect Overview, and schedule recurring work.</span></a><a href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/customize-github-copilot-app" data-doc><strong>App and repository instructions</strong><span>Configure instructions and understand how MCP, skills, plugins, and canvases are managed.</span></a><a href="https://docs.github.com/en/copilot/get-started/best-practices" data-doc><strong>Copilot best practices</strong><span>Provide relevant context and validate the output yourself.</span></a></div>
+      </section>
+
+      <section class="page lesson" id="delivery" data-page data-lesson="3" aria-labelledby="delivery-title">
+        <p class="eyebrow">LESSON 03 &middot; 30 MIN &middot; ONE LOCAL CHANGE</p>
+        <h1 id="delivery-title">Turn a plan into a change you can review</h1>
+        <p class="lead">Practice the full reasoning loop on one tiny requirement. A local diff is enough; a GitHub pull request is a separate, optional publishing step.</p>
+        <div class="outcome"><strong>By the end:</strong> you can map acceptance criteria to code and tests, approve a bounded implementation, and decide whether the evidence is sufficient.</div>
+        <h2>Make "done" observable</h2>
+        <p>The practice function still uses the 24-hour baseline. <code>change-request.md</code> asks for cancellation at <strong>2 hours or more</strong>, only for booked appointments. Invalid time values and other statuses must stay ineligible. We are not adding a database, time-zone conversion, UI, or rescheduling.</p>
+        <ol class="steps">
+          <li>Start a new worktree session from the clean baseline <code>main</code>. Choose <strong>Plan</strong>. Ask for the plan below without approving implementation yet.</li>
+          <li>Check its file list and boundary cases against the matrix. Correct the plan if it misses the exactly-2-hours case.</li>
+          <li>Approve only the local implementation with the second prompt, and select Interactive execution when asked. Inspect the proposed tool operations.</li>
+          <li>Review <strong>Changes</strong>, run <code>node --test</code> in <em>that session's worktree</em>, and compare the results with the requirement.</li>
+        </ol>
+        <div class="prompt" data-label="Plan the two-hour cancellation change">
+          <div class="prompt-header"><span>STEP A &middot; PLAN ONLY</span><button class="copy-button js-only" type="button">Copy</button></div>
+          <pre tabindex="0"><code>Read change-request.md, booking-policy.js, and booking-policy.test.js.
+Map each acceptance criterion to current behavior and propose the smallest change.
+List the files, exact boundary tests, and existing behavior that must remain.
+Explain which old test expectations must change because the requirement changed.
+Plan only. Do not edit files, commit, push, create issues or PRs, or merge.</code></pre>
+        </div>
+        <div class="table-wrap"><table><caption>Your acceptance matrix for the new rule</caption><thead><tr><th>Status</th><th>Hours remaining</th><th>Expected result</th><th>Why</th></tr></thead><tbody><tr><td>booked</td><td>6, 24</td><td><code>true</code></td><td>Clearly above the new cutoff.</td></tr><tr><td>booked</td><td>2</td><td><code>true</code></td><td>The boundary is inclusive.</td></tr><tr><td>booked</td><td>1.99, 0, -1</td><td><code>false</code></td><td>Too late or already past.</td></tr><tr><td>checked_in, canceled, unknown</td><td>24</td><td><code>false</code></td><td>Not booked.</td></tr><tr><td>booked</td><td><code>"6"</code>, <code>NaN</code>, <code>Infinity</code></td><td><code>false</code></td><td>Not a finite numeric value.</td></tr></tbody></table></div>
+        <div class="prompt" data-label="Approve only the local policy implementation">
+          <div class="prompt-header"><span>STEP B &middot; LOCAL FILE WRITES</span><button class="copy-button js-only" type="button">Copy</button></div>
+          <pre tabindex="0"><code>Implement the agreed two-hour policy in this worktree only.
+Change booking-policy.js and its tests; update README.md to describe the new behavior.
+Keep the booked-only and finite-number checks. Add the agreed boundary and regression cases.
+Run node --test and report the actual result and any failures.
+Do not skip tests to make the suite green. Do not change the supplied Library snapshots, add dependencies, commit, push, open a PR, or merge.
+Leave the diff for my review.</code></pre>
+        </div>
+        <details><summary>What a small, well-supported result looks like</summary><p>The cutoff changes from 24 to 2; the booked-only and finite-number guards remain. A test that formerly rejected 23 hours must now accept it, and below-cutoff coverage moves below 2. New tests include exactly 2 and 1.99. The README states the new behavior. The Library snapshots stay unchanged because they are a separate historical evidence exercise.</p><p>A pass count by itself is not enough. Inspect the test inputs and assertions, and check that no tests were removed or skipped merely to hide a failure.</p></details>
+        <h2>When you are ready for a real PR</h2>
+        <p>A <strong>pull request</strong> proposes merging one branch into another. To practice this extra step, use your own authorized GitHub repository and connect it as the remote; a local-only folder cannot host a PR. Verify the destination first. Explicitly approve committing, pushing, and opening <em>one draft PR</em>. Include the requirement, changed files, test command and result, and known limitations. Leave it unmerged.</p>
+        <p>Review the PR's <strong>Files changed</strong> and <strong>Checks</strong>. If you ask for revisions, keep them on the same PR and inspect the new diff. A cloud-agent assignment means work was dispatched; it does not prove implementation or review is complete. For Jira-based teams, use <a href="#jira-story">the story-to-review lesson</a>.</p>
+        <div class="checkpoint"><h2>Before moving on</h2><ul><li>Exactly 2 hours succeeds; 1.99 fails.</li><li>Other statuses and invalid numeric inputs remain ineligible.</li><li>You reviewed a real diff and real test output, not just an agent's success sentence.</li></ul></div>
+        <form class="knowledge-check" data-answer="b">
+          <fieldset><legend>Quick check: all tests pass, but none tests exactly 2 hours. Is the boundary requirement demonstrated?</legend><label><input type="radio" name="check-delivery" value="a"> Yes. A green test suite proves every requirement.</label><label><input type="radio" name="check-delivery" value="b"> No. Add and inspect a test for the actual boundary.</label></fieldset>
+          <button class="button js-only" type="submit">Check answer</button><p class="quiz-feedback" role="status" hidden></p>
+          <p class="answer-explanation" hidden>A test suite proves only what its assertions cover. Measure the requirement directly; do not substitute a general green badge for missing evidence.</p>
+        </form>
+        <div class="docs"><h2>Go deeper with GitHub Docs</h2><a href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/managing-issues-and-pull-requests" data-doc><strong>Managing issues and PRs in the app</strong><span>Start from an issue, inspect a diff, and respond to reviews.</span></a><a href="https://docs.github.com/en/copilot/tutorials/review-ai-generated-code" data-doc><strong>Review AI-generated code</strong><span>Check intent, behavior, dependencies, and common AI pitfalls.</span></a><a href="https://docs.github.com/en/pull-requests/reference/pull-requests" data-doc><strong>Pull requests explained</strong><span>Understand drafts, review views, and collaboration models.</span></a></div>
+      </section>
+
+      <section class="page lesson" id="parallel" data-page data-lesson="4" aria-labelledby="parallel-title">
+        <p class="eyebrow">LESSON 04 &middot; 20 MIN &middot; TWO BOUNDED TASKS</p>
+        <h1 id="parallel-title">Work in parallel without sharing a checkout</h1>
+        <p class="lead">Separate independent tasks, then prove they are isolated. Two open chats are not evidence of two independent workspaces.</p>
+        <div class="outcome"><strong>By the end:</strong> you can identify a worktree's path, branch, starting commit, and diff, and explain what worktrees do not isolate.</div>
+        <h2>What a worktree gives you</h2>
+        <p>A Git worktree is another working directory connected to the same repository. The app can give each task a separate worktree and branch. That keeps one task's uncommitted file edits out of another task's checkout. It does <strong>not</strong> isolate ports, credentials, external systems, or all operating-system access.</p>
+        <div class="branch-map" aria-label="Two independent worktrees start from the same baseline.">
+          <div class="branch-root">Same baseline commit</div>
+          <div class="two-col"><div><strong>Session A</strong><span>Worktree A / branch A</span><small>A documentation-only edit</small></div><div><strong>Session B</strong><span>Worktree B / branch B</span><small>A read-only test audit</small></div></div>
+        </div>
+        <h2>Try it</h2>
+        <ol class="steps">
+          <li>Keep the policy implementation from lesson 3 in its own session. Do not reuse its checkout for this exercise.</li>
+          <li>Create sessions A and B in the practice repository. Select <strong>This computer &rarr; New worktree</strong> and the same original <code>main</code> baseline for both.</li>
+          <li>Send A's prompt, then B's. If their execution overlaps, you observed parallel execution. If one finishes first, you can still verify isolation.</li>
+          <li>Run the inspection commands in each session's terminal. Compare paths, branches, starting SHAs, and diffs.</li>
+        </ol>
+        <div class="prompt" data-label="Independent task A: documentation only">
+          <div class="prompt-header"><span>SESSION A &middot; COMMENTS ONLY</span><button class="copy-button js-only" type="button">Copy</button></div>
+          <pre tabindex="0"><code>In this worktree, add one concise documentation comment above canCancelOnline in booking-policy.js.
+Describe its existing input and current rule accurately. Do not implement the two-hour change.
+Change comments only. Run node --test and leave the diff for review.
+Do not edit another checkout, commit, push, or create a PR.</code></pre>
+        </div>
+        <div class="prompt" data-label="Independent task B: read-only test audit">
+          <div class="prompt-header"><span>SESSION B &middot; READ-ONLY</span><button class="copy-button js-only" type="button">Copy</button></div>
+          <pre tabindex="0"><code>Read booking-policy.js, booking-policy.test.js, and change-request.md.
+List the existing test cases and the missing cases needed for the new requirement.
+Cite actual assertions. Do not implement the requirement or change any files.
+Do not commit, push, create a PR, or touch another session's worktree.</code></pre>
+        </div>
+        <div class="prompt" data-label="Inspect each worktree independently">
+          <div class="prompt-header"><span>TERMINAL &middot; RUN IN BOTH WORKTREES</span><button class="copy-button js-only" type="button">Copy</button></div>
+          <pre tabindex="0"><code>git rev-parse --show-toplevel
+git branch --show-current
+git rev-parse HEAD
+git status --short
+git --no-pager diff --stat
+git worktree list</code></pre>
+        </div>
+        <details><summary>How to interpret the evidence</summary><p>A and B should have different paths and branches, but matching initial commit SHAs. A's diff should contain only a comment; B's working tree should remain clean. The separate policy-change session should retain its own diff.</p><p>Later commits on another branch do not automatically appear in a worktree. Integrate changes deliberately after review. Worktrees can still conflict when changes are merged. If two tasks need the same changing code, sequence them or use a dependency chain rather than pretending they are independent.</p></details>
+        <div class="checkpoint"><h2>Before moving on</h2><ul><li>You recorded different paths and branches for A and B.</li><li>Only A has the intended edit; B is clean.</li><li>You can explain why separate worktrees are not a security boundary.</li></ul></div>
+        <form class="knowledge-check" data-answer="a">
+          <fieldset><legend>Quick check: two tasks edit the same checkout on different chats. Are they isolated?</legend><label><input type="radio" name="check-parallel" value="a"> No. Check the actual working paths and use separate worktrees.</label><label><input type="radio" name="check-parallel" value="b"> Yes. A separate conversation always means separate files.</label></fieldset>
+          <button class="button js-only" type="submit">Check answer</button><p class="quiz-feedback" role="status" hidden></p>
+          <p class="answer-explanation" hidden>Isolation is a property of the workspace, not the chat title. A shared checkout can contain edits from both tasks.</p>
+        </form>
+        <div class="docs"><h2>Go deeper with GitHub Docs</h2><a href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/agent-sessions" data-doc><strong>Sessions, worktrees, and sandboxes</strong><span>Compare local and cloud environments and their boundaries.</span></a><a href="https://docs.github.com/en/copilot/concepts/copilot-surfaces/github-copilot-app" data-doc><strong>Copilot app concepts</strong><span>See how parallel work, GitHub integration, and review fit together.</span></a></div>
+      </section>
+
+      <section class="page lesson" id="automations" data-page data-lesson="5" aria-labelledby="automations-title">
+        <p class="eyebrow">LESSON 05 &middot; 30 MIN &middot; TRIGGERS + TOOLS</p>
+        <h1 id="automations-title">Design an automation you can control</h1>
+        <p class="lead">A Copilot app automation is not just a saved prompt: it has a trigger, execution environment, identity, tools, inputs, and a cost profile. Design those before enabling it.</p>
+        <div class="outcome"><strong>By the end:</strong> you can distinguish Project recurring tasks from standalone automations, select a bounded trigger and tool set, interpret who can see and authorize a run, and pause it safely.</div>
+        <h2>Choose where recurring work belongs</h2>
+        <div class="table-wrap"><table><caption>Project task or standalone automation?</caption><thead><tr><th>Use a Project task when</th><th>Use a standalone automation when</th></tr></thead><tbody><tr><td>The recurring work advances an ongoing goal, reuses Project context and Library material, and needs steering through the Project's Overview.</td><td>A repository event or schedule should run a repeatable job with a defined prompt, trigger, tools, and execution identity.</td></tr><tr><td>Example: every Monday, summarize new feedback added to the Project Library and list unresolved questions.</td><td>Example: on a matching issue, prepare a read-only triage report or open a draft PR after the required checks.</td></tr><tr><td>Review the schedule in the Project's <strong>Automations</strong> tab. Pause or delete it when the goal or input cadence changes.</td><td>Review the automation card, triggers, tools, ownership, run logs, and cost controls before saving.</td></tr></tbody></table></div>
+        <p>Both create agent work without a person starting each run. A static Library or old issue is not fresh evidence: the prompt must identify which new inputs to read and how to report missing or stale data.</p>
+        <h2>Trigger and permission design</h2>
+        <div class="table-wrap"><table><caption>Choose a trigger, then choose how to run it</caption><thead><tr><th>Trigger or run method</th><th>Useful for</th><th>Design questions</th></tr></thead><tbody>
+          <tr><th scope="row">Schedule</th><td>Recurring review or digest.</td><td>What time zone and cadence? Will inputs have changed? Who owns the output?</td></tr>
+          <tr><th scope="row">Issue / pull request event</th><td>Triage, review preparation, or scoped follow-up.</td><td>What event filters apply? Can Copilot-generated events retrigger it? Should only people with write access trigger it?</td></tr>
+          <tr><th scope="row">Manual run (not a trigger)</th><td>Run any saved automation from its play control when a person chooses.</td><td>Is the intended repository and automation selected? Inspect its inputs and changes after running.</td></tr>
+        </tbody></table></div>
+        <p>Cloud automations are not available in public repositories; their repository must be private or internal, with cloud agent and automation policies enabled. A local automation can use an approved local folder, but the computer and app must be available for it to run. A public Pages site is not an automation host.</p>
+        <div class="two-col">
+          <div class="card"><h3>Local</h3><p>Runs from your computer and can use a local folder. Rehearse on the fictional kit, run once, inspect the output, then pause or remove the test schedule.</p></div>
+          <div class="card"><h3>Cloud</h3><p>Runs in GitHub's cloud, even when your computer is off. Repository policy, selected tools, identity, triggers, read visibility, and AI credit limits all matter.</p></div>
+        </div>
+        <h2>Try it</h2>
+        <ol class="steps">
+          <li>First run the prompt below in a normal session on the clean practice baseline. Review its output and refine the instructions before saving an automation.</li>
+          <li>Open <strong>Automations &rarr; Create automation &rarr; Create manually</strong>. Name it <strong>Practice feedback digest</strong>, leave <strong>Run in the cloud</strong> off, and select the extracted practice folder or repository.</li>
+          <li>Select the narrowest trigger offered for local execution. Paste the rehearsed prompt, review the model and execution settings, then choose <strong>Create and run</strong> if available. Otherwise create it and use the play button to run it on demand.</li>
+          <li>Inspect the actual run and report, including source IDs, gaps, and whether it truly executed from the folder. Immediately pause or delete the test schedule so no future runs are left behind.</li>
+        </ol>
+        <div class="prompt" data-label="Rehearse a local feedback digest">
+          <div class="prompt-header"><span>COPILOT PROMPT &middot; REUSABLE LOCAL TASK</span><button class="copy-button js-only" type="button">Copy</button></div>
+          <pre tabindex="0"><code>Read library/feedback.csv, library/policy-brief.md, and library/current-experience.md in this practice repository.
+Return a concise feedback digest in this run: record count, themes with feedback IDs, policy disagreements, feature requests, and questions for a human.
+Cite the source files. Label this as a static fictional snapshot, not current live customer data. Do not claim a customer count from record count.
+If a required input cannot be read, report that gap instead of reusing an old answer.
+Read-only: do not modify files, run code from the input, post comments, create issues or PRs, publish, or merge.</code></pre>
+        </div>
+        <details><summary>What should the first run show?</summary><p>The kit contains four feedback records. F1, F2, and F3 concern cancellation behavior or guidance; F4 asks for rescheduling. It should cite those IDs, state that this is a fictional static snapshot, and avoid calling four records four unique customers. A completed run is evidence of execution; a saved automation card is not.</p><p>Running the prompt in an ordinary session proves only the rehearsal. It does not prove that a saved automation or an event trigger fired.</p></details>
+        <h2>Ownership changes more than the label</h2>
+        <div class="table-wrap"><table><caption>Cloud automation ownership and visibility</caption><thead><tr><th>Setting</th><th>Personal</th><th>Shared</th></tr></thead><tbody>
+          <tr><th scope="row">Who can see the automation</th><td>Only its owner.</td><td>Anyone with repository read access.</td></tr>
+          <tr><th scope="row">Who can see a run</th><td>Anyone with repository read access.</td><td>Anyone with repository read access.</td></tr>
+          <tr><th scope="row">GitHub action identity</th><td>The user who created it.</td><td>Copilot.</td></tr>
+          <tr><th scope="row">Who pays AI credits</th><td>The user.</td><td>The repository owner or organization, as configured.</td></tr>
+        </tbody></table></div>
+        <h2>Least privilege is a configuration, not a sentence</h2>
+        <ul class="steps">
+          <li><strong>Limit GitHub writes.</strong> Where the issue/PR trigger supports it, consider limiting writes to the triggering item and resources created by that run. This does not constrain MCP tools.</li>
+          <li><strong>Inspect MCP separately.</strong> GitHub tools are scoped to the repository; an MCP server can reach anything its credentials and configuration allow. Select only the specific MCP tools needed.</li>
+          <li><strong>Prevent unwanted loops.</strong> Decide whether events created by Copilot can trigger the automation again; set event filters and write-access requirements for untrusted input.</li>
+          <li><strong>Bound cost and impact.</strong> Review per-run and recurring AI-credit limits, Actions usage, tool permissions, and the pause/delete control. Per-run credit limits stop that run; daily, weekly, and monthly limits do not stop an already running job.</li>
+          <li><strong>Keep the human gate.</strong> Have the automation prepare a result or draft before enabling comments, labels, code pushes, or pull requests. Confirm the target and current state before any write.</li>
+        </ul>
+        <div class="checkpoint"><h2>Before moving on</h2><ul><li>You inspected the report from an actual saved-automation run, or recorded clearly that you only rehearsed it.</li><li>The report distinguishes a static snapshot from live data.</li><li>No unintended schedule or write permission remains enabled.</li></ul></div>
+        <form class="knowledge-check" data-answer="b">
+          <fieldset><legend>Quick check: does a Personal cloud automation make its run logs visible only to you?</legend><label><input type="radio" name="check-automations" value="a"> Yes. Personal ownership makes every result private.</label><label><input type="radio" name="check-automations" value="b"> No. People with repository read access can see cloud automation runs.</label></fieldset>
+          <button class="button js-only" type="submit">Check answer</button><p class="quiz-feedback" role="status" hidden></p>
+          <p class="answer-explanation" hidden>Ownership and run visibility are different. Check the current permissions, identity, billing, and log visibility before saving a real workflow.</p>
+        </form>
+        <div class="docs"><h2>Go deeper with GitHub Docs</h2><a href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/using-automations" data-doc><strong>Create and run automations</strong><span>Manual setup, triggers, cloud tools, ownership, on-demand runs, and credit limits.</span></a><a href="https://docs.github.com/en/copilot/concepts/agent-capabilities/agent-powered-workflows-and-operations/about-automations" data-doc><strong>Automation security model</strong><span>Repository eligibility, event triggers, tool scope, identities, visibility, billing, and safety protections.</span></a><a href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/working-with-projects" data-doc><strong>Recurring tasks in Projects</strong><span>Schedule and manage tasks that advance an ongoing Project goal.</span></a></div>
+      </section>
+
+      <section class="page lesson" id="jira-story" data-page data-lesson="6" aria-labelledby="jira-story-title">
+        <p class="eyebrow">LESSON 06 &middot; 40 MIN &middot; ADVANCED / CONNECTED OPTIONAL</p>
+        <h1 id="jira-story-title">Take a Jira story to a reviewed pull request</h1>
+        <p class="lead">Practice a traceable delivery workflow: story and acceptance criteria, codebase analysis, a bounded plan, implementation, test evidence, and human review.</p>
+        <div class="outcome"><strong>By the end:</strong> you can explain each stage, identify its inputs and writes, keep Jira and GitHub status accurate, and stop before an unauthorized transition or merge.</div>
+        <div class="notice"><strong>Important distinction:</strong> the Jira Story Workbench in some workshops is a custom canvas/extension, not a built-in Copilot app feature. Jira access also needs an approved connection and account permissions. This guide teaches the workflow using fictional files and does not connect to a real Jira site. The workshop's demonstration extension is kept in this repository only as a reference sample; its default Jira site and project belong to the workshop's demo, so review and replace them before using it anywhere else.</div>
+        <h2>The delivery stages and their gates</h2>
+        <div class="table-wrap"><table><caption>One story, five reviewable stages</caption><thead><tr><th>Stage</th><th>Input and output</th><th>Human gate before the next stage</th></tr></thead><tbody>
+          <tr><th scope="row">1. Analyze with codebase</th><td>Acceptance criteria mapped to actual code, likely tests, risks, and open questions.</td><td>Confirm the repository and source version; resolve ambiguity before planning writes.</td></tr>
+          <tr><th scope="row">2. Plan</th><td>A file-by-file implementation plan, test matrix, and optionally linked GitHub issues.</td><td>Review the scope and approve issue creation separately. Do not treat generated issues as acceptance criteria.</td></tr>
+          <tr><th scope="row">3. Implement</th><td>A bounded coding-agent assignment in an isolated branch or worktree.</td><td>Confirm the target issue, repository, branch, and any Jira status change before dispatch.</td></tr>
+          <tr><th scope="row">4. Test coverage</th><td>Each acceptance criterion marked covered, partial, or missing, with test evidence and gaps.</td><td>Inspect actual test commands and results; ask for missing coverage before calling the story ready.</td></tr>
+          <tr><th scope="row">5. Pull request and review</th><td>A PR link, checks, review findings, and a summary tied back to the story.</td><td>Review the diff and blocking findings. This workflow stops before merge.</td></tr>
+        </tbody></table></div>
+        <p>A separate Jira comment is an external write. In a custom Workbench, posting may be an explicit per-stage checkbox or a manual action. Review the exact text and issue key before posting. Optional status transitions are writes too; verify the destination state and the condition that triggers the transition.</p>
+        <h2>Run the fictional lab without Jira</h2>
+        <p>Use <code>change-request.md</code> as a mock story and the extracted practice repository as its codebase. This lets you learn the stages without an Atlassian account, extension, network access, or access to a company repository.</p>
+        <ol class="steps">
+          <li><strong>Analyze.</strong> Map every requirement to a source file and current behavior. List test gaps, risks, and questions; do not make a code change.</li>
+          <li><strong>Plan.</strong> Ask for the smallest file-by-file plan and boundary matrix. Check that the exact 2-hour case is included and that rescheduling is out of scope.</li>
+          <li><strong>Implement.</strong> Only after reviewing the plan, use lesson 3's implementation exercise in a separate worktree. Keep issue creation, Jira writes, pushes, and PR creation off.</li>
+          <li><strong>Test.</strong> Compare actual test results to every criterion. Mark partial or missing coverage honestly; do not infer coverage from a green suite.</li>
+          <li><strong>Review.</strong> Inspect the final diff, test changes, and limitations. A real Jira update or PR is optional and requires your own authorized sandbox and separate approval.</li>
+        </ol>
+        <div class="prompt" data-label="Stage 1: analyze a story using repository evidence">
+          <div class="prompt-header"><span>ANALYSIS &middot; READ-ONLY</span><button class="copy-button js-only" type="button">Copy</button></div>
+          <pre tabindex="0"><code>Use change-request.md as the fictional story and inspect the current practice repository.
+For each acceptance criterion, return: requirement, source file and evidence, current behavior, test coverage, and status (covered, partial, or missing).
+List risks and questions that block a safe plan. Distinguish the story's requirements from suggestions in Library files.
+Do not edit files, create GitHub issues or pull requests, assign an agent, contact Jira, post comments, or change any status.</code></pre>
+        </div>
+        <div class="prompt" data-label="Stage 2: plan and wait for approval">
+          <div class="prompt-header"><span>PLANNING &middot; NO WRITES</span><button class="copy-button js-only" type="button">Copy</button></div>
+          <pre tabindex="0"><code>Based on the accepted story analysis, propose the smallest implementation plan.
+Map every requirement to a file and a test. Include exactly 2 hours and 1.99 hours, the non-booked statuses, and invalid numeric inputs.
+Call out what must not change and list unresolved questions.
+Do not create issues, edit code, assign a coding agent, update Jira, post comments, commit, push, create a PR, or merge.
+Wait for me to approve the plan before implementation.</code></pre>
+        </div>
+        <h2>If your team has an installed Jira Story Workbench</h2>
+        <p>Use only an authorized sandbox story and repository. The exact controls depend on that extension, so inspect its own instructions before acting. A typical guided Workbench orders the same stages above and can optionally post successful stage summaries back to Jira. It may also offer a status change when implementation starts or after a review without blocking findings; verify the exact trigger and target before enabling it.</p>
+        <div class="checkpoint"><h2>Before handing off or updating Jira</h2><ul>
+          <li>The analysis names the exact story, repository, code evidence, and open questions.</li>
+          <li>The accepted plan includes each criterion and tests; created GitHub issues do not silently broaden scope.</li>
+          <li>The coding agent's branch, PR, and test evidence are real and linked to the intended story.</li>
+          <li>Any Jira comment or transition is a separately reviewed write. A failed stage or failed comment is reported, not presented as success.</li>
+          <li>The final review is complete, but no merge happened without a separate decision.</li>
+        </ul></div>
+        <form class="knowledge-check" data-answer="b">
+          <fieldset><legend>Quick check: the coding-agent assignment started. Is the Jira story ready to close?</legend><label><input type="radio" name="check-jira-story" value="a"> Yes. Assignment means implementation, tests, and review succeeded.</label><label><input type="radio" name="check-jira-story" value="b"> No. Verify the resulting code, test evidence, PR, review, and any Jira writes.</label></fieldset>
+          <button class="button js-only" type="submit">Check answer</button><p class="quiz-feedback" role="status" hidden></p>
+          <p class="answer-explanation" hidden>A dispatched task is a handoff, not proof of completion. Confirm each stage's result and distinguish a successful code change from a successful Jira update.</p>
+        </form>
+        <div class="docs"><h2>Go deeper with GitHub Docs</h2><a href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/managing-issues-and-pull-requests" data-doc><strong>Manage issues and pull requests in the app</strong><span>Open work, create or inspect PRs, respond to reviews, and understand merge controls.</span></a><a href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/customize-github-copilot-app" data-doc><strong>Customize the Copilot app</strong><span>Discover and manage verified connectors, MCP servers, skills, plugins, and canvases.</span></a><a href="https://docs.github.com/en/copilot/concepts/customizations/mcp" data-doc><strong>MCP connections and tools</strong><span>Understand external-system access, credentials, and execution boundaries.</span></a><a href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/working-with-canvas-extensions" data-doc><strong>Build and use canvas extensions</strong><span>Learn how custom interactive workflows extend the app.</span></a></div>
+      </section>
+
+      <section class="page lesson" id="fusion" data-page data-lesson="7" aria-labelledby="fusion-title">
+        <p class="eyebrow">LESSON 07 &middot; 20 MIN &middot; READ-ONLY COMPARISON</p>
+        <h1 id="fusion-title">Choose models with evidence</h1>
+        <p class="lead">Compare the usefulness of the result, not the confidence of the answer or the name in the picker.</p>
+        <div class="outcome"><strong>By the end:</strong> you can explain Fusion, run a controlled comparison, and record unknown measurements honestly.</div>
+        <h2>One task, different ways to solve it</h2>
+        <p>A named model chooses the main model for your session. <strong>Copilot Fusion</strong> is a runtime router and orchestrator: it selects models, reasoning effort, and execution patterns for a task. It is not a new single model. Availability depends on your plan and policy.</p>
+        <div class="three-col compact-cards">
+          <div class="card"><h3>Single</h3><p>One model completes the task.</p></div>
+          <div class="card"><h3>Cascade</h3><p>A draft is judged and may be escalated.</p></div>
+          <div class="card"><h3>Critique</h3><p>Critics examine a draft before revision.</p></div>
+        </div>
+        <p>Standard balances cost, quality, and latency; High and Max can prioritize deeper work. More review calls can take longer and cost more. High does not always mean Cascade, and Max does not always mean Critique. Use the current documentation rather than assuming a permanent mapping.</p>
+        <h2>Try a fair comparison</h2>
+        <ol class="steps">
+          <li>Create two fresh read-only comparison sessions from the <strong>same original baseline commit</strong>, not the modified policy branch. Keep their files, instructions, tools, mode, permissions, and prompt identical.</li>
+          <li>Select one available named model for A and one available Fusion effort level for B. Record the choices before running. Each run can consume credits; use only choices your account permits.</li>
+          <li>Send the identical prompt below in each. Record the time from send to final response, including approval or network delays separately. Do not give one run extra hints.</li>
+          <li>Score both outputs using the same rubric. Inspect the model/effort information shown by the app. Write <strong>not shown</strong> for unavailable model or credit telemetry.</li>
+        </ol>
+        <div class="prompt" data-label="Use exactly this prompt in both model sessions">
+          <div class="prompt-header"><span>IDENTICAL COMPARISON PROMPT</span><button class="copy-button js-only" type="button">Copy</button></div>
+          <pre tabindex="0"><code>Read booking-policy.js, booking-policy.test.js, and change-request.md.
+In at most 350 words, propose the smallest safe change for the new cancellation rule.
+Include a file-by-file plan, boundary and regression test cases with expected results, and two risks grounded in the actual files.
+Distinguish current behavior from proposed behavior. Preserve the existing input shape and boolean output.
+Read-only. Do not edit, contact external services, create issues or PRs, or delegate to other agents.</code></pre>
+        </div>
+        <div class="table-wrap"><table><caption>Score each row 0 (missing/wrong), 1 (partial), or 2 (correct and testable)</caption><thead><tr><th>Criterion</th><th>Full-credit evidence</th></tr></thead><tbody><tr><td>Rule</td><td>Booked only; at least 2 hours, inclusive.</td></tr><tr><td>Boundary</td><td>Exactly 2 succeeds and 1.99 fails.</td></tr><tr><td>Regression safety</td><td>Other statuses and non-finite/non-numeric hours remain rejected.</td></tr><tr><td>Test and documentation plan</td><td>Update outdated baseline expectations, add missing cases, and update the README.</td></tr><tr><td>Evidence and scope</td><td>Correct file references; no invented infrastructure or unnecessary dependencies.</td></tr></tbody></table></div>
+        <div class="prompt" data-label="Model comparison worksheet">
+          <div class="prompt-header"><span>WORKSHEET &middot; FILL FROM YOUR RUNS</span><button class="copy-button js-only" type="button">Copy</button></div>
+          <pre tabindex="0"><code>Baseline commit:
+App version / date:
+Same prompt, context, tools, and permissions:
+
+Run A selection:
+Actual model(s) shown:
+Time to final / approval delays:
+Credits shown, or "not shown":
+Score /10 and specific omissions:
+
+Run B selection:
+Actual model(s) shown:
+Time to final / approval delays:
+Credits shown, or "not shown":
+Score /10 and specific omissions:
+
+What was better supported for this task?
+What would need more trials before drawing a general conclusion?</code></pre>
+        </div>
+        <details><summary>How to interpret your results without overclaiming</summary><p>A 9/10 answer on one small task does not establish a universal winner. Context, randomness, task type, tool latency, and approvals can affect the result. A long response can still miss the boundary. Missing credit telemetry means unknown, not zero. If Fusion is unavailable, compare two available choices and label the exercise accordingly; do not invent a Fusion run.</p></details>
+        <div class="checkpoint"><h2>Before moving on</h2><ul><li>Both runs used the same starting files and prompt.</li><li>Your notes contain actual observations, not prefilled benchmark numbers.</li><li>You can justify a preference for this task without claiming one model always wins.</li></ul></div>
+        <form class="knowledge-check" data-answer="b">
+          <fieldset><legend>Quick check: a run does not show credit usage. What belongs in the comparison?</legend><label><input type="radio" name="check-fusion" value="a"> Zero credits.</label><label><input type="radio" name="check-fusion" value="b"> Not shown; cost cannot be compared from this evidence.</label></fieldset>
+          <button class="button js-only" type="submit">Check answer</button><p class="quiz-feedback" role="status" hidden></p>
+          <p class="answer-explanation" hidden>Absence of telemetry is not a measurement of zero. Compare only what you actually observed and keep limitations beside the conclusion.</p>
+        </form>
+        <div class="docs"><h2>Go deeper with GitHub Docs</h2><a href="https://docs.github.com/en/copilot/concepts/models/copilot-fusion" data-doc><strong>About Copilot Fusion</strong><span>Execution patterns, effort levels, availability, and policy requirements.</span></a><a href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/agent-sessions#choosing-a-model" data-doc><strong>Choosing a model in the app</strong><span>Model controls and the models-used information on a response.</span></a></div>
+      </section>
+
+      <section class="page" id="next-steps" data-page aria-labelledby="next-steps-title">
+        <p class="eyebrow">ADVANCED PRACTICE &middot; BUILD ON THE SEVEN LESSONS</p>
+        <h1 id="next-steps-title">Extend the workflow, not the permissions by accident</h1>
+        <p class="lead">Choose a capability only when the task needs it. Use your own approved systems and review each new tool, action, and merge implication before enabling it.</p>
+        <article class="extension-section" id="jira-workflows">
+          <p class="kicker">PATHWAY A / CUSTOM WORKFLOWS</p><h2>When built-in app features are not enough</h2>
+          <p>A team can extend the Copilot app with connectors, skills, plugins, and canvas extensions. A Jira Story Workbench is one possible <strong>custom</strong> workflow built from these pieces; it is not included in the standard app, and installing an extension does not grant Jira access by itself.</p>
+          <ol class="steps"><li><strong>Start from the user journey.</strong> Define what the learner sees, the stages, stage results, and decisions that require a human.</li><li><strong>Inventory access.</strong> Separate read-only Jira and GitHub data from issue creation, coding-agent assignment, comments, field edits, status transitions, and merge. Name the identity and permission for each write.</li><li><strong>Design failure states.</strong> Show pending, partial, failed, and complete results distinctly. Before retrying, check whether an issue, PR, comment, or transition already happened.</li><li><strong>Test the boundaries.</strong> Use fixtures for missing criteria, inaccessible code, failed tests, duplicate delivery, blocked comments, and a PR with blocking findings. Confirm that a failed stage does not unlock the next one.</li><li><strong>Publish only approved material.</strong> Keep credentials, tenant URLs, proprietary code, and customer data out of a public extension and its examples. Review all tools and external writes before install.</li></ol>
+          <div class="notice"><strong>For this learner guide:</strong> the example workflow is described at a high level with fictional practice data, and no credentials are included. The workshop's demonstration extension in this repository is a sample, not a supported feature; replace its Jira defaults with your own approved values before connecting it to a real site.</div>
+          <div class="docs"><h3>Official documentation</h3><a href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/customize-github-copilot-app" data-doc><strong>Customize the app</strong><span>Instructions, verified connectors, MCP servers, skills, plugins, and canvases.</span></a><a href="https://docs.github.com/en/copilot/concepts/customizations/mcp" data-doc><strong>Model Context Protocol</strong><span>Understand external tool access and execution boundaries.</span></a><a href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/working-with-canvas-extensions" data-doc><strong>Canvas extensions</strong><span>Build custom shared work surfaces for an agent workflow.</span></a></div>
+        </article>
+        <article class="extension-section" id="agent-merge">
+          <p class="kicker">PATHWAY B / PR LIFECYCLE</p><h2>Understand Agent Merge before enabling it</h2>
+          <p>PR maintenance may involve responding to feedback, repairing failed checks, and resolving conflicts. These are different from deciding that a change should merge. The app's documented <strong>Agent Merge</strong> workflow can fix blockers <em>and merge</em> when GitHub permits it. Do not treat its switch as a harmless "watch" button.</p>
+          <p>For learning, open an existing authorized PR and inspect its diff, checks, review threads, and available controls without enabling automation. Explain the blockers to another person. If you later enable maintenance or merging, inspect the exact action settings, repository rules, costs, and stop controls. Do not assume every app version provides a maintenance-only option.</p>
+          <div class="prompt" data-label="Inspect a PR without enabling Agent Merge"><div class="prompt-header"><span>COPILOT PROMPT &middot; INSPECTION ONLY</span><button class="copy-button js-only" type="button">Copy</button></div><pre tabindex="0"><code>For the existing PR I have opened, explain the current checks, unresolved review feedback, conflicts, and merge requirements.
+Show Agent Merge's current status and available controls without changing them.
+Do not enable it, edit or push code, resolve threads, approve, or merge.
+Separate observed blockers from suggested next steps.</code></pre></div>
+          <div class="docs"><h3>Official documentation</h3><a href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/managing-issues-and-pull-requests#merging-a-pull-request" data-doc><strong>Agent Merge in the app and cloud</strong><span>Read the current behavior before authorizing a merge workflow.</span></a><a href="https://docs.github.com/en/copilot/reference/github-copilot-app-reference/built-in-skills" data-doc><strong>Built-in skills reference</strong><span>Distinguish GitHub-provided skills from repository or personal additions.</span></a></div>
+        </article>
+        <article class="extension-section" id="stacked-prs">
+          <p class="kicker">PATHWAY C / DEPENDENT CHANGES</p><h2>Use stacks when one change depends on another</h2>
+          <p>Independent tasks can start from the same baseline. Dependent changes need ordering. For example, an API response field can be layer A, and the UI that consumes it can be layer B. Keep each layer reviewable with its relevant tests.</p>
+          <div class="branch-map"><div class="branch-root">main</div><div class="stack-layer"><strong>A: API field + its tests</strong><span>PR base: main</span></div><div class="stack-layer"><strong>B: UI usage + its tests</strong><span>PR base: branch A</span></div></div>
+          <p>First sketch the dependency and compare the intended diffs. The upper PR should show its own layer, not repeat all of A. A branch chain is not necessarily a registered GitHub stack. Native stacks require branches in the same repository; cross-fork stacks are not supported. The Copilot app and GitHub Desktop are different applications.</p>
+          <p>After explicit approval, use the installed stack workflow and verify the bases and membership. Changes below can require synchronization above. <strong>Merging a native stack entry can also merge lower entries.</strong> Review the entire affected chain before a separately authorized merge.</p>
+          <div class="docs"><h3>Official documentation</h3><a href="https://docs.github.com/en/pull-requests/get-started/about-stacked-prs" data-doc><strong>About stacked pull requests</strong><span>Start here: dependency order, bases, review, and merge behavior.</span></a><a href="https://docs.github.com/en/pull-requests/reference/stacked-pull-requests-apis-and-webhooks" data-doc><strong>Stack APIs and webhooks</strong><span>Advanced reference for integrations; not a beginner setup prerequisite.</span></a></div>
+        </article>
+        <div class="capstone"><p class="kicker">YOUR FINAL CHALLENGE</p><h2>Design a Project, then deliver one story.</h2><p>Write the Project goal, name authoritative sources, and define the result. Turn one fictional story into acceptance criteria, a bounded plan, tests, and a reviewed diff. Then decide which follow-up belongs in a Project session, a scheduled task, an event-triggered automation, or a human handoff. State who may see the run, which tools can write, what a retry would do, and how to stop it.</p><button class="button primary js-only" type="button" data-export>Export my learning notebook</button></div>
+      </section>
+
+      <section class="page" id="resources" data-page aria-labelledby="resources-title">
+        <p class="eyebrow">KEEP LEARNING &middot; PRIMARY SOURCES</p>
+        <h1 id="resources-title">Your GitHub Docs reading list</h1>
+        <p class="lead">Use the lessons to build intuition. Use the official documentation to learn the full feature, check prerequisites, and confirm what is available in your environment.</p>
+        <p class="source-note">Documentation reviewed in November 2026. Features, policies, and labels can change. These links lead to GitHub Docs; this independently authored guide is not an official GitHub course or a certification.</p>
+        <div class="resource-toolbar js-only"><label for="docs-filter">Choose a topic</label><select id="docs-filter"><option value="all">All topics</option><option value="start">Getting started</option><option value="context">Projects and context</option><option value="delivery">Delivery and review</option><option value="automation">Automations</option><option value="integrations">Jira and integrations</option><option value="models">Models</option></select><span id="docs-count" role="status"></span></div>
+        <div class="resource-grid">
+          <a class="resource-card" data-topic="start" href="https://docs.github.com/en/copilot/get-started/quickstart-copilot-app"><span>START / HOW-TO</span><h2>Install and get started</h2><p>Account requirements, sign-in, connecting a folder, and the app's main areas.</p></a>
+          <a class="resource-card" data-topic="start" href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/agent-sessions"><span>START / HOW-TO</span><h2>Agent sessions and worktrees</h2><p>Environment, mode, permissions, models, and the distinction between local and cloud sandboxes.</p></a>
+          <a class="resource-card" data-topic="context" href="https://docs.github.com/en/copilot/concepts/prompting-and-context/prompt-engineering"><span>CONTEXT / CONCEPT</span><h2>Prompt engineering</h2><p>Structure a request, provide examples, break up work, and keep history relevant.</p></a>
+          <a class="resource-card" data-topic="context" href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/working-with-projects"><span>CONTEXT / HOW-TO</span><h2>Projects and the Library</h2><p>Coordinate goals, add sources, inspect artifacts, and steer ongoing work.</p></a>
+          <a class="resource-card" data-topic="context" href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/customize-github-copilot-app"><span>CONTEXT / HOW-TO</span><h2>Customize the app</h2><p>Instructions, approved connectors, MCP servers, plugins, and skills.</p></a>
+          <a class="resource-card" data-topic="context" href="https://docs.github.com/en/copilot/concepts/customizations/mcp"><span>CONTEXT / CONCEPT</span><h2>Model Context Protocol</h2><p>Understand what connections can access and how environment setup differs.</p></a>
+          <a class="resource-card" data-topic="delivery" href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/managing-issues-and-pull-requests"><span>DELIVERY / HOW-TO</span><h2>Issues, PRs, and Agent Merge</h2><p>Start from an issue, review a diff, address feedback, and understand merge actions.</p></a>
+          <a class="resource-card" data-topic="delivery" href="https://docs.github.com/en/copilot/tutorials/review-ai-generated-code"><span>DELIVERY / TUTORIAL</span><h2>Review AI-generated code</h2><p>Practical checks for correctness, intent, dependencies, and misleading green tests.</p></a>
+          <a class="resource-card" data-topic="delivery" href="https://docs.github.com/en/pull-requests/get-started/about-stacked-prs"><span>DELIVERY / CONCEPT</span><h2>Stacked pull requests</h2><p>Learn dependency chains and merge behavior before using an advanced stack workflow.</p></a>
+          <a class="resource-card" data-topic="automation" href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/using-automations"><span>AUTOMATIONS / HOW-TO</span><h2>Create and run automations</h2><p>Local and cloud setup, available triggers, tool selection, and manual runs.</p></a>
+          <a class="resource-card" data-topic="automation" href="https://docs.github.com/en/copilot/concepts/agent-capabilities/agent-powered-workflows-and-operations/about-automations"><span>AUTOMATIONS / CONCEPT</span><h2>Cloud ownership and permissions</h2><p>Read the availability rules, visibility, identity, billing, and safety boundaries.</p></a>
+          <a class="resource-card" data-topic="integrations" href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/customize-github-copilot-app"><span>INTEGRATIONS / HOW-TO</span><h2>Customize the Copilot app</h2><p>Configure app and repository instructions, MCP servers, connectors, skills, plugins, and canvases.</p></a>
+          <a class="resource-card" data-topic="integrations" href="https://docs.github.com/en/copilot/concepts/customizations/mcp"><span>INTEGRATIONS / CONCEPT</span><h2>MCP and connected tools</h2><p>Understand how an external server's configuration and credentials govern what it can access.</p></a>
+          <a class="resource-card" data-topic="integrations" href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/working-with-canvas-extensions"><span>INTEGRATIONS / HOW-TO</span><h2>Canvas extensions</h2><p>Learn how custom canvases add guided workflows and interactive surfaces.</p></a>
+          <a class="resource-card" data-topic="models" href="https://docs.github.com/en/copilot/concepts/models/copilot-fusion"><span>MODELS / CONCEPT</span><h2>Copilot Fusion</h2><p>Routing, execution patterns, effort levels, and plan and model-policy requirements.</p></a>
+        </div>
+        <h2 id="glossary">A small glossary</h2>
+        <dl class="glossary">
+          <div><dt>Repository</dt><dd>A project's files and tracked Git history. A local repository is not automatically published to GitHub.</dd></div>
+          <div><dt>Branch / commit</dt><dd>A branch tracks a line of work. A commit is a recorded snapshot; its SHA identifies the starting point for a comparison.</dd></div>
+          <div><dt>Worktree</dt><dd>A separate working directory tied to a Git repository, usually on its own branch. It is not a full security sandbox.</dd></div>
+          <div><dt>Session / Project</dt><dd>A session works on a task. A Copilot app Project coordinates an ongoing goal across repositories, sessions, Library material, and recurring tasks.</dd></div>
+          <div><dt>Automation</dt><dd>A saved agent task with a trigger, execution environment, identity, selected tools, and cost implications. Local and cloud automations have different availability and permissions.</dd></div>
+          <div><dt>Jira Story Workbench</dt><dd>A custom guided workflow for a Jira story. It is not a built-in app feature; Jira access requires an approved connection, permissions, and human review of external writes.</dd></div>
+          <div><dt>Diff / PR</dt><dd>A diff shows changes. A pull request proposes integrating a branch and collects discussion, checks, and reviews.</dd></div>
+          <div><dt>CI</dt><dd>Continuous integration: automated checks such as tests. A local test result and a GitHub CI run are different pieces of evidence.</dd></div>
+          <div><dt>MCP / skill / canvas</dt><dd>MCP connects tools and data. A skill supplies task-specific instructions and resources. A canvas is a shared interactive work surface.</dd></div>
+          <div><dt>Acceptance criterion</dt><dd>A concrete condition that demonstrates the requirement, such as "a booked appointment exactly 2 hours away can be canceled."</dd></div>
+        </dl>
+        <h2>When something does not work</h2>
+        <details><summary>A feature, model, or connector is missing.</summary><p>Check the official prerequisite page, your app version, and organization policy. Ask your administrator rather than bypassing a restriction. Read the worked example or use an available alternative, and label what you did not run.</p></details>
+        <details><summary>New worktree is unavailable.</summary><p>Confirm you opened the extracted kit as a Git repository and created the initial commit. A plain folder has no branch history to base a worktree on. Do not substitute Current checkout when testing isolation.</p></details>
+        <details><summary>The original tests pass but the new behavior does not.</summary><p>The baseline tests intentionally describe the old 24-hour rule. Inspect the requirement, update obsolete expectations, and add boundary and regression tests. Do not delete or skip tests merely to obtain a green result.</p></details>
+        <details><summary>The agent does too much or invents evidence.</summary><p>Stop and narrow the scope. Name the source files, output format, and allowed actions. Ask it to distinguish observed facts from proposed work. Read the sources and actual diff yourself.</p></details>
+        <details><summary>The Copy button or saved notes do not work.</summary><p>Browser privacy settings can block clipboard or storage access. Select prompt text and copy it manually. Keep the tab open and export your notebook before leaving; saving locally is not a cloud backup.</p></details>
+        <details><summary>I cannot create a cloud automation in a public repository.</summary><p>Current GitHub documentation restricts cloud automations to private or internal repositories with the required policies enabled. Complete the local exercise instead, or use your own approved private practice repository. Do not make a company repository public to work around an access issue.</p></details>
+        <h2>Bring this to your team</h2>
+        <p>Share this page or a lesson's address. Ask teammates to use their own practice folder and authorized accounts. For a team exercise, agree on source authority, repository ownership, and review responsibilities before enabling any writes. Export notes only after removing anything confidential.</p>
+        <div class="hero-actions"><a class="button primary" href="#first-session">Return to the learning path</a><button class="button js-only" id="print-guide" type="button">Print or save the full guide as PDF</button></div>
+      </section>
+
+      <footer class="site-footer">
+        <span>Learn &rarr; practice &rarr; verify &rarr; reflect.</span>
+        <p>Independent GitHub Copilot app learner guide &middot; Fictional practice data &middot; No private demo repositories required</p>
+      </footer>
+    </main>
+  </div>
+  <div class="toast" id="message" role="status" aria-live="polite"></div>
+  <dialog id="reset-dialog" aria-labelledby="reset-title">
+    <h2 id="reset-title">Reset this guide's notebook?</h2>
+    <p>This clears your seven lesson notes and completion marks in this browser. Export them first if you want to keep them. It does not change other sites, guides, or GitHub data.</p>
+    <div class="dialog-actions"><button class="button" id="cancel-reset" type="button">Keep my notes</button><button class="button danger" id="confirm-reset" type="button">Clear notes and progress</button></div>
+  </dialog>
+</body>
+</html>

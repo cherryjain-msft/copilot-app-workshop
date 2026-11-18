@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" role="img" aria-label="Learner guide">
+  <style>:root{--cp-accent:#003478;--cp-accent-fg:#ffffff;--cp-link:#1F6FEB}</style>
+  <rect width="48" height="48" rx="10" fill="var(--cp-accent)"/>
+  <path d="M29 14a12 12 0 1 0 0 20" fill="none" stroke="var(--cp-accent-fg)" stroke-width="4" stroke-linecap="round"/>
+  <path d="M29 33h9" stroke="var(--cp-link)" stroke-width="4"/>
+</svg>
