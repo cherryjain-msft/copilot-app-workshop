@@ -1,0 +1,5 @@
+id,topic,feedback
+F1,cancellation,"My booked appointment is 6 hours away but online cancellation is refused."
+F2,status,"My canceled appointment still appears under Upcoming."
+F3,fees,"The help article says I must pay a $25 cancellation fee."
+F4,rescheduling,"Please let me move an appointment to another time online."

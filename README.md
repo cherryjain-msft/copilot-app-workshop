@@ -1,6 +1,8 @@
 # GitHub Copilot App learning guide
 
-**Start here: [the interactive learning guide](https://cherryjain-msft.github.io/copilot-app-workshop/)** — self-paced lessons explaining what each feature does, when to use it, and how to try it. Each lesson includes copy-ready prompts, expected results, learning tips and space for your notes.
+**Start here: [the learner guide](https://cherryjain-msft.github.io/copilot-app-workshop/learner-guide/)** — seven self-paced lessons on Copilot app Projects, sessions, automations, a Jira story-to-PR workflow and model comparison, with official documentation links, notes and a small practice kit.
+
+**Hands-on companion:** [the workshop guide](https://cherryjain-msft.github.io/copilot-app-workshop/workshop/index.html) has copy-ready prompts and expected results for the exercises that use the three `dealer-*` repositories and the demo assets in this repository.
 
 **Follow along:** [open the hosted guide](#open-the-guide) → [choose a lesson](#learning-path) → [use the supporting files](#supporting-files-and-links) → [check the official documentation](#product-references).
 
@@ -9,6 +11,8 @@ GitHub displays `.html` files as source and does not run their JavaScript, so us
 > All stories, designs, app data and the companion `dealer-*` repositories are fictional demo material, not Ford production systems or data.
 
 ## Learning path
+
+These hands-on lessons are in the workshop guide. They use the companion repositories and the demo assets below.
 
 | Order | Topic | Suggested lesson time |
 |---|---|---|
@@ -27,7 +31,7 @@ Start with the [learning path](https://cherryjain-msft.github.io/copilot-app-wor
 
 ## Open the guide
 
-The quickest way is the hosted guide: **https://cherryjain-msft.github.io/copilot-app-workshop/**. To run it offline or from your own fork instead:
+The quickest way is the hosted learner guide: **https://cherryjain-msft.github.io/copilot-app-workshop/** (it opens `learner-guide/`). The workshop guide is at **https://cherryjain-msft.github.io/copilot-app-workshop/workshop/index.html**. To run either offline or from your own fork instead:
 
 1. Get the repository using **Code → Download ZIP**, then extract it, or clone it:
 
@@ -37,7 +41,7 @@ The quickest way is the hosted guide: **https://cherryjain-msft.github.io/copilo
    ```
 
 2. Use the revision containing these learning materials. If you are following a shared branch link, select that branch before downloading or check it out after cloning. A fresh clone starts on the default branch and does not include unpushed edits.
-3. Open `workshop\index.html` directly in your browser. Keep the whole repository together so styles, scripts and supporting links resolve.
+3. Open `learner-guide\index.html` (or `workshop\index.html` for the workshop guide) directly in your browser. Keep the whole repository together so styles, scripts and supporting links resolve.
 
 For a consistent browser address, serve the repository from its root:
 
@@ -45,13 +49,13 @@ For a consistent browser address, serve the repository from its root:
 python -m http.server 8080 --bind 127.0.0.1
 ```
 
-Visit **http://127.0.0.1:8080/workshop/index.html**. Python is optional; the site has no build step or npm dependencies. Keep the server local, and stop it with Ctrl+C afterward.
+Visit **http://127.0.0.1:8080/learner-guide/** or **http://127.0.0.1:8080/workshop/index.html**. Python is optional; the sites have no build step or npm dependencies. Keep the server local, and stop it with Ctrl+C afterward.
 
 `127.0.0.1` means **your own computer**. These preview links are not public URLs; each learner runs their own copy. Reading the guide does not require Jira or Figma sign-in. Hands-on connector exercises need your own authorized accounts.
 
-The sidebar follows the learning path. Use **Learning tips** for additional explanations, arrow keys to navigate, and **Copy** to copy a prompt without running it. Light/dark themes are available. Completion and notes stay in this browser; they are not synced or committed. Existing notes and progress are preserved.
+In the workshop guide, the sidebar follows the learning path. Use **Learning tips** for additional explanations, arrow keys to navigate, and **Copy** to copy a prompt without running it. Light/dark themes are available. Completion and notes stay in this browser; they are not synced or committed. Existing notes and progress are preserved.
 
-For frontend regression checks, open **http://127.0.0.1:8080/workshop/tests.html** and select **Run checks**. This checks persistence/reset isolation, navigation, prompt tabs/copying, narrow layouts and printable prompts without installing packages. It restores the storage keys it touches; do not edit notes in another tab during the run.
+For frontend regression checks, open **http://127.0.0.1:8080/workshop/tests.html** (or **http://127.0.0.1:8080/learner-guide/tests.html** for the learner guide) and select **Run checks**. This checks persistence/reset isolation, navigation, prompt tabs/copying, narrow layouts and printable prompts without installing packages. It restores the storage keys it touches; do not edit notes in another tab during the run.
 
 ## Supporting files and links
 
@@ -76,7 +80,8 @@ For frontend regression checks, open **http://127.0.0.1:8080/workshop/tests.html
 | Coding conventions | [Repository instructions](.github/copilot-instructions.md) | Scope, validation, accessibility and tests |
 | PR evidence | [Review checklist](.github/pr-checklist.md) | Human review of app changes |
 | Fusion exercise | [Comparison, identical prompt and scorecard](https://cherryjain-msft.github.io/copilot-app-workshop/workshop/index.html#fusion) | Record real outputs; no preselected winner |
-| Browser checks | [Guide test page](workshop/tests.html) | Open locally over HTTP to verify the interactive guide |
+| Learner guide practice kit | [Practice files](learner-guide/practice/) · [ZIP](learner-guide/practice-kit.zip) | Small JavaScript exercise for the learner guide (Node.js 20+, no dependencies) |
+| Browser checks | [Workshop guide tests](workshop/tests.html) · [Learner guide tests](learner-guide/tests.html) | Open locally over HTTP to verify each interactive guide |
 
 Use your own authorized Jira, Figma, issue and PR links. Replace sample repository names and Jira keys in prompts before running them. Record the links in your lesson notes, and use the same issue and PR throughout the Workbench exercise.
 
@@ -84,8 +89,9 @@ Use your own authorized Jira, Figma, issue and PR links. Replace sample reposito
 
 | Path | Purpose |
 |---|---|
-| [`workshop/`](workshop/) | Interactive learning guide built with plain HTML, CSS and JavaScript |
-| [`index.html`](index.html) | Redirects the hosted GitHub Pages site to the guide |
+| [`learner-guide/`](learner-guide/) | Public learner guide, practice kit and browser checks built with plain HTML, CSS and JavaScript |
+| [`workshop/`](workshop/) | Hands-on workshop guide for the companion repositories, built with plain HTML, CSS and JavaScript |
+| [`index.html`](index.html) | Redirects the hosted GitHub Pages site to the learner guide |
 | [`app/`](app/) | Small, dependency-free Dealer Service Booking app |
 | [`demo-assets/projects/`](demo-assets/projects/) | Projects exercise kit and Library files for the cross-repo investigation. The three repositories it uses live outside this repo |
 | [`demo-assets/jira/`](demo-assets/jira/) | EV charging story and importable backlog CSV |
